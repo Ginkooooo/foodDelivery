@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'restaurants',
     'orders',
     'cart',
+    'rest_framework',
 ]
 AUTH_USER_MODEL = 'users.User'
 
