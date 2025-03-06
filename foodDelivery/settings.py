@@ -82,8 +82,12 @@ WSGI_APPLICATION = "foodDelivery.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": 'food_delivery',
+        'USER': 'root',       # 数据库用户名
+        'PASSWORD': 'jyx20020808yamss',   # 数据库密码
+        'HOST': 'localhost',           # 数据库地址
+        'PORT': '3306',               # 数据库端口
     }
 }
 
