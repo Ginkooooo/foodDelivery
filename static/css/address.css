@@ -1,0 +1,38 @@
+.panel{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    z-index: 2;
+    color: black;
+    background-color: white;
+    border-color: #faebcc;
+}
+.list-group-item.active .list-group-item-text, .list-group-item.active:focus .list-group-item-text, .list-group-item.active:hover .list-group-item-text {
+    color: #1a1b1b;
+}
+.pull-right{
+    position: absolute;
+    right: 15px;       /* 右侧间距 */
+    top: 50%;          /* 垂直居中起点 */
+    transform: translateY(-50%); /* 精确居中 */
+}
+a.pull-right:hover, 
+a.pull-right:focus, 
+a.pull-right:active {
+    text-decoration: none;
+    border-bottom: none;
+}
+.pull-right img{
+    margin-right: 15px;
+}
+.pull-right a{
+    text-decoration: none;
+}
+img{
+    height: 24px;
+}
+.navbar-nav img.img-circle {
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
