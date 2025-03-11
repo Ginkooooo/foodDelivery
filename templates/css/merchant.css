@@ -1,0 +1,92 @@
+.panel{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.navbar-nav img.img-circle {
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.panel-warning>.panel-heading{
+    text-align: center;
+}
+.form-control{
+    width: 50%;
+}
+label{
+    font-weight: 300;
+}
+.thumbnail.equal-height {
+    height: 400px; /* 总高度固定 */
+    display: flex; /* 启用弹性布局 */
+    flex-direction: column; /* 垂直排列 */
+    position: relative;
+}
+.panel .row .thumbnail.equal-height img {
+    width: 100%;
+    /* height: 200px; 固定图片高度 */
+    object-fit: cover; /* 保持图片比例 */
+}
+  
+.caption {
+    flex: 1; /* 内容区域自动填充剩余高度 */
+    display: flex;
+    flex-direction: column;
+}
+
+.checkout-bar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ffffff;
+    padding: 15px 25px;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    z-index: 1000;
+    border: 1px solid #eeeeee;
+}
+  
+/* 价格显示 */
+.total-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+  
+/* 支付按钮 */
+.pay-button {
+    background: skyblue;
+    color: white;
+    border: none;
+    padding: 10px 35px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 16px;
+}
+  
+.pay-button:hover {
+    background: rgb(138, 196, 219);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(126, 187, 213, 0.3);
+}
+
+/* 返回按钮 */
+.back-button {
+    background: rgb(139, 151, 156);
+    color: white;
+    border: none;
+    padding: 10px 35px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 16px;
+}
+  
+.back-button:hover {
+    background: rgb(139, 151, 156);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(126, 187, 213, 0.3);
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body class="background">
+<div class="account">
+    <div class="text-center">
+        <h1>Login</h1>
+    </div>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default selected">User</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default">Merchant</button>
+        </div>
+    </div>
+    <form id="loginForm">
+        <li>
+            <div class="form-group">
+                <label for="exampleInputName1">Name</label>
+                <input class="form-control" id="exampleInputName1" placeholder="Name" value data-val-length="The name you entered is too long" data-val-length-max="100" data-val="true"
+                       data-val-required="Required">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" data-val-required="Required" data-val="true">
+            </div>
+            <button type="submit" class="btn btn-primary">Login Now</button>
+            <a type="button" href="register.html" class="btn btn-link">New Customer?Create an account</a>
+        </li>
+    </form>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>
