@@ -57,36 +57,14 @@
 
     <div class="foodType">
         <div class="row">
+            {% for value, label in Restaurant.CATEGORY_CHOICES %}
             <div class="col-xs-6 col-sm-4 col-md-3">
-                <a href="?category=fastfood">
-                    <img src="../media/fastfood.png" alt="...">
-                    <p>Fast Food</p>
+                <a href="?category={{ value }}">  <!-- 添加分类参数 -->
+                    <img src="../media/{{ value }}.png" alt="{{ label }}">
+                    <p>{{ label }}</p>
                 </a>
             </div>
-            <div class="col-xs-6 col-sm-4 col-md-3">
-                <a href="">
-                    <img src="../media/drink.jpg" alt="" onclick="window.location.href='.html'">
-                    <p>Drink and Coffee</p>
-                </a>
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-3">
-                <a href="">
-                    <img src="../media/Chinesefood.png" alt="...">
-                    <p>Chinese Food</p>
-                </a>
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-3">
-                <a href="">
-                    <img src="../media/sushi.jpg" alt="" onclick="window.location.href='.html'">
-                    <p>Sushi</p>
-                </a>
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-3">
-                <a href="">
-                    <img src="../media/groceries.png" alt="" onclick="window.location.href='.html'">
-                    <p>Groceries</p>
-                </a>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
