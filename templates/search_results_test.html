@@ -1,18 +1,7 @@
-{% block content %}
-    <h2>Search Results</h2>
-
-    {% if restaurants %}
-        <ul>
-            {% for restaurant in restaurants %}
-                <li>
-                    <strong>{{ restaurant.name }}</strong><br>
-                    Address: {{ restaurant.address }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No restaurants found matching your search.</p>
-    {% endif %}
-
-    <a href="{% url 'home' %}">Back to Homepage</a>
-{% endblock %}
+<h1>搜索结果列表页面</h1>
+<h2>搜索结果：</h2>
+<div>
+    {% for restaurant in restaurants %}
+    <h3>{{ restaurant.name }}</h3>
+    {% endfor %}
+</div>
