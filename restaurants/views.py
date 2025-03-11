@@ -30,22 +30,18 @@ def restaurant_list(request):
         'category_name': category_name,
     })
 
+
 #主页面搜索
 def restaurant_search(request):
-
     search_key = request.GET.get('q', '').strip()
-    if not search_key:
-        return JsonResponse({'restaurants': []})
-    restaurants = Restaurant.objects.filter(name__icontains=search_key)
-    results = [{
-        'id': r.id,
-        'name': r.name,
-        'address': r.address,
-    } for r in restaurants]
 
-    # 返回JSON响应
-    return JsonResponse({'restaurants': results})
-    # return render(request, 'search_results.html', {'restaurants': restaurants})
+    if not search_key:
+        return render(request, 'search_results_test.html', {'restaurants': []})  # 如果没有输入关键词，返回空列表
+
+    # 过滤餐厅
+    restaurants = Restaurant.objects.filter(name__icontains=search_key)
+    return render(request, 'search_results_test.html', {'restaurants': restaurants})
+
 
 #餐厅详情页
 def restaurant_detail(request, pk):

@@ -19,7 +19,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="Homepage.html">
+            <a class="navbar-brand" href="/home">
                 <img src="../static/bootstrap-icons-1.11.3/shop-window.svg" alt="" onclick="window.location.href='homepage.html'" style="height: 24px;">
             </a>
           </div>
@@ -31,11 +31,11 @@
                   <input type="text" class="form-control" placeholder="Current location">
                 </div>
             </form>
-            <form class="navbar-form navbar-left">
+            <form class="navbar-form navbar-left" method="GET" action="{% url 'restaurants:restaurant_search' %}">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" name="q" class="form-control" placeholder="Search for restaurants">
               </div>
-              <button type="submit" class="btn btn-default">Submit</button>
+              <button type="submit" class="btn btn-default">Search</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
