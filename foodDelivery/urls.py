@@ -1,10 +1,10 @@
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from django.views.generic import TemplateView
+from restaurants.views import restaurant_list
 
 urlpatterns = [
-    path('home/', TemplateView.as_view(template_name='Homepage.html'), name='home'),  #主页面
+    path('home/', restaurant_list, name='home'),  # 主页面
     path('restaurants/', include('restaurants.urls', namespace='restaurants')),
 ]
 

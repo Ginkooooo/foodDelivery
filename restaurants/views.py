@@ -8,10 +8,8 @@ from .models import Restaurant, MenuItem
 def restaurant_list(request):
     category = request.GET.get('category')
 
-    # 获取基础查询集（包含优化预加载）
-    restaurants = Restaurant.objects.all() \
-        .select_related('owner') \
-        .prefetch_related('menuitem_set')
+    # 获取基础查询集
+    restaurants = Restaurant.objects.all()
 
     # 应用分类过滤
     if category and category in dict(Restaurant.CATEGORY_CHOICES):
@@ -21,13 +19,14 @@ def restaurant_list(request):
         category_name = "All Restaurants"
 
     # 分页
-    paginator = Paginator(restaurants, 10)
+    paginator = Paginator(restaurants, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'merchants/restaurant_list.html', {
+    return render(request, 'home.html', {  # 确保模板路径正确
         'page_obj': page_obj,
         'category_name': category_name,
+        'Restaurant': Restaurant
     })
 
 
