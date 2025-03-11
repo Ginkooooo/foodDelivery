@@ -16,14 +16,14 @@ def restaurant_list(request):
         restaurants = restaurants.filter(category=category)
         category_name = dict(Restaurant.CATEGORY_CHOICES)[category]
     else:
-        category_name = "All Restaurants"
+        category_name = "Recommended Restaurants"
 
     # 分页
     paginator = Paginator(restaurants, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'home.html', {  # 确保模板路径正确
+    return render(request, 'home.html', {
         'page_obj': page_obj,
         'category_name': category_name,
         'Restaurant': Restaurant
