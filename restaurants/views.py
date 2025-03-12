@@ -32,14 +32,14 @@ def restaurant_list(request):
 
 #主页面搜索
 def restaurant_search(request):
-    search_key = request.GET.get('q', '').strip()
+        search_key = request.GET.get('q', '').strip()
 
-    if not search_key:
-        return render(request, 'search_results_test.html', {'restaurants': []})  # 如果没有输入关键词，返回空列表
+        if not search_key:
+            return render(request, 'search.html', {'restaurants': []})  # 如果没有输入关键词，返回空列表
 
-    # 过滤餐厅
-    restaurants = Restaurant.objects.filter(name__icontains=search_key)
-    return render(request, 'search_results_test.html', {'restaurants': restaurants})
+        # 过滤餐厅
+        restaurants = Restaurant.objects.filter(name__icontains=search_key)
+        return render(request, 'search.html', {'restaurants': restaurants})
 
 
 #餐厅详情页
