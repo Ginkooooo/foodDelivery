@@ -16,6 +16,7 @@ urlpatterns = [
     path('address/', TemplateView.as_view(template_name='address.html'), name='address'),
     path('info/', TemplateView.as_view(template_name='info.html'), name='info'),
     path('search/', restaurant_search, name='search'),
+    path('orders/', TemplateView.as_view(template_name='orders.html'), name='orders'),
 ]
 
 if settings.DEBUG:
