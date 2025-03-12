@@ -2,6 +2,7 @@ import json
 import re
 
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import IntegrityError
@@ -55,13 +56,13 @@ def register(request):
                     'errors': errors
                 }, status=400)
 
-                # 创建用户对象
+             # 创建用户对象
             user = User.objects.create(
                 username=data['username'],
                 gender=data.get('gender', ''),
                 phone=data['phone'],
                 email=data['email'],
-                password=data['password']
+                password=make_password(data['password'])
             )
 
             return JsonResponse({
@@ -87,6 +88,32 @@ def register(request):
     return JsonResponse({  # 非POST请求返回JSON
         'error': 'Method not allowed'
     }, status=405)
+
+#登陆
+@csrf_exempt
+def login_view(request):
+    if request.method == 'GET':
+        return render(request, 'login.html')
+
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            password = data.get('password')
+
+            # 验证用户
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)  # 设置登录状态
+                return JsonResponse({'success': True, 'message': 'Login successful!'}, status=200)
+            else:
+                return JsonResponse({'success': False, 'error': 'Invalid username or password'}, status=401)
+
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'error': 'Invalid request format'}, status=400)
+
+    return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+
 
 #用户个人页面
 class ProfileView(LoginRequiredMixin, TemplateView):

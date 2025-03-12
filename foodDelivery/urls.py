@@ -4,12 +4,12 @@ from django.conf import settings
 from django.views.generic import TemplateView
 
 from restaurants.views import restaurant_list
-from users.views import register
+from users.views import register,login_view
 
 urlpatterns = [
     path('home/', restaurant_list, name='home'),  # 主页面
     path('restaurants/', include('restaurants.urls', namespace='restaurants')),
-    path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
+    path('login/', login_view, name='login'),
     path('merchant/', TemplateView.as_view(template_name='merchant.html'), name='merchant'),
     path('register/', register, name='register'),
     path('address/', TemplateView.as_view(template_name='address.html'), name='address'),
