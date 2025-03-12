@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/register.css"/>
+
+    <!-- 添加 CSRF 令牌 -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
 </head>
 <body>
     <div class="background">
@@ -18,15 +21,16 @@
             <div class="text-center">
                 <h2>Welcome to Register!</h2>
             </div>
-            <form id="registerForm">
+            <form id="registerForm" onsubmit="return handleSubmit(event)">
+                {% csrf_token %}
                 <ul>
                     <li>
-                        <label for="InputName">Name</label>
-                        <input type="text" class="form-control" id="InputName" placeholder="username" required>
+                        <label for="InputName">User Name</label>
+                        <input type="text" class="form-control" id="InputName" name="username" placeholder="username" required>
                     </li>
                     <li>
                         <label for="InputGender">Gender</label>
-                        <select class="form-control" id="InputGender" required>
+                        <select class="form-control" id="InputGender" name="gender" required>
                             <option>male</option>
                             <option>female</option>
                             <option>other gender</option>
@@ -34,15 +38,15 @@
                     </li>
                     <li>
                         <label for="InputPhonenumber">PhoneNumber</label>
-                        <input class="form-control" type="number" id="InputPhonenumber" placeholder="PhoneNumber" required>
+                        <input class="form-control" type="tel" id="InputPhonenumber" name="phone" placeholder="PhoneNumber" required>
                     </li>
                     <li>
                         <label for="InputEmail">Email address</label>
-                        <input type="email" class="form-control" id="InputEmail" placeholder="Email" required>
+                        <input type="email" class="form-control" id="InputEmail" name="email" placeholder="Email" required>
                     </li>
                     <li>
                         <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                        <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" required>
                     </li>
                     <br>
                     <li class="button-group">
@@ -53,6 +57,76 @@
                     </li>
                 </ul>
             </form>
+            <script>
+
+                function getCSRFToken() {
+                    let cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            const cookie = cookies[i].trim();
+                            if (cookie.startsWith('csrftoken=')) {
+                                cookieValue = cookie.substring('csrftoken='.length);
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+
+                async function handleSubmit(e) {
+                    e.preventDefault();
+
+                    const csrftoken = getCSRFToken();  // 获取 Token
+                    if (!csrftoken) {
+                        alert("CSRF token is missing! Please check your cookies.");
+                        return false;
+                    }
+
+                    const formData = {
+                        username: document.getElementById('InputName').value,
+                        gender: document.getElementById('InputGender').value,
+                        phone: document.getElementById('InputPhonenumber').value,
+                        email: document.getElementById('InputEmail').value,
+                        password: document.getElementById('exampleInputPassword1').value
+                    };
+
+                    try {
+                        const response = await fetch('/register/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': csrftoken
+                            },
+                            body: JSON.stringify(formData)
+                        });
+
+                        console.log("Response status:", response.status);
+                        console.log("Response headers:", response.headers);
+
+                        const result = await response.json();
+                        console.log("Response JSON:", result);
+
+                        if (response.ok && result.success) {
+                            alert(result.message || 'Registration successful!');
+                            window.location.href = '/login'; // 跳转到登录页
+                        } else {
+                            let errorMessages = [];
+                            if (result.errors) {
+                                for (const [field, msg] of Object.entries(result.errors)) {
+                                    errorMessages.push(`${field}: ${msg}`);
+                                }
+                            } else {
+                                errorMessages.push(result.error || 'Registration failed');
+                            }
+                            alert(errorMessages.join('\n'));
+                        }
+                    } catch (error) {
+                        alert(`Error: ${error.message}`);
+                    }
+                }
+                </script>
+
         </div>
     </div>
 

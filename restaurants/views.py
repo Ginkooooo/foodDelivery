@@ -9,7 +9,7 @@ def restaurant_list(request):
     category = request.GET.get('category')
 
     # 获取基础查询集
-    restaurants = Restaurant.objects.all()
+    restaurants = Restaurant.objects.all().order_by('name')
 
     # 应用分类过滤
     if category and category in dict(Restaurant.CATEGORY_CHOICES):
