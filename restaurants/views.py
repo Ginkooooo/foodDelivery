@@ -16,7 +16,7 @@ def restaurant_list(request):
         restaurants = restaurants.filter(category=category)
         category_name = dict(Restaurant.CATEGORY_CHOICES)[category]
     else:
-        category_name = "Recommended Restaurants"
+        category_name = "Recommended Merchants"
 
     # 分页
     paginator = Paginator(restaurants, 8)

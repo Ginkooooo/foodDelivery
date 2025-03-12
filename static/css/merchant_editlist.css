@@ -1,0 +1,116 @@
+.navbar-nav img.img-circle {
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.panel{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.vertical-center {
+    display: flex;
+    align-items: center;
+}
+.product-img {
+    max-height: 80px;
+    width: auto;
+    margin: 0 auto;
+}
+.product-title {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+}
+.quantity-display {
+    color: #666;
+    font-size: 14px;
+}
+.product-price {
+    color: skyblue;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+.text-right{
+    right: 15px;       /* 右侧间距 */
+    top: 50%;          /* 垂直居中起点 */
+    position: absolute;
+    transform: translateY(-30%);
+}
+@media (max-width: 767px) {
+    .product-title {
+        font-size: 14px;
+    }
+    .product-price {
+        font-size: 16px;
+    }
+    .quantity-display {
+        font-size: 12px;
+    }
+}
+
+.editable-image {
+    position: relative;
+    cursor: pointer;
+    display: block;
+}
+.edit-overlay {
+position: absolute;
+bottom: 5px;
+right: 5px;
+background: rgba(0,0,0,0.5);
+color: white;
+padding: 3px 8px;
+border-radius: 3px;
+opacity: 0;
+transition: opacity 0.3s;
+}
+.editable-image:hover .edit-overlay {
+opacity: 1;
+}
+.hidden {
+display: none;
+}
+
+/* 文本编辑样式 */
+.editable-title {
+font-size: 18px;
+font-weight: bold;
+margin-bottom: 10px;
+}
+.editable-info {
+resize: vertical;
+min-height: 80px;
+}
+
+/* 价格编辑器 */
+.price-editor {
+margin-top: 20px;
+}
+.price-editor .form-control {
+text-align: right;
+}
+
+/* 操作按钮 */
+.edit-controls {
+margin-top: 15px;
+padding-top: 15px;
+border-top: 1px solid #eee;
+}
+
+.pull-right{
+    position: absolute;
+    right: 15px;       /* 右侧间距 */
+    top: 50%;          /* 垂直居中起点 */
+    transform: translateY(-50%); /* 精确居中 */
+}
+a.pull-right:hover, 
+a.pull-right:focus, 
+a.pull-right:active {
+    text-decoration: none;
+    border-bottom: none;
+}
+.pull-right a{
+    text-decoration: none;
+}
+img{
+    height: 24px;
+}

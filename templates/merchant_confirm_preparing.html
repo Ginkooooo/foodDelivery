@@ -6,7 +6,7 @@
     <title>Confirm</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/confirm.css">
+    <link rel="stylesheet" href="css/merchant_confirm.css">
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -23,7 +23,7 @@
                 <img src="./bootstrap-icons-1.11.3/shop-window.svg" alt="" onclick="window.location.href='homepage.html'" style="height: 24px;">
             </a>
           </div>
-
+      
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <form class="navbar-form navbar-left">
@@ -49,73 +49,63 @@
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-
-    <h1>Confirm Your Order</h1>
-
-    <div class="profile-header clearfix">
+    
+    <div class="profile-header clearfix" style="background-color: rgb(175, 202, 227);">
         <div class="user-info col-xs-9">
             <strong>Order deliver to:</strong>
             <p>2 Beith Street, Glasgow, G11 6EF</p>
             <p>Shellie Liu</p>
             <p><abbr title="Phone Number">P:</abbr> (44) 07421051834</p>
         </div>
-        <div class="col-xs-3 text-right">
-            <a href="address.html" class="img-link">
-                <img src="./bootstrap-icons-1.11.3/pencil-square.svg" alt="" style="position: relative;" class="pencil-icon">
-            </a>
-        </div>
     </div>
 
     <div class="panel panel-info">
         <div class="panel-heading">
-          <h3 class="panel-title">Macdonald</h3>
+          <h3 class="panel-title">Preparing</h3>
         </div>
         <div class="panel-body">
             <ul class="list-group">
                 <li class="list-group-item" data-product-id="001">
                     <div class="row vertical-center">
-                        <div class="col-xs-3 col-sm-2">
+                        <div class="col-xs-3 col-sm-2">                        
                             <img src="img/DASANI® Bottled Water.png" alt="" class="img-responsive product-img">
                         </div>
                         <div>
                             <h4 class="product-title">DASANI® Bottled Water</h4>
                             <div class="quantity-display">
-                                quantity:
-                                <input type="number"
-                                       class="quantity-select"
-                                       value="1"
-                                       min="0"
+                                quantity: 
+                                <input type="number" 
+                                       class="quantity-select" 
+                                       value="1" 
+                                       min="0" 
                                        style="width: 60px; margin-left: 8px;">
                             </div>
                         </div>
                         <div class="col-xs-3 col-sm-2 text-right" style="position: absolute;transform: translateY(-30%);">
                             <p class="price">£1.69</p>
                         </div>
-                    </div>
+                    </div>    
                 </li>
                 <li class="list-group-item" data-product-id="002">
                     <div class="row vertical-center">
-                        <div class="col-xs-3 col-sm-2">
+                        <div class="col-xs-3 col-sm-2">                        
                             <img src="img/Hot Fudge Sundae.png" alt="" class="img-responsive product-img">
                         </div>
                         <div>
                             <h4 class="product-title">Hot Fudge Sundae</h4>
                             <div class="quantity-display">
-                                quantity:
-                                <input type="number"
-                                       class="quantity-select"
-                                       value="1"
-                                       min="0"
+                                quantity: 
+                                <input type="number" 
+                                       class="quantity-select" 
+                                       value="1" 
+                                       min="0" 
                                        style="width: 60px; margin-left: 8px;">
                             </div>
                         </div>
                         <div class="col-xs-3 col-sm-2 text-right" style="position: absolute;transform: translateY(-30%);">
                             <p class="price">£3.39</p>
                         </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    Delivery Fee: 3￡
+                    </div>    
                 </li>
             </ul>
         </div>
@@ -125,8 +115,7 @@
         <div class="total-price">
           Total Price：<span id="totalAmount">0.00</span>￡
         </div>
-        <button class="pay-button" onclick="window.location.href='https://www.paypal.com/uk/home'">Confirm and Pay</button>
-        <button class="back-button" onclick="window.location.href='merchant.html'">Back</button>
+        <button class="back-button" onclick="window.location.href='merchant_orders.html'">Back</button>
     </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
