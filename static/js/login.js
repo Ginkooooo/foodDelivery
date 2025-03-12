@@ -7,60 +7,52 @@ document.addEventListener('DOMContentLoaded', (event) => {
             button.classList.add('selected');
         });
     });
+
+    document.getElementById('loginForm').addEventListener('submit', handleLogin);
 });
 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
+async function handleLogin(event) {
     event.preventDefault();
 
+    const form = event.target;
     const formData = {
-        username: document.getElementById('exampleInputName1').value,
-        password: document.getElementById('exampleInputPassword1').value
+        username: form.elements.username.value,
+        password: form.elements.password.value
     };
 
-    var username = document.getElementById('exampleInputName1').value;
-    var password = document.getElementById('exampleInputPassword1').value;
-    if (username === 'admin' && password === 'password123') {
-        window.location.href = 'mainpage_operator.html';
-    } else if(username === 'manager' && password === 'password123'){
-        window.location.href = 'generatereport.html';
-    } else {
-        fetch('http://localhost:8000/login/', {
+    try {
+        const response = await fetch('/login/', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()  // 携带 Token
             },
             body: JSON.stringify(formData)
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'ok') {
-                    if (data.group==="customer") {
-                        alert('Login successful!');
-                        localStorage.setItem('username', formData.username); // Store username in localStorage
-                        localStorage.setItem('verify', data.sessionId); // Store sessionId in localStorage under 'verify'
-                        window.location.href = 'homepage.html'; // Redirect to mainpage.html
-                    }else if(data.group==="operator") {
-                        alert('Login successful!');
-                        localStorage.setItem('username', formData.username); // Store username in localStorage
-                        localStorage.setItem('verify', data.sessionId); // Store sessionId in localStorage under 'verify'
-                        window.location.href = 'mainpage_operator.html'; // Redirect to mainpage.html
-                    }else if(data.group==="manager") {
-                        alert('Login successful!');
-                        localStorage.setItem('username', formData.username); // Store username in localStorage
-                        localStorage.setItem('verify', data.sessionId); // Store sessionId in localStorage under 'verify'
-                        window.location.href = 'generatereport.html'; // Redirect to mainpage.html
-                    }else {
-                        alert('Login failed: ' + data.message);
-                    }
+        });
 
-                }
-                else {
-                    alert('Login failed: ' + data.message);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('An error occurred during login.');
-            });
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            throw new Error(`Unexpected response: ${text.slice(0, 100)}`);
+        }
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            window.location.href = '/home';  // 直接跳转
+        } else {
+            alert(result.error || "Login failed");
+        }
+    } catch (error) {
+        alert(`Error: ${error.message}`);
+        console.error('Login error:', error);  // 调试输出
     }
-});
+}
+
+function getCSRFToken() {
+    const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+    return cookieValue || null;
+}

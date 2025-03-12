@@ -21,7 +21,7 @@
             <button type="button" class="btn btn-default">Merchant</button>
         </div>
     </div>
-    <form id="loginForm" onsubmit="return handleLogin(event)">
+    <form id="loginForm">
         <li>
             <div class="form-group">
                 <label for="username">User Name</label>
@@ -37,54 +37,6 @@
         </li>
     </form>
 </div>
-
-<script>
-    async function handleLogin(event) {
-        event.preventDefault();
-
-        const formData = {
-            username: document.getElementById('username').value,
-            password: document.getElementById('password').value
-        };
-
-        try {
-            const response = await fetch('/login/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCSRFToken()  // 确保 CSRF 令牌
-                },
-                body: JSON.stringify(formData)
-            });
-
-            const result = await response.json();
-
-            if (response.ok && result.success) {
-                alert("Login successful!");
-                window.location.href = '/home';  // 登录成功跳转主页
-            } else {
-                alert(result.error || "Invalid username or password. Please try again.");
-            }
-        } catch (error) {
-            alert(`Error: ${error.message}`);
-        }
-    }
-
-    function getCSRFToken() {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.startsWith('csrftoken=')) {
-                    cookieValue = cookie.substring('csrftoken='.length);
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-</script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

@@ -16,7 +16,7 @@
 }
 .content{
     font-family: Arial, sans-serif;
-    background-image: url('../img/login.jpg');
+    background-image: url('/media/login.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -29,7 +29,7 @@
     padding: 20px;
 }
 .background{
-    background-image:url('../img/login.jpg');
+    background-image:url('/media/login.jpg');
     background-size:cover;
     background-position:center;
     background-attachment: fixed;
