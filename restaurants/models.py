@@ -14,6 +14,8 @@ class Restaurant(models.Model):
     latitude = models.FloatField(default=0.0, help_text="Latitude of the restaurant")
     longitude = models.FloatField(default=0.0, help_text="Longitude of the restaurant")
     minimum_order = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
+    username = models.CharField(max_length=128, default="a")
+    password = models.CharField(max_length=128, default="a")
     category = models.CharField(
         max_length=20,
         choices=CATEGORY_CHOICES,
