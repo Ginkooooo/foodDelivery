@@ -6,7 +6,7 @@
     <title>Address Management</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/address.css">
+    <link rel="stylesheet" href="/static/css/address.css">
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -20,7 +20,7 @@
               <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/home">
-                <img src="../static/bootstrap-icons-1.11.3/shop-window.svg" alt="" onclick="window.location.href='home.html'" style="height: 24px;">
+                <img src="/static/bootstrap-icons-1.11.3/shop-window.svg" alt="" onclick="window.location.href='home.html'" style="height: 24px;">
             </a>
           </div>
 
@@ -68,53 +68,27 @@
         </div>
         <div class="panel-body">
             <ul class="list-group">
+                {% for address in addresses %}
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading">Shellie-44 07421051835</h4>
+                    <h4 class="list-group-item-heading">{{ address.name }} - {{ address.tel }}</h4>
                     <br>
-                    <p class="list-group-item-text">2 Beith Street, Glasgow, G11 6EQ</p>
-                    <a href="" class="pull-right">
-                        <img src="./bootstrap-icons-1.11.3/trash3.svg" alt="">
+                    <p class="list-group-item-text">{{ address.address }}</p>
+                    <a href="{% url 'delete_address' address.id %}" class="pull-right">
+                        <img src="/static/bootstrap-icons-1.11.3/trash3.svg" alt="Delete">
                     </a>
-                    <a href="add_address.html" class="pull-right" style="margin-right: 42px;">
-                        <img src="./bootstrap-icons-1.11.3/pencil-square.svg" alt="">
+                    <a href="{% url 'edit_address' address.id %}" class="pull-right" style="margin-right: 42px;">
+                        <img src="/static/bootstrap-icons-1.11.3/pencil-square.svg" alt="Edit">
                     </a>
-                    <a href="confirm.html" class="pull-right" style="margin-right: 85px;">
-                        <input class="address-radio pull-right" type="radio" id="address1" aria-label="" name="addressRadio">
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <h4 class="list-group-item-heading">Name2-Tel2</h4>
-                    <br>
-                    <p class="list-group-item-text">Address2</p>
-                    <a href="" class="pull-right">
-                        <img src="./bootstrap-icons-1.11.3/trash3.svg" alt="">
-                    </a>
-                    <a href="add_address.html" class="pull-right" style="margin-right: 42px;">
-                        <img src="./bootstrap-icons-1.11.3/pencil-square.svg" alt="">
-                    </a>
-                    <a href="confirm.html" class="pull-right" style="margin-right: 85px;">
-                        <input class="address-radio pull-right" type="radio" id="address2" aria-label="" name="addressRadio">
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <h4 class="list-group-item-heading">Name3-Tel3</h4>
-                    <br>
-                    <p class="list-group-item-text">Address3</p>
-                    <a href="" class="pull-right">
-                        <img src="./bootstrap-icons-1.11.3/trash3.svg" alt="">
-                    </a>
-                    <a href="add_address.html" class="pull-right" style="margin-right: 42px;">
-                        <img src="./bootstrap-icons-1.11.3/pencil-square.svg" alt="">
-                    </a>
-                    <a href="confirm.html" class="pull-right" style="margin-right: 85px;">
+                    <a href="/confrim" class="pull-right" style="margin-right: 85px;">
                         <input class="address-radio pull-right" type="radio" id="address3" aria-label="" name="addressRadio">
                     </a>
                 </li>
+                {% endfor %}
                 <li class="list-group-item text-center">
-                    <a href="add_address.html">
-                        <img src="./bootstrap-icons-1.11.3/house-add-fill.svg" alt="">
-                    </a>
+                    <a href="{% url 'add_address' %}">
+                        <img src="/static/bootstrap-icons-1.11.3/house-add-fill.svg" alt="">
                     <h5>Add a new address</h5>
+                    </a>
                 </li>
               </ul>
         </div>
@@ -122,6 +96,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="js/address.js"></script>
+<script src="/static/js/address.js"></script>
 </body>
 </html>

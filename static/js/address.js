@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 添加500ms延迟让用户看到选中反馈
                 setTimeout(() => {
                     // 跳转到订单页面
-                    window.location.href ='confirm.html';
+                    window.location.href ='/confirm';
                     
                     // 如果需要传递选中地址参数可以这样：
                     // const addressId = this.id;

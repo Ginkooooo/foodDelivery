@@ -2,16 +2,15 @@ import json
 import re
 
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
-from users.models import User
+from users.models import User, Address
 
 
 #注册
@@ -115,18 +114,64 @@ def login_view(request):
     return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
 
 
-#用户个人页面
-class ProfileView(LoginRequiredMixin, TemplateView):
-    template_name = 'users/profile.html'
+#地址列表
+@login_required
+def address_list(request):
+    addresses = request.user.addresses.all().order_by('-created_at')
+    return render(request, 'address.html', {'addresses': addresses})
 
-    #将用户信息用在模板中
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
-        return context
+#删除地址
+@login_required
+def delete_address(request, pk):
+    address = get_object_or_404(Address, pk=pk, user=request.user)
+    address.delete()
+    return redirect('address_list')
 
-#头像跳转逻辑
-def profile_redirect(request):
-    if request.user.is_authenticated:
-        return redirect('profile')
-    return redirect('login')
+#增加地址
+@login_required
+def add_address(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            Address.objects.create(
+                user=request.user,
+                name=data['name'],
+                tel=data['tel'],
+                address=data['address']
+            )
+            return JsonResponse({'success': True, 'redirect': '/address/'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    return render(request, 'add_address.html')
+
+#编辑地址
+@login_required
+def edit_address(request, pk):
+    address = get_object_or_404(Address, pk=pk, user=request.user)
+    return render(request, 'edit_address.html', {'address': address})
+
+
+# 确认编辑地址
+@login_required
+def edit_address_confirm(request, pk):
+    address = get_object_or_404(Address, pk=pk, user=request.user)
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            required_fields = ['name', 'tel', 'address']
+            if not all(field in data for field in required_fields):
+                return JsonResponse({'success': False, 'error': 'Missing required fields'}, status=400)
+
+            # 更新字段
+            address.name = data['name']
+            address.tel = data['tel']
+            address.address = data['address']
+            address.save()
+
+            return JsonResponse({'success': True})
+
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'error': 'Invalid JSON data'}, status=400)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
