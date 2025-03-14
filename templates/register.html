@@ -15,7 +15,7 @@
 <body>
     <div class="background">
         <div class="account">
-            <a href="login.html">
+            <a href="/login">
                 <i class="bi bi-arrow-left" style="color: black;font-size: x-large;"></i>
             </a>
             <div class="text-center">
@@ -48,7 +48,7 @@
                         <label for="exampleInputPassword1">Password</label>
                         <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" required>
                     </li>
-                    <br>
+                    <a type="button" href="{% url 'register_merchant' %}" class="btn btn-link">Merchant Registration? Click here.</a>
                     <li class="button-group">
                         <button type="submit" class="btn btn-success btn-block">submit</button>
                     </li>
@@ -57,81 +57,11 @@
                     </li>
                 </ul>
             </form>
-            <script>
-
-                function getCSRFToken() {
-                    let cookieValue = null;
-                    if (document.cookie && document.cookie !== '') {
-                        const cookies = document.cookie.split(';');
-                        for (let i = 0; i < cookies.length; i++) {
-                            const cookie = cookies[i].trim();
-                            if (cookie.startsWith('csrftoken=')) {
-                                cookieValue = cookie.substring('csrftoken='.length);
-                                break;
-                            }
-                        }
-                    }
-                    return cookieValue;
-                }
-
-                async function handleSubmit(e) {
-                    e.preventDefault();
-
-                    const csrftoken = getCSRFToken();  // 获取 Token
-                    if (!csrftoken) {
-                        alert("CSRF token is missing! Please check your cookies.");
-                        return false;
-                    }
-
-                    const formData = {
-                        username: document.getElementById('InputName').value,
-                        gender: document.getElementById('InputGender').value,
-                        phone: document.getElementById('InputPhonenumber').value,
-                        email: document.getElementById('InputEmail').value,
-                        password: document.getElementById('exampleInputPassword1').value
-                    };
-
-                    try {
-                        const response = await fetch('/register/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': csrftoken
-                            },
-                            body: JSON.stringify(formData)
-                        });
-
-                        console.log("Response status:", response.status);
-                        console.log("Response headers:", response.headers);
-
-                        const result = await response.json();
-                        console.log("Response JSON:", result);
-
-                        if (response.ok && result.success) {
-                            alert(result.message || 'Registration successful!');
-                            window.location.href = '/login'; // 跳转到登录页
-                        } else {
-                            let errorMessages = [];
-                            if (result.errors) {
-                                for (const [field, msg] of Object.entries(result.errors)) {
-                                    errorMessages.push(`${field}: ${msg}`);
-                                }
-                            } else {
-                                errorMessages.push(result.error || 'Registration failed');
-                            }
-                            alert(errorMessages.join('\n'));
-                        }
-                    } catch (error) {
-                        alert(`Error: ${error.message}`);
-                    }
-                }
-                </script>
-
         </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="../static/js/register.js"></script>
+    <script src="/static/js/register.js"></script>
 </body>
 </html>

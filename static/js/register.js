@@ -39,6 +39,17 @@ async function handleSubmit(e) {
         if (response.ok) {
             alert('Registration successful!');
             window.location.href = '/login';
+        } else {
+            // 处理验证错误
+            if (result.errors) {
+                let errorMessages = [];
+                for (const [field, message] of Object.entries(result.errors)) {
+                    errorMessages.push(`${field}: ${message}`);
+                }
+                alert('Registration failed:\n' + errorMessages.join('\n'));
+            } else {
+                alert('Registration failed: ' + (result.error || 'Unknown error'));
+            }
         }
     } catch (error) {
         alert('Error: ' + error.message);

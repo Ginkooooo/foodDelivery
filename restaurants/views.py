@@ -1,6 +1,12 @@
+import json
+
+from MySQLdb import IntegrityError
+from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import Restaurant, MenuItem
 
 
@@ -55,3 +61,74 @@ def restaurant_detail(request, pk):
     return render(request, 'merchants/restaurant_detail.html', {
         'restaurant': restaurant
     })
+
+
+
+#注册
+@csrf_exempt
+def register_merchant(request):
+    if request.method == 'GET':
+        return render(request, 'merchant_register.html')
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            errors = {}
+
+            required_fields = ['name', 'latitude', 'longitude', 'minimum_order', 'username', 'password']
+            for field in required_fields:
+                if not data.get(field):
+                    errors[field] = 'This field cannot be empty'
+
+            # 数值类型验证
+            if 'latitude' in data:
+                try:
+                    float(data['latitude'])
+                except ValueError:
+                    errors['latitude'] = 'Latitude must be a number'
+            if 'longitude' in data:
+                try:
+                    float(data['longitude'])
+                except ValueError:
+                    errors['longitude'] = 'Longitude must be a number'
+            if 'minimum_order' in data:
+                try:
+                    float(data['minimum_order'])
+                except ValueError:
+                    errors['minimum_order'] = 'The minimum order amount must be a number'
+
+            # 分类选项验证
+            valid_categories = ['fastFood', 'chineseFood', 'sushi', 'drinkAndCoffee', 'groceries']
+            if data.get('category') not in valid_categories:
+                errors['category'] = '无效的分类'
+
+            if errors:
+                return JsonResponse({'success': False, 'errors': errors}, status=400)
+
+            # 创建商家对象
+            restaurant = Restaurant.objects.create(
+                name=data['name'],
+                latitude=data['latitude'],
+                longitude=data['longitude'],
+                minimum_order=data['minimum_order'],
+                category=data['category'],
+                username=data['username'],
+                password=make_password(data['password'])  # 加密密码
+            )
+
+            return JsonResponse({
+                'success': True,
+                'message': 'Merchant registration successful！'
+            }, status=201)
+
+        except IntegrityError as e:
+            return JsonResponse({
+                'success': False,
+                'errors': {'username': 'The user name already exists'}
+            }, status=400)
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'error': str(e)
+            }, status=500)
+
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
