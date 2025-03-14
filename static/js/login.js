@@ -1,23 +1,28 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const buttons = document.querySelectorAll('.btn-group-justified .btn');
+    let userType = "user"; // 默认登录类型
 
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             buttons.forEach(b => b.classList.remove('selected'));
             button.classList.add('selected');
+            userType = button.innerText.toLowerCase();
         });
     });
 
-    document.getElementById('loginForm').addEventListener('submit', handleLogin);
-});
+    document.getElementById('loginForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        handleLogin(event, userType); // 传递登录类型
+    });
+})
 
-async function handleLogin(event) {
-    event.preventDefault();
+async function handleLogin(event, userType) {
 
     const form = event.target;
     const formData = {
         username: form.elements.username.value,
-        password: form.elements.password.value
+        password: form.elements.password.value,
+        user_type: userType
     };
 
     try {
@@ -39,7 +44,8 @@ async function handleLogin(event) {
         const result = await response.json();
 
         if (response.ok && result.success) {
-            window.location.href = '/home';  // 直接跳转
+            // 根据后端返回的 redirect 字段跳转
+            window.location.href = result.redirect || '/home';
         } else {
             alert(result.error || "Login failed");
         }

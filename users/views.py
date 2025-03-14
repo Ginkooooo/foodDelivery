@@ -3,13 +3,15 @@ import re
 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import IntegrityError, transaction
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+
+from restaurants.models import Restaurant
 from users.models import User, Address
 
 
@@ -99,20 +101,53 @@ def login_view(request):
             data = json.loads(request.body)
             username = data.get('username')
             password = data.get('password')
+            user_type = data.get('user_type', 'user')  # 获取登录类型
 
-            # 验证用户
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)  # 设置登录状态
-                return JsonResponse({'success': True, 'message': 'Login successful!'}, status=200)
+            response_data = {}
+
+            # 商家登录逻辑
+            if user_type == 'merchant':
+                try:
+                    merchant = Restaurant.objects.get(username=username)
+                    if password == merchant.password:
+                        return JsonResponse({
+                            'success': True,
+                            'message': 'Merchant login successful!',
+                            'redirect': '/merchant/edit'
+                        }, status=200)
+                    else:
+                        return JsonResponse({
+                            'success': False,
+                            'error': 'Invalid password'
+                        }, status=401)
+                except Restaurant.DoesNotExist:
+                    return JsonResponse({
+                        'success': False,
+                        'error': 'Merchant not found'
+                    }, status=404)
+
+            # 普通用户登录逻辑
             else:
-                return JsonResponse({'success': False, 'error': 'Invalid username or password'}, status=401)
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return JsonResponse({
+                        'success': True,
+                        'message': 'User login successful!',
+                        'redirect': '/home'
+                    }, status=200)
+                else:
+                    return JsonResponse({
+                        'success': False,
+                        'error': 'Invalid credentials'
+                    }, status=401)
 
         except json.JSONDecodeError:
-            return JsonResponse({'success': False, 'error': 'Invalid request format'}, status=400)
+            return JsonResponse({'success': False, 'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
     return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
-
 
 #地址列表
 @login_required

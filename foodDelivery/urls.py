@@ -8,9 +8,9 @@ from users.views import register, login_view, address_list, add_address, delete_
 
 urlpatterns = [
     path('home/', restaurant_list, name='home'),  # 主页面
-    path('restaurants/', include('restaurants.urls', namespace='restaurants')),
     path('login/', login_view, name='login'),
     path('merchant/', TemplateView.as_view(template_name='merchant.html'), name='merchant'),
+    path('merchant/edit/', TemplateView.as_view(template_name='merchant_editlist.html'), name='merchant_edit'),
     path('register/', register, name='register'),
     path('register/merchant/', register_merchant, name='register_merchant'),
     path('info/', TemplateView.as_view(template_name='info.html'), name='info'),
