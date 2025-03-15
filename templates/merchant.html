@@ -41,10 +41,10 @@
                         {{ user.username }} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="/info"><img src="../static/bootstrap-icons-1.11.3/people.svg" alt=""> Info</a></li>
-                        <li><a href="/address"><img src="../static/bootstrap-icons-1.11.3/gear.svg" alt=""> Address</a></li>
+                        <li><a href="/info"><img src="/static/bootstrap-icons-1.11.3/people.svg" alt=""> Info</a></li>
+                        <li><a href="/address"><img src="/static/bootstrap-icons-1.11.3/gear.svg" alt=""> Address</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="/login"><img src="../static/bootstrap-icons-1.11.3/box-arrow-in-left.svg" alt=""> Log out</a></li>
+                        <li><a href="/login"><img src="/static/bootstrap-icons-1.11.3/box-arrow-in-left.svg" alt=""> Log out</a></li>
                     </ul>
                 </li>
                 {% else %}
@@ -102,8 +102,8 @@
         <div class="total-price">
           Total Price：<span id="totalAmount">0.00</span>￡
         </div>
-        <button class="pay-button" onclick="window.location.href='confirm.html'">Click to confirm</button>
-        <button class="back-button" onclick="window.location.href='Homepage.html'">Back</button>
+        <button class="pay-button" onclick="window.location.href='/confirm'">Click to confirm</button>
+        <button class="back-button" onclick="window.location.href='/home'">Back</button>
     </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
