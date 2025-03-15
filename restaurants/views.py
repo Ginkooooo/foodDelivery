@@ -48,22 +48,6 @@ def restaurant_search(request):
         return render(request, 'search.html', {'restaurants': restaurants})
 
 
-#餐厅详情页
-def restaurant_detail(request, pk):
-
-    # 获取餐厅对象（包含预加载优化）
-    restaurant = get_object_or_404(
-        Restaurant.objects.select_related('owner')
-        .prefetch_related('menuitem_set'),
-        pk=pk
-    )
-
-    return render(request, 'merchants/restaurant_detail.html', {
-        'restaurant': restaurant
-    })
-
-
-
 #注册
 @csrf_exempt
 def register_merchant(request):
@@ -236,3 +220,15 @@ def merchant_edit_delete(request, pk):
     item = get_object_or_404(MenuItem, pk=pk)
     item.delete()
     return redirect('/merchant/edit/')
+
+
+#商品列表（用户端）
+def item_list(request,pk):
+    restaurant = Restaurant.objects.get(id=pk)
+    items = MenuItem.objects.filter(restaurant_id=restaurant.id)
+
+    if request.method == 'GET':
+        return render(request, 'merchant.html', {
+            'restaurant_name': restaurant.name,
+            'items': items
+        })

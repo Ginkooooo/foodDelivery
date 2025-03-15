@@ -37,7 +37,7 @@
                 <!--登录状态下显示用户菜单 -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="../media/fastfood.png" alt="用户头像" class="img-circle" style="width: 30px; height: 30px; margin-right: 5px;">
+                        <img src="/media/fastfood.png" alt="用户头像" class="img-circle" style="width: 30px; height: 30px; margin-right: 5px;">
                         {{ user.username }} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -51,7 +51,7 @@
                 <!-- 未登录状态下显示登录链接 -->
                 <li>
                     <a href="/login">
-                        <img src="../static/bootstrap-icons-1.11.3/box-arrow-in-right.svg" alt="登录图标"
+                        <img src="/static/bootstrap-icons-1.11.3/box-arrow-in-right.svg" alt="登录图标"
                              style="width: 20px; height: 20px; margin-right: 5px;">
                         Log In
                     </a>
@@ -64,17 +64,18 @@
 
     <div class="panel panel-warning">
         <div class="panel-heading">
-          <h1 class="panel-title"><strong>Macdonald</strong> <small>food list</small></h1>
+          <h1 class="panel-title"><strong>{{ restaurant_name }}</strong> <small>food list</small></h1>
         </div>
         <div class="panel-body">
             <div class="row">
+                {% for item in items %}
                 <div class="col-xs-6 col-sm-4 col-md-3">
                   <div class="thumbnail equal-height">
-                    <img src="/media/hash_browns.png" alt="...">
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}">
                     <div class="caption">
-                      <h4><strong>Hash browns</strong> <small>140 Kcal.</small></h4>
-                      <p class="price" data-price="2.49">
-                        price: 2.49￡<br>
+                      <h4><strong>{{ item.name }}</strong></h4>
+                      <p class="price" data-price="{{ item.price }}">
+                        price: ￡{{ item.price }}<br>
                         <div class="form-inline">
                             <div class="form-group">
                                 <label for="quantitySelect" class="mr-2">Quantity:</label>
@@ -92,102 +93,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <div class="thumbnail equal-height">
-                      <img src="/media/Sausage & Egg McMuffin.png" alt="...">
-                      <div class="caption">
-                        <h4><strong>Sausage & Egg McMuffin</strong> <small>480 Kcal.</small></h4>
-                        <p class="price" data-price="4.79">
-                          price: 4.79￡<br>
-                          <div class="form-inline">
-                              <div class="form-group">
-                                  <label for="quantitySelect" class="mr-2">Quantity:</label>
-                                  <select class="form-control quantity-select" id="quantitySelect">
-                                      <option>0</option>
-                                      <option>1</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                  </select>
-                              </div>
-                          </div>
-                        </p>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <div class="thumbnail equal-height">
-                      <img src="/media/apple_sliced.png" alt="...">
-                      <div class="caption">
-                        <h4><strong>Apple Slices</strong> <small>15 Kcal.</small></h4>
-                        <p class="price" data-price="1.39">
-                          price: 1.39￡<br>
-                          <div class="form-inline">
-                              <div class="form-group">
-                                  <label for="quantitySelect" class="mr-2">Quantity:</label>
-                                  <select class="form-control quantity-select" id="quantitySelect">
-                                      <option>0</option>
-                                      <option>1</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                  </select>
-                              </div>
-                          </div>
-                        </p>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <div class="thumbnail equal-height">
-                      <img src="/media/Hot Fudge Sundae.png" alt="...">
-                      <div class="caption">
-                        <h4><strong>Hot Fudge Sundae</strong> <small>330 Kcal.</small></h4>
-                        <p class="price" data-price="3.39">
-                          price: 3.39￡<br>
-                          <div class="form-inline">
-                              <div class="form-group">
-                                  <label for="quantitySelect" class="mr-2">Quantity:</label>
-                                  <select class="form-control quantity-select" id="quantitySelect">
-                                      <option>0</option>
-                                      <option>1</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                  </select>
-                              </div>
-                          </div>
-                        </p>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                    <div class="thumbnail equal-height">
-                      <img src="/media/DASANI® Bottled Water.png" alt="...">
-                      <div class="caption">
-                        <h4><strong>DASANI® Bottled Water</strong> <small>0 Kcal.</small></h4>
-                        <p class="price" data-price="1.69">
-                          price: 1.69￡<br>
-                          <div class="form-inline">
-                              <div class="form-group">
-                                  <label for="quantitySelect" class="mr-2">Quantity:</label>
-                                  <select class="form-control quantity-select" id="quantitySelect">
-                                      <option>0</option>
-                                      <option>1</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                  </select>
-                              </div>
-                          </div>
-                        </p>
-                      </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

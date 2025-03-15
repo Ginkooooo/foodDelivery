@@ -23,7 +23,7 @@ label{
 }
 .panel .row .thumbnail.equal-height img {
     width: 100%;
-    /* height: 200px; 固定图片高度 */
+    height: 250px;
     object-fit: cover; /* 保持图片比例 */
 }
   
