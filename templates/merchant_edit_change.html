@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Item</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/add_address.css">
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/home">
+                <img src="/static/bootstrap-icons-1.11.3/shop-window.svg" alt="" onclick="window.location.href='home.html'" style="height: 24px;">
+            </a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form class="navbar-form navbar-left" method="GET" action="{% url 'search' %}">
+              <div class="form-group">
+                <input type="text" name="q" class="form-control" placeholder="Search">
+              </div>
+              <button type="submit" class="btn btn-default">Search</button>
+            </form>
+              <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        {{ restaurant_name }} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="/login"><img src="/static/bootstrap-icons-1.11.3/box-arrow-in-left.svg" alt=""> Log out</a></li>
+                    </ul>
+                </li>
+              </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Item information</h3>
+        </div>
+        <div class="panel-body">
+            <form id="itemForm" data-item-id="{{ item.id }}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Current Image</label>
+                    <div class="image-preview">
+                        <img id="imagePreview" src="{{ item.image.url }}" class="img-thumbnail"
+                             style="max-width: 200px; max-height: 200px;">
+                    </div>
+                    <label class="btn btn-default btn-file">
+                        Choose New Image <input type="file" id="imageInput" name="image"
+                             accept="image/*" style="display: none;">
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ item.name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="tel">Price</label>
+                    <input type="number" class="form-control" id="price" name="price" value="{{ item.price|floatformat:2 }}" step="0.01" min="0" required>
+                </div>
+                <button type="submit" class="btn btn-primary extended-btn">Save</button>
+                <a href="/merchant/edit" class="btn btn-danger extended-btn">Cancel</a>
+            </form>
+        </div>
+    </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="/static/js/merchant_edit_change.js"></script>
+</body>
+</html>

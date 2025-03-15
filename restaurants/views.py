@@ -3,8 +3,8 @@ import json
 from MySQLdb import IntegrityError
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Restaurant, MenuItem
@@ -179,3 +179,60 @@ def merchant_edit_list(request):
         'items': items,
         'restaurant_name': restaurant_name
     })
+
+
+#更改商品
+def merchant_edit_change(request, pk):
+    try:
+        # 获取餐厅信息
+        restaurant_id = request.session['restaurant_id']
+        restaurant_name = request.session['restaurant_username']
+
+        # 获取菜单项
+        item = get_object_or_404(MenuItem, pk=pk, restaurant_id=restaurant_id)
+
+        if request.method == 'GET':
+            return render(request, 'merchant_edit_change.html', {
+                'restaurant_name': restaurant_name,
+                'item': item,
+            })
+
+        elif request.method == 'POST':
+            try:
+                # 处理文本字段
+                item.name = request.POST.get('name', item.name)
+                item.price = request.POST.get('price', item.price)
+
+                if 'image' in request.FILES:
+                    item.image = request.FILES['image']
+
+                item.save()
+
+                return JsonResponse({
+                    'success': True,
+                    'id': item.id,
+                    'name': item.name,
+                    'price': str(item.price),
+                    'new_image_url': item.image.url
+                })
+
+            except json.JSONDecodeError:
+                return JsonResponse({'success': False, 'error': 'Invalid JSON'}, status=400)
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+        else:
+            # 处理其他HTTP方法
+            return HttpResponseNotAllowed(['GET', 'POST'])
+
+    except KeyError:
+        return JsonResponse({'success': False, 'error': 'Session data missing'}, status=400)
+    except MenuItem.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Menu item not found'}, status=404)
+
+
+#删除商品
+def merchant_edit_delete(request, pk):
+    item = get_object_or_404(MenuItem, pk=pk)
+    item.delete()
+    return redirect('/merchant/edit/')

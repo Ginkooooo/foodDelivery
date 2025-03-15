@@ -65,10 +65,10 @@
                           </div>
                       </div>
                       <div class="col-xs-3 col-sm-2 text-right">
-                        <a href="" class="pull-right">
+                        <a href="{% url 'merchant_edit_delete' pk=item.id %}" class="pull-right">
                           <img src="/static/bootstrap-icons-1.11.3/trash3.svg" alt="">
                         </a>
-                          <a href="" class="pull-right" style="margin-right: 42px;">
+                          <a href="{% url 'merchant_edit_change' pk=item.id %}" class="pull-right" style="margin-right: 42px;">
                               <img src="/static/bootstrap-icons-1.11.3/pencil-square.svg" alt="">
                           </a>
                       </div>
