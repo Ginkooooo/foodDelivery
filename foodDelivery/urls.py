@@ -3,14 +3,15 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import TemplateView
 
-from restaurants.views import restaurant_list, restaurant_search, register_merchant
+from restaurants.views import restaurant_list, restaurant_search, register_merchant, create_menu_item, merchant_edit_list
 from users.views import register, login_view, address_list, add_address, delete_address, edit_address_confirm, edit_address
 
 urlpatterns = [
     path('home/', restaurant_list, name='home'),  # 主页面
     path('login/', login_view, name='login'),
     path('merchant/', TemplateView.as_view(template_name='merchant.html'), name='merchant'),
-    path('merchant/edit/', TemplateView.as_view(template_name='merchant_editlist.html'), name='merchant_edit'),
+    path('merchant/edit/', merchant_edit_list, name='merchant_edit'),
+    path('merchant/edit/create/', create_menu_item, name='create_menu_item'),
     path('register/', register, name='register'),
     path('register/merchant/', register_merchant, name='register_merchant'),
     path('info/', TemplateView.as_view(template_name='info.html'), name='info'),

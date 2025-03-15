@@ -132,3 +132,50 @@ def register_merchant(request):
             }, status=500)
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+#增加商品
+def create_menu_item(request):
+    try:
+        restaurant_id = request.session.get('restaurant_id')
+        restaurant = Restaurant.objects.get(id=restaurant_id)
+
+        # 创建菜单项
+        menu_item = MenuItem(
+            restaurant=restaurant,
+            name=request.POST.get('name'),
+            price=request.POST.get('price'),
+        )
+
+        # 处理图片上传
+        if 'image' in request.FILES:
+            menu_item.image = request.FILES['image']
+
+        menu_item.save()
+
+        return JsonResponse({
+            'success': True,
+            'id': menu_item.id,
+            'name': menu_item.name,
+            'price': str(menu_item.price)
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=400)
+
+
+#编辑商品列表
+def merchant_edit_list(request):
+
+    restaurant_id = request.session.get('restaurant_id')
+    restaurant_name = request.session.get('restaurant_username')
+
+    # 获取基础查询集
+    items = MenuItem.objects.filter(restaurant_id=restaurant_id)
+
+    return render(request, 'merchant_editlist.html', {
+        'items': items,
+        'restaurant_name': restaurant_name
+    })

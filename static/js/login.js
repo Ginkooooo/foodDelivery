@@ -32,6 +32,7 @@ async function handleLogin(event, userType) {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCSRFToken()  // 携带 Token
             },
+            credentials: 'include',
             body: JSON.stringify(formData)
         });
 

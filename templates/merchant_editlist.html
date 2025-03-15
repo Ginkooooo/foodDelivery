@@ -32,52 +32,36 @@
               </div>
               <button type="submit" class="btn btn-default">Search</button>
             </form>
-            <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
-                <!--登录状态下显示用户菜单 -->
-                <li class="dropdown">
+              <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="/media/fastfood.png" alt="用户头像" class="img-circle" style="width: 30px; height: 30px; margin-right: 5px;">
-                        {{ user.username }} <span class="caret"></span>
+                        {{ restaurant_name }} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="/info"><img src="../static/bootstrap-icons-1.11.3/people.svg" alt=""> Info</a></li>
-                        <li><a href="/address"><img src="../static/bootstrap-icons-1.11.3/gear.svg" alt=""> Address</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/login"><img src="../static/bootstrap-icons-1.11.3/box-arrow-in-left.svg" alt=""> Log out</a></li>
+                        <li><a href="/login"><img src="/static/bootstrap-icons-1.11.3/box-arrow-in-left.svg" alt=""> Log out</a></li>
                     </ul>
                 </li>
-                {% else %}
-                <!-- 未登录状态下显示登录链接 -->
-                <li>
-                    <a href="/login">
-                        <img src="../static/bootstrap-icons-1.11.3/box-arrow-in-right.svg" alt="登录图标"
-                             style="width: 20px; height: 20px; margin-right: 5px;">
-                        Log In
-                    </a>
-                </li>
-                {% endif %}
-            </ul>
+              </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>
 
     <div class="panel panel-warning">
       <div class="panel-heading">
-        <h3 class="panel-title">Edit</h3>
+        <h3 class="panel-title">Edit Item</h3>
       </div>
       <div class="panel-body">
           <ul class="list-group">
-              <li class="list-group-item" data-product-id="001">
+              {% for item in items %}
+              <li class="list-group-item" data-item-id="{{ item.id }}">
                   <div class="row vertical-center">
                       <div class="col-xs-3 col-sm-2">                        
-                          <img src="/media/DASANI® Bottled Water.png" alt="" class="img-responsive product-img">
+                          <img src="{{ item.image.url }}" alt="{{ item.name }}" class="img-responsive product-img">
                       </div>
                       <div>
-                          <h4 class="product-title">DASANI® Bottled Water</h4>
+                          <h4 class="product-title">{{ item.name }}</h4>
                           <div class="quantity-display">
-                              food information:
-                              £1.69
+                              £ {{ item.price }}
                           </div>
                       </div>
                       <div class="col-xs-3 col-sm-2 text-right">
@@ -90,56 +74,34 @@
                       </div>
                   </div>    
               </li>
-              <li class="list-group-item" data-product-id="002">
-                  <div class="row vertical-center">
-                      <div class="col-xs-3 col-sm-2">                        
-                          <img src="/media/Hot Fudge Sundae.png" alt="" class="img-responsive product-img">
-                      </div>
-                      <div>
-                          <h4 class="product-title">Hot Fudge Sundae</h4>
-                          <div class="quantity-display">
-                              food information: <br>
-                              £3.39
-                          </div>
-                      </div>
-                      <div class="col-xs-3 col-sm-2 text-right">
-                          <a href="" class="pull-right">
-                            <img src="/static/bootstrap-icons-1.11.3/trash3.svg" alt="">
-                          </a>
-                          <a href="" class="pull-right" style="margin-right: 42px;">
-                              <img src="/static/bootstrap-icons-1.11.3/pencil-square.svg" alt="">
-                          </a>
-                      </div>
-                  </div>    
-              </li>
-              <li class="list-group-item" data-product-id="002">
+              {% endfor %}
+
+              <li class="list-group-item">
                 <div class="row vertical-center">
                   <!-- Picture -->
                   <div class="col-xs-3 col-sm-2">                        
                     <label class="editable-image">
-                      <input type="file" class="hidden" accept="image/*">
-                      <!-- <img src="img/Hot Fudge Sundae.png" 
-                           class="img-responsive product-img preview-image"> -->
+                      <input type="file" class="hidden" accept="image/*" id="image-upload">
+                        <img src="/media/defaults/default.png" class="img-responsive product-img preview-image">
                       <span class="edit-overlay">✎</span>
                     </label>
                   </div>
               
                   <!-- Word -->
                   <div class="col-xs-6 col-sm-8">
-                    <input type="text" class="form-control editable-title">
                     <div class="form-group">
-                      <textarea class="form-control editable-info" placeholder="food information:" rows="3"></textarea>
-                    </div>
-                    <div class="input-group price-editor">
-                      <span class="input-group-addon">£</span>
-                      <input type="number" class="form-control" min="0" step="0.1">
-                    </div>
+                        <input type="text" class="form-control editable-title" id="item-name" placeholder="Item name">
+                      </div>
+                      <div class="input-group price-editor">
+                        <span class="input-group-addon">£</span>
+                        <input type="number" class="form-control" id="item-price" min="0" step="0.01" placeholder="Price">
+                      </div>
                   </div>
 
                   <!-- Operate button -->
                 <div class="text-right edit-controls">
                   <button class="btn btn-default btn-cancel">Cancel</button>
-                  <button class="btn btn-primary btn-save">Save</button>
+                  <button class="btn btn-primary btn-save" id="save-item">Save</button>
                 </div>
                 </div>    
               </li>

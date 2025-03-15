@@ -110,6 +110,14 @@ def login_view(request):
                 try:
                     merchant = Restaurant.objects.get(username=username)
                     if password == merchant.password:
+                        request.session['restaurant_id'] = merchant.id
+                        request.session['restaurant_username'] = merchant.username
+                        request.session['is_merchant'] = True
+                        request.session.modified = True
+                        request.session.save()  # 确保立即保存session
+
+                        print("[DEBUG] Session after save:", request.session.items())
+
                         return JsonResponse({
                             'success': True,
                             'message': 'Merchant login successful!',
