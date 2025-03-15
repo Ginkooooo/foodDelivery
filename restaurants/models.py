@@ -14,7 +14,7 @@ class Restaurant(models.Model):
     latitude = models.FloatField(default=0.0, help_text="Latitude of the restaurant")
     longitude = models.FloatField(default=0.0, help_text="Longitude of the restaurant")
     minimum_order = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
-    username = models.CharField(max_length=128, default="a")
+    username = models.CharField(max_length=128, default="a", unique=True)
     password = models.CharField(max_length=128, default="a")
     category = models.CharField(
         max_length=20,
@@ -33,3 +33,9 @@ class MenuItem(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    image = models.ImageField(
+        upload_to='menu_images/',  # 上传目录
+        null=True,  # 允许数据库存储NULL
+        blank=True,  # 允许表单留空
+        default='defaults/default.png'  # 默认图片路径
+    )
