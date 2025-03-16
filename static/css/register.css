@@ -15,20 +15,28 @@ body{
 .account{
     position:absolute;
     width: 650px;
-    /* left:28%;
-    right: 28%; */
-    left: 50%;                   /* 关键属性：左边界定位到50%位置 */
-    transform: translateX(-50%); /* 关键属性：向左回退自身宽度的一半 */
-    border: 1px solid #dddddd;
+    left: 0;
+    right: 0;
+    margin: 100px auto 0;
+    border: 1px solid #aaaaaa;
     border-radius: 50px;
-    height: 550px;
+    height: 650px;
     box-shadow: 5px 5px 5px #aaa;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 6%;
     padding:2% 4% 7%;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: 1;
+    /* 3D 翻转效果 */
+    transform-style: preserve-3d;
+    transform: rotateY(180deg);
+    transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+    opacity: 0; /* 初始隐藏 */
+}
+.account.show {
+    animation: flipIn 0.6s ease-out forwards;
+}
+
+.account.flip {
+    animation: flipOut 0.6s ease-out forwards;
 }
 h2{
     color: black;
@@ -44,6 +52,9 @@ h2{
     width: 200px;
     height: 25px;
 }
+.btn-success{
+    margin-top:10px;
+}
 .button-group{
     margin-bottom: 5px;
 }
@@ -57,7 +68,28 @@ h2{
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+    background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.6));
     pointer-events: none; 
     z-index: 1;
+}
+@keyframes flipIn {
+    from {
+        transform: rotateY(-90deg) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: rotateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes flipOut {
+    from {
+        transform: rotateY(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: rotateY(90deg) scale(0.8);
+        opacity: 0;
+    }
 }

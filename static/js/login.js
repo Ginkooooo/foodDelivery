@@ -64,3 +64,29 @@ function getCSRFToken() {
     return cookieValue || null;
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const accountBox = document.querySelector(".account");
+
+    // 页面加载时触发翻转进入
+    setTimeout(() => {
+        accountBox.classList.add("show");
+    }, 200);
+
+    // 监听 "Create an account" 按钮点击事件
+    const flipLink = document.querySelector(".flip-trigger");
+
+    if (flipLink) {
+        flipLink.addEventListener("click", function (event) {
+            event.preventDefault(); // 阻止立即跳转
+            const targetUrl = this.href; // 获取目标地址
+
+            // 添加翻转离开动画
+            accountBox.classList.add("flip");
+
+            // 动画执行 0.8s 后跳转
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
+        });
+    }
+});

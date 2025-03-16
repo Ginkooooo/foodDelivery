@@ -65,3 +65,11 @@ async function handleSubmit(e) {
         alert('Network Error: ' + error.message);
     }
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const accountBox = document.querySelector(".account");
+
+    // 页面加载时翻转进入
+    setTimeout(() => {
+        accountBox.classList.add("show");
+    }, 300);
+});

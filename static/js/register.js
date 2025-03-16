@@ -55,3 +55,11 @@ async function handleSubmit(e) {
         alert('Error: ' + error.message);
     }
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const accountBox = document.querySelector(".account");
+
+    // 页面加载时触发翻转进入动画
+    setTimeout(() => {
+        accountBox.classList.add("show");
+    }, 500);
+});
