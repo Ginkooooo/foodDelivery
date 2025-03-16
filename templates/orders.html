@@ -66,10 +66,11 @@
         <div class="panel-heading">
             <h3 class="panel-title">Orders' Information</h3>
         </div>
+        {% for order in orders %}
         <div class="panel-body">
             <div class="list-group list-group-item active">
-                <a href="confirm.html">
-                    <h4 class="list-group-item-heading">Merchant Name1</h4>
+                <a>
+                    <h4 class="list-group-item-heading">{{ order.restaurant.name }}</h4>
                 </a>    
                 <p class="list-group-item-text">
                     item information 1 &nbsp; item price <br>
@@ -79,6 +80,7 @@
                 </p>
             </div>
         </div>
+        {% endfor %}
     </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

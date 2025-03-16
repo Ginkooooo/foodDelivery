@@ -35,34 +35,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (totalAmount < minOrderPrice) {
             alert("Price below minimum order price!"); // 价格不足，弹出警告
-        } else {
-            // **发送 AJAX 请求到后端创建订单**
-            fetch("/orders/create/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": getCSRFToken()  // 获取 CSRF Token
-                },
-                body: JSON.stringify({
-                    total: totalAmount,
-                    restaurant_id: restaurantId,
-                    user_id: userId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Order Created Successfully!");
-                    window.location.href = "/orders";  // 跳转到订单页面
-                } else {
-                    alert("Order creation failed: " + data.error);
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("An error occurred while creating the order.");
-            });
+            return;
         }
+
+        // 收集商品项数据
+        const items = [];
+        document.querySelectorAll('.list-group-item[data-product-id]').forEach(item => {
+            const itemId = item.getAttribute('data-product-id');
+            const quantity = parseInt(item.querySelector('.quantity-display').textContent.split(': ')[1]);
+            items.push({ item_id: itemId, quantity: quantity });
+        });
+
+        // **发送 AJAX 请求到后端创建订单**
+        fetch("/orders/create/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCSRFToken()  // 获取 CSRF Token
+                },
+            body: JSON.stringify({
+                total: totalAmount,
+                restaurant_id: restaurantId,
+                user_id: userId,
+                items: items
+            })
+        })
+       .then(response => response.json())
+       .then(data => {
+           if (data.success) {
+               alert("Order Created Successfully!");
+               window.location.href = "/orders";  // 跳转到订单页面
+           } else {
+               alert("Order creation failed: " + data.error);
+           }
+       })
+       .catch(error => {
+           console.error("Error:", error);
+           alert("An error occurred while creating the order.");
+       });
     });
 
     function getCSRFToken() {

@@ -45,8 +45,11 @@ def pay(request):
         return render(request, 'pay.html')
 
 def orders_list(request):
+    user_id = request.user.id
+    orders = Order.objects.filter(user_id=user_id)
+
     if request.method == 'GET':
-        return render(request, 'orders.html')
+        return render(request, 'orders.html', {'orders': orders})
 
 @csrf_exempt
 def create_order(request):
@@ -56,6 +59,11 @@ def create_order(request):
             total = data.get("total")
             restaurant_id = data.get("restaurant_id")
             user_id = data.get("user_id")
+            items = data.get("items", [])
+
+            # 验证必要参数
+            if not all([total, restaurant_id, user_id]):
+                return JsonResponse({"success": False, "error": "Missing required parameters"}, status=400)
 
             # 确保 restaurant 和 user 存在
             restaurant = Restaurant.objects.get(id=restaurant_id)
@@ -65,15 +73,31 @@ def create_order(request):
             order = Order.objects.create(
                 user=user,
                 restaurant=restaurant,
-                total=total
+                total=total,
+                status='P'
             )
 
-            return JsonResponse({"success": True, "order_id": order.id})
-        except Restaurant.DoesNotExist:
-            return JsonResponse({"success": False, "error": "Restaurant not found"}, status=400)
-        except User.DoesNotExist:
-            return JsonResponse({"success": False, "error": "User not found"}, status=400)
-        except Exception as e:
-            return JsonResponse({"success": False, "error": str(e)}, status=400)
+            # 创建订单项
+            for item_data in items:
+                try:
+                    menu_item = MenuItem.objects.get(id=item_data["item_id"])
+                    OrderItem.objects.create(
+                        order=order,
+                        item=menu_item,
+                        quantity=item_data["quantity"]
+                    )
+                except MenuItem.DoesNotExist:
+                    print(f"MenuItem {item_data['item_id']} not found, skipping")
+                except KeyError:
+                    print("Invalid item data format, skipping")
 
-    return JsonResponse({"success": False, "error": "Invalid request"}, status=405)
+            return JsonResponse({"success": True, "order_id": order.id})
+
+        except Restaurant.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Restaurant not found"}, status=404)
+        except User.DoesNotExist:
+            return JsonResponse({"success": False, "error": "User not found"}, status=404)
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)}, status=500)
+
+        return JsonResponse({"success": False, "error": "Method not allowed"}, status=405)

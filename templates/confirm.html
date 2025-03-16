@@ -85,7 +85,7 @@
         <div class="panel-body">
             <ul class="list-group">
                 {% for item_info in items_data %}
-                <li class="list-group-item" data-product-id="001">
+                <li class="list-group-item" data-product-id="{{ item_info.item.id }}">
                     <div class="row vertical-center">
                         <div class="col-xs-3 col-sm-2">
                             <img src="{{ item_info.item.image.url }}" alt="{{ item_info.item.name }}" class="img-responsive product-img">
