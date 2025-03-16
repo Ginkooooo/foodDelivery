@@ -104,18 +104,21 @@
                 {% endfor %}
                 </li>
                 <li class="list-group-item">
-                    Delivery Fee: 3￡
+                    Delivery Fee: ￡3
+                </li>
+                <li class="list-group-item">
+                    Minimum Order: ￡{{ restaurant.minimum_order }}
                 </li>
             </ul>
         </div>
     </div>
 
-    <div class="checkout-bar">
+    <div class="checkout-bar" data-min-order="{{ restaurant.minimum_order }}">
         <div class="total-price">
-          Total Price：<span id="totalAmount">0.00</span>￡
+          Total Price：￡<span id="totalAmount">0.00</span>
         </div>
-        <button class="pay-button" onclick="window.location.href='https://www.paypal.com/uk/home'">Confirm and Pay</button>
-        <button class="back-button" onclick="window.location.href='/merchant/{{ restaurant_id }}'">Back</button>
+        <button class="pay-button">Confirm and Pay</button>
+        <button class="back-button" onclick="window.location.href='/merchant/{{ restaurant.id }}'">Back</button>
     </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

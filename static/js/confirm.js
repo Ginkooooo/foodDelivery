@@ -20,7 +20,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
         total += deliveryFee; // 加上配送费
         document.getElementById("totalAmount").textContent = total.toFixed(2); // 更新总价
+
+        return total; // 返回总金额
     }
+
+    let minOrderPrice = parseFloat(document.querySelector(".checkout-bar").dataset.minOrder);
+
+    // **点击"Confirm and Pay"按钮时检查最低订单金额**
+    document.querySelector(".pay-button").addEventListener("click", function (event) {
+        event.preventDefault(); // 阻止默认跳转
+        let totalAmount = calculateTotal(); // 获取当前总价
+
+        if (totalAmount < minOrderPrice) {
+            alert("Price below minimum order price!"); // 价格不足，弹出警告
+        } else {
+            window.location.href = "https://www.paypal.com/uk/home"; // 价格满足，跳转支付
+        }
+    });
 
     calculateTotal(); // 页面加载时计算一次
 });
