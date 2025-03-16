@@ -1,7 +1,10 @@
 function confirmPayment() {
-    window.location.href = "/success"; // 确认支付跳转到 /success
+    alert("Payment Success!"); // 弹出支付成功消息
+        setTimeout(function() {
+            window.location.href = "/orders"; // 1秒后跳转
+        }, 1000);
 }
 
 function cancelPayment() {
-    window.location.href = "/confirm"; // 取消支付返回订单确认页
+    window.location.href = "/confirm";
 }
