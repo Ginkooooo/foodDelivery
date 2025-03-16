@@ -114,3 +114,7 @@ a.pull-right:active {
 img{
     height: 24px;
 }
+
+.top-space {
+    margin-top: 50px; /* 让页面上方留出一两行空白 */
+}

@@ -119,3 +119,26 @@ def create_order(request):
             return JsonResponse({"success": False, "error": str(e)}, status=500)
 
         return JsonResponse({"success": False, "error": "Method not allowed"}, status=405)
+
+
+#商家端订单列表
+def merchant_orders_list(request,pk):
+    # 获取当前用户的所有订单，并预取关联的订单项和商品
+    orders = Order.objects.filter(restaurant_id=pk).prefetch_related(
+        'orderitem_set__item'
+    ).select_related('restaurant')
+
+    # 为每个订单构造商品信息列表（不直接操作多对多字段）
+    for order in orders:
+        order.item_details = []
+        for order_item in order.orderitem_set.all():
+            order.item_details.append({
+                'name': order_item.item.name,
+                'price': order_item.item.price,
+                'quantity': order_item.quantity,
+                'subtotal': order_item.item.price * order_item.quantity
+            })
+        # 计算总价（假设配送费为3）
+        order.calculated_total = sum(item['subtotal'] for item in order.item_details) + 3
+
+    return render(request, 'merchant_orders.html', {'orders': orders})

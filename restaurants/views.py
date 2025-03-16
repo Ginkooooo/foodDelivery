@@ -161,7 +161,8 @@ def merchant_edit_list(request):
 
     return render(request, 'merchant_editlist.html', {
         'items': items,
-        'restaurant_name': restaurant_name
+        'restaurant_name': restaurant_name,
+        'restaurant_id': restaurant_id,
     })
 
 

@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 
 from restaurants.views import restaurant_list, restaurant_search, register_merchant, create_menu_item, merchant_edit_list, merchant_edit_change, merchant_edit_delete, item_list
 from users.views import register, login_view, address_list, add_address, delete_address, edit_address_confirm, edit_address
-from orders.views import confirm_order, pay, orders_list, create_order
+from orders.views import confirm_order, pay, orders_list, create_order, merchant_orders_list
 
 urlpatterns = [
     path('home/', restaurant_list, name='home'),  # 主页面
@@ -15,6 +15,7 @@ urlpatterns = [
     path('merchant/edit/create/', create_menu_item, name='create_menu_item'),
     path('merchant/edit/change/<int:pk>/', merchant_edit_change, name='merchant_edit_change'),
     path('merchant/edit/delete/<int:pk>/', merchant_edit_delete, name='merchant_edit_delete'),
+    path('merchant/orders/<int:pk>/', merchant_orders_list, name='merchant_orders_list'),
     path('register/', register, name='register'),
     path('register/merchant/', register_merchant, name='register_merchant'),
     path('info/', TemplateView.as_view(template_name='info.html'), name='info'),
