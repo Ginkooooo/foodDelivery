@@ -36,3 +36,6 @@ def confirm_order(request):
             'restaurant': restaurant,
         })
 
+def pay(request):
+    if request.method == 'GET':
+        return render(request, 'pay.html')

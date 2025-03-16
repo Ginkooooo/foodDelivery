@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (totalAmount < minOrderPrice) {
             alert("Price below minimum order price!"); // 价格不足，弹出警告
         } else {
-            window.location.href = "https://www.paypal.com/uk/home"; // 价格满足，跳转支付
+            window.location.href = "/pay"; // 价格满足，跳转支付
         }
     });
 
