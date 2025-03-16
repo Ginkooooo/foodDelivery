@@ -1,21 +1,109 @@
+/* **修复图片样式** */
 .navbar-nav img.img-circle {
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-.panel{
+
+/* **调整 Panel 间距** */
+.panel {
     margin-left: 5%;
     margin-right: 5%;
 }
+
+/* **修复 panel-danger 颜色** */
 .panel .panel-danger a {
     color: #a94442;
     text-decoration: none;
 }
-.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+
+/* **修复 list-group-item.active 颜色问题** */
+.list-group-item.active, 
+.list-group-item.active:focus, 
+.list-group-item.active:hover {
     z-index: 2;
-    color: #fff;
+    color: black; /* **让文本颜色清晰可见** */
     background-color: white;
     border-color: grey;
 }
-.list-group-item.active .list-group-item-text, .list-group-item.active:focus .list-group-item-text, .list-group-item.active:hover .list-group-item-text {
-    color: grey;
+
+/* **确保 .list-group-item-text 颜色正确** */
+.list-group-item.active .list-group-item-text,
+.list-group-item.active:focus .list-group-item-text,
+.list-group-item.active:hover .list-group-item-text {
+    color: grey; /* **改为黑色，确保可见** */
+}
+
+/* **确保 <ul> 和 <li> 可见** */
+.list-group-item.active ul,
+.list-group-item.active ul li {
+    color: grey !important;  /* **确保 <ul> 和 <li> 文字可见** */
+    list-style-type: disc;  /* **恢复默认列表样式** */
+    margin-left: 20px;  /* **增加左边距** */
+}
+
+/* **确保 Total Price 显示** */
+.list-group-item.active strong {
+    color: grey; /* **确保 "Total Price" 可见** */
+    font-weight: bold;
+}
+
+/* **调整浮动元素** */
+.pull-right {
+    float: right;
+    margin-left: 15px;  /* 添加间距 */
+}
+
+/* **链接 hover 效果** */
+a.pull-right:hover, 
+a.pull-right:focus, 
+a.pull-right:active {
+    text-decoration: none;
+    border-bottom: none;
+}
+
+/* **确保 img 样式一致** */
+.pull-right img {
+    margin-right: 15px;
+}
+
+.pull-right a {
+    text-decoration: none;
+}
+
+/* **修正默认 img 大小** */
+img {
+    height: 24px;
+}
+
+/* **修正 Order Item 显示问题** */
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* **确保 Item 名称和价格对齐** */
+.order-item .item-name {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.order-item .item-price {
+    min-width: 120px;
+    text-align: right;
+}
+
+/* **修正 Total Section 颜色** */
+.total-section {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 2px solid #ddd;
+}
+
+/* **修正 Muted 颜色** */
+.text-muted {
+    color: #666;
+    font-size: 0.9em;
 }
