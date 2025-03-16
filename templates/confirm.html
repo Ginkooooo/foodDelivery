@@ -84,47 +84,24 @@
         </div>
         <div class="panel-body">
             <ul class="list-group">
+                {% for item_info in items_data %}
                 <li class="list-group-item" data-product-id="001">
                     <div class="row vertical-center">
                         <div class="col-xs-3 col-sm-2">
-                            <img src="/media/DASANI® Bottled Water.png" alt="" class="img-responsive product-img">
+                            <img src="{{ item_info.item.image.url }}" alt="{{ item_info.item.name }}" class="img-responsive product-img">
                         </div>
                         <div>
-                            <h4 class="product-title">DASANI® Bottled Water</h4>
+                            <h4 class="product-title">{{ item_info.item.name }}</h4>
                             <div class="quantity-display">
-                                quantity:
-                                <input type="number"
-                                       class="quantity-select"
-                                       value="1"
-                                       min="0"
-                                       style="width: 60px; margin-left: 8px;">
+                                quantity: {{ item_info.quantity }}
                             </div>
                         </div>
                         <div class="col-xs-3 col-sm-2 text-right" style="position: absolute;transform: translateY(-30%);">
-                            <p class="price">£1.69</p>
+                            <p class="price">£{{ item_info.item.price }} x {{ item_info.quantity }}</p>
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item" data-product-id="002">
-                    <div class="row vertical-center">
-                        <div class="col-xs-3 col-sm-2">
-                            <img src="/media/Hot Fudge Sundae.png" alt="" class="img-responsive product-img">
-                        </div>
-                        <div>
-                            <h4 class="product-title">Hot Fudge Sundae</h4>
-                            <div class="quantity-display">
-                                quantity:
-                                <input type="number"
-                                       class="quantity-select"
-                                       value="1"
-                                       min="0"
-                                       style="width: 60px; margin-left: 8px;">
-                            </div>
-                        </div>
-                        <div class="col-xs-3 col-sm-2 text-right" style="position: absolute;transform: translateY(-30%);">
-                            <p class="price">£3.39</p>
-                        </div>
-                    </div>
+                {% endfor %}
                 </li>
                 <li class="list-group-item">
                     Delivery Fee: 3￡
@@ -138,7 +115,7 @@
           Total Price：<span id="totalAmount">0.00</span>￡
         </div>
         <button class="pay-button" onclick="window.location.href='https://www.paypal.com/uk/home'">Confirm and Pay</button>
-        <button class="back-button" onclick="window.location.href='merchant.html'">Back</button>
+        <button class="back-button" onclick="window.location.href='/merchant/{{ restaurant_id }}'">Back</button>
     </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

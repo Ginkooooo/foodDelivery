@@ -18,7 +18,7 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('register/merchant/', register_merchant, name='register_merchant'),
     path('info/', TemplateView.as_view(template_name='info.html'), name='info'),
-    path('confirm/', confirm_order, name='confirm'),
+    path('confirm/', confirm_order, name='confirm_order'),
     path('search/', restaurant_search, name='search'),
     path('orders/', TemplateView.as_view(template_name='orders.html'), name='orders'),
     path('address/', address_list, name='address_list'),

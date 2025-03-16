@@ -1,36 +1,26 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const calculateTotal = () => {
+document.addEventListener("DOMContentLoaded", function () {
+    function calculateTotal() {
         let total = 0;
-        
-        // 计算商品总价
-        document.querySelectorAll('[data-product-id]').forEach(item => {
-            const price = parseFloat(
-                item.querySelector('.price').textContent.replace(/[^0-9.]/g, '')
-            );
-            const quantity = parseInt(
-                item.querySelector('.quantity-select').value || 0
-            );
-            total += price * quantity;
+        let deliveryFee = 3;  // 固定配送费
+
+        // 遍历所有商品
+        document.querySelectorAll(".list-group-item").forEach(item => {
+            let priceElement = item.querySelector(".price");
+            if (priceElement) {
+                let text = priceElement.textContent.trim(); // 例如："£5.99 x 2"
+                let matches = text.match(/£([\d.]+) x (\d+)/);
+
+                if (matches) {
+                    let price = parseFloat(matches[1]); // 解析价格
+                    let quantity = parseInt(matches[2]); // 解析数量
+                    total += price * quantity;  // 计算总价
+                }
+            }
         });
 
-        // 获取配送费
-        const deliveryElement = [...document.querySelectorAll('.list-group-item')]
-            .find(el => el.textContent.includes('Delivery Fee'));
-            
-        const deliveryFee = deliveryElement ? 
-            parseFloat(deliveryElement.textContent.match(/\d+\.?\d*/)[0]) : 0;
+        total += deliveryFee; // 加上配送费
+        document.getElementById("totalAmount").textContent = total.toFixed(2); // 更新总价
+    }
 
-        // 计算最终总价
-        const grandTotal = total + deliveryFee;
-
-        // 更新显示
-        document.getElementById('totalAmount').textContent = grandTotal.toFixed(2);
-    };
-
-    // 事件监听
-    document.querySelectorAll('.quantity-select').forEach(input => {
-        input.addEventListener('input', calculateTotal);
-    });
-
-    calculateTotal(); // 初始计算
+    calculateTotal(); // 页面加载时计算一次
 });

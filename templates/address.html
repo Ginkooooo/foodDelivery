@@ -79,9 +79,14 @@
                     <a href="{% url 'edit_address' address.id %}" class="pull-right" style="margin-right: 42px;">
                         <img src="/static/bootstrap-icons-1.11.3/pencil-square.svg" alt="Edit">
                     </a>
-                    <a href="/confrim" class="pull-right" style="margin-right: 85px;">
-                        <input class="address-radio pull-right" type="radio" id="address3" aria-label="" name="addressRadio">
-                    </a>
+                    <input
+                        class="address-radio pull-right"
+                        type="radio"
+                        name="addressRadio"
+                        value="{{ address.id }}"
+                        onchange="window.location.href='{% url 'confirm_order' %}?address_id={{ address.id }}'"
+                        style="margin-right: 85px;"
+                    >
                 </li>
                 {% endfor %}
                 <li class="list-group-item text-center">
