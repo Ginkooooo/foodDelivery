@@ -90,9 +90,9 @@
                                 <div class="caption">
                                     <h3>{{ restaurant.name }}</h3>
                                     <p>
-                                        Minimum Order Price:{{ restaurant.minimum_order }}<br>
-                                        Delivery Distance:<br>
-                                        Delivery Time:<br>
+                                        Minimum Order Price: £{{ restaurant.minimum_order }}<br>
+                                        Delivery Distance: <span class="delivery-distance" data-latitude="{{ restaurant.latitude }}" data-longitude="{{ restaurant.longitude }}"></span><br>
+                                        Delivery Time: <span class="delivery-time"></span><br>
                                     </p>
                                     <p>
                                     <a href="/merchant/{{ restaurant.id }}" class="btn btn-primary" role="button">Click to enter</a>
