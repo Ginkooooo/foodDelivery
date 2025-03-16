@@ -41,9 +41,11 @@ def confirm_order(request):
             'restaurant': restaurant,
         })
 
-def pay(request):
+def pay(request, amount):
+    amount = float(amount)
+
     if request.method == 'GET':
-        return render(request, 'pay.html')
+        return render(request, 'pay.html', {'amount':amount} )
 
 #用户端订单列表
 def orders_list(request):

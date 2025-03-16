@@ -44,9 +44,9 @@ function closeModal() {
         
         // todolist
         if(currentModalType === 'success') {
-            window.location.href = '../orders'; // 替换为实际成功页面
+            window.location.href = '/orders'; // 替换为实际成功页面
         } else {
-            window.location.href = '../confirm'; // 替换为实际失败页面
+            window.location.href = '/confirm'; // 替换为实际失败页面
         }
     }, 600);
 }

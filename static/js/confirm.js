@@ -63,8 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
        .then(response => response.json())
        .then(data => {
            if (data.success) {
-               alert("Order Created Successfully!");
-               window.location.href = "/orders";  // 跳转到订单页面
+               window.location.href = "/pay/" + totalAmount.toFixed(2);
            } else {
                alert("Order creation failed: " + data.error);
            }

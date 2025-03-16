@@ -31,7 +31,7 @@ urlpatterns = [
     path('address/delete/<int:pk>/', delete_address, name='delete_address'),
     path('address/editcon/<int:pk>/', edit_address_confirm, name='edit_address_confirm'),
     path('address/edit/<int:pk>/', edit_address, name='edit_address'),
-    path('pay/', pay, name='pay'),
+    path('pay/<str:amount>/', pay, name='pay'),
 ]
 
 if settings.DEBUG:
