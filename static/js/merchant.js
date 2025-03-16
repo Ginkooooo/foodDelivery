@@ -51,3 +51,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // **初始化计算**
     calculateTotal();
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all product modules
+    const thumbnails = document.querySelectorAll('.thumbnail.equal-height');
+
+    // Animation parameter configuration
+    const config = {
+        baseDelay: 0,
+        stagger: 0.15,
+    };
+
+    thumbnails.forEach((thumbnail, index) => {
+        // Calculate time
+        const delay = config.baseDelay + (index * config.stagger);
+
+        thumbnail.style.animationDelay = `${delay}s`;
+        thumbnail.classList.add('thumbnail-animation');
+
+        // Animation end processing
+        thumbnail.addEventListener('animationend', () => {
+            thumbnail.style.opacity = '1';
+            thumbnail.classList.remove('thumbnail-animation');
+        });
+    });
+
+});

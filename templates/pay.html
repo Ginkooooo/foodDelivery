@@ -5,25 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pay</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <style>
-        body {
-            text-align: center;
-            padding: 50px;
-        }
-        .btn-container {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/pay.css">
 </head>
 <body>
-
-    <h1>Pay</h1>
-    <p>Please confirm your payment or cancel.</p>
-
-    <div class="btn-container">
-        <button class="btn btn-success" onclick="confirmPayment()">Confirm Payment</button>
-        <button class="btn btn-danger" onclick="cancelPayment()">Cancel</button>
+<div class="container">
+    <div class="payment-box">
+{#        todolist#}
+        <h1 class="payments">Your total payment: £{{ total }}</h1>
+        <h1 class="payment-text">Please confirm your payment or cancel.</h1>
+        <div class="button-group">
+            <button class="btn confirm-btn" onclick="confirmPayment()">Confirm</button>
+            <button class="btn cancel-btn" onclick="cancelPayment()">Cancel</button>
+        </div>
     </div>
+    <div class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-content">
+                <div class="modal-icon success">✓</div>
+                <h2 class="modal-title">Payment Successful!</h2>
+                <button class="modal-confirm-btn" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="/static/js/pay.js"></script>
 

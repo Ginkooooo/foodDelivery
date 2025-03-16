@@ -9,4 +9,3 @@ document.querySelectorAll('.heart-btn').forEach(button => {
     });
   });
 
-
