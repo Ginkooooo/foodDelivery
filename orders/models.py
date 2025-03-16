@@ -13,7 +13,7 @@ class Order(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     items = models.ManyToManyField(MenuItem, through='OrderItem')
     total = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)

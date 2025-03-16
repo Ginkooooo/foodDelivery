@@ -1,8 +1,12 @@
-from django.shortcuts import render
+import json
 
-from orders.models import OrderItem
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
+from orders.models import OrderItem, Order
 from restaurants.models import MenuItem, Restaurant
-from users.models import Address
+from users.models import Address, User
 
 
 #确认订单
@@ -39,3 +43,37 @@ def confirm_order(request):
 def pay(request):
     if request.method == 'GET':
         return render(request, 'pay.html')
+
+def orders_list(request):
+    if request.method == 'GET':
+        return render(request, 'orders.html')
+
+@csrf_exempt
+def create_order(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            total = data.get("total")
+            restaurant_id = data.get("restaurant_id")
+            user_id = data.get("user_id")
+
+            # 确保 restaurant 和 user 存在
+            restaurant = Restaurant.objects.get(id=restaurant_id)
+            user = User.objects.get(id=user_id)
+
+            # 创建订单
+            order = Order.objects.create(
+                user=user,
+                restaurant=restaurant,
+                total=total
+            )
+
+            return JsonResponse({"success": True, "order_id": order.id})
+        except Restaurant.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Restaurant not found"}, status=400)
+        except User.DoesNotExist:
+            return JsonResponse({"success": False, "error": "User not found"}, status=400)
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)}, status=400)
+
+    return JsonResponse({"success": False, "error": "Invalid request"}, status=405)

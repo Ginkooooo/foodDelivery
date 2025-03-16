@@ -113,9 +113,12 @@
         </div>
     </div>
 
-    <div class="checkout-bar" data-min-order="{{ restaurant.minimum_order }}">
+    <div class="checkout-bar"
+         data-min-order="{{ restaurant.minimum_order }}"
+         data-restaurant-id="{{ restaurant.id }}"
+         data-user-id="{{ user.id }}">
         <div class="total-price">
-          Total Price：￡<span id="totalAmount">0.00</span>
+          Total Price：<span id="totalAmount">0.00</span>￡
         </div>
         <button class="pay-button">Confirm and Pay</button>
         <button class="back-button" onclick="window.location.href='/merchant/{{ restaurant.id }}'">Back</button>
