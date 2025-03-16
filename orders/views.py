@@ -122,14 +122,19 @@ def create_order(request):
 
 
 #商家端订单列表
-def merchant_orders_list(request,pk):
-    # 获取当前用户的所有订单，并预取关联的订单项和商品
+def merchant_orders_list(request, pk):
+    # 获取当前餐厅的所有订单
     orders = Order.objects.filter(restaurant_id=pk).prefetch_related(
         'orderitem_set__item'
-    ).select_related('restaurant')
+    ).select_related('user', 'restaurant')
 
-    # 为每个订单构造商品信息列表（不直接操作多对多字段）
+    # 按新状态分类
+    preparing_orders = []
+    finished_orders = []
+    awaiting_orders = []
+
     for order in orders:
+        # 处理订单项详情
         order.item_details = []
         for order_item in order.orderitem_set.all():
             order.item_details.append({
@@ -138,7 +143,38 @@ def merchant_orders_list(request,pk):
                 'quantity': order_item.quantity,
                 'subtotal': order_item.item.price * order_item.quantity
             })
-        # 计算总价（假设配送费为3）
+
+        # 计算总价
         order.calculated_total = sum(item['subtotal'] for item in order.item_details) + 3
 
-    return render(request, 'merchant_orders.html', {'orders': orders})
+        # 获取用户地址
+        order.user_address = order.user.address_set.first() if order.user else None
+
+        # 按新状态分类
+        if order.status == 'P':
+            preparing_orders.append(order)
+        elif order.status == 'C':
+            finished_orders.append(order)
+        elif order.status == 'X':
+            awaiting_orders.append(order)
+
+    return render(request, 'merchant_orders.html', {
+        'preparing_orders': preparing_orders,
+        'finished_orders': finished_orders,
+        'awaiting_orders': awaiting_orders
+    })
+
+
+def merchant_confirm_await(request):
+    if request.method == "GET":
+        return render(request, 'merchant_confirm_await.html')
+
+
+def merchant_confirm_finish(request):
+    if request.method == "GET":
+        return render(request, 'merchant_confirm_finish.html')
+
+
+def merchant_confirm_preparing(request):
+    if request.method == "GET":
+        return render(request, 'merchant_confirm_preparing.html')

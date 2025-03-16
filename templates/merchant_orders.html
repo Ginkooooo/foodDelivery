@@ -15,23 +15,41 @@
         <a href="/merchant/edit" class="btn btn-info btn-sm">Return</a>
     </div>
     <br><br><br>
+
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title">Preparing</h3>
         </div>
         <div class="panel-body">
+            {% for order in pending_orders %}
             <div class="list-group">
                 <div class="list-group-item active">
-                    <a href="merchant_confirm_preparing.html">
-                        <h4 class="list-group-item-heading">Shellie Liu</h4>
+                    <a href="/merchant/confirm/preparing">
+                        <h4 class="list-group-item-heading">
+                            {{ order.user.username }}
+                            <small class="pull-right">Order #{{ order.id }}</small>
+                        </h4>
                     </a>
                     <p class="list-group-item-text">
-                        Address: <br>
-                        item information: <br>
-                        total price:5￡ <br>
+                        {% if order.user_address %}
+                        Address: {{ order.user_address.address }}<br>
+                        {% endif %}
+                        Items:
+                        <ul>
+                            {% for item in order.item_details %}
+                            <li>{{ item.name }} x {{ item.quantity }} (£{{ item.subtotal|floatformat:2 }})</li>
+                            {% endfor %}
+                        </ul>
+                        Delivery Fee: £3.00<br>
+                        Total Price: £{{ order.calculated_total|floatformat:2 }}
                     </p>
                 </div>
             </div>
+            {% empty %}
+            <div class="list-group-item">
+                <p class="text-muted">No pending orders</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
 
@@ -41,7 +59,7 @@
         </div>
         <div class="panel-body">
             <div class="list-group list-group-item active">
-                <a href="merchant_confirm_await.html">
+                <a href="/merchant/confirm/await">
                     <h4 class="list-group-item-heading">Charlie Zhou</h4>
                 </a>
                 <p class="list-group-item-text">
@@ -59,7 +77,7 @@
         </div>
         <div class="panel-body">
             <div class="list-group list-group-item active">
-                <a href="merchant_confirm_finish.html">
+                <a href="/merchant/confirm/finish">
                     <h4 class="list-group-item-heading">Zhang San</h4>
                 </a>
                 <p class="list-group-item-text">

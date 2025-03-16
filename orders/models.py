@@ -5,9 +5,9 @@ from users.models import User
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('P', 'Pending'),
-        ('C', 'Completed'),
-        ('X', 'Cancelled')
+        ('P', 'Preparing'),
+        ('C', 'Finished'),
+        ('X', 'Awaiting')
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
