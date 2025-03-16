@@ -69,16 +69,30 @@
         {% for order in orders %}
         <div class="panel-body">
             <div class="list-group list-group-item active">
-                <a>
-                    <h4 class="list-group-item-heading">{{ order.restaurant.name }}</h4>
-                </a>    
-                <p class="list-group-item-text">
-                    item information 1 &nbsp; item price <br>
-                    item information 2 &nbsp; item price <br>
-                    item information 3 &nbsp; item price <br>
-                    total price:5￡
-                </p>
+                <div class="list-group-item-heading">
+                    <h4>{{ order.restaurant.name }}</h4>
+                    <small>Order ID: {{ order.id }} | Status: {{ order.get_status_display }}</small>
+                </div>
+                <div class="list-group-item-text">
+                    {% for item in order.item_details %}
+                    <div class="order-item">
+                        <div class="item-name">{{ item.name }}</div>
+                        <div class="item-price">
+                            £{{ item.price|floatformat:2 }} x {{ item.quantity }}
+                            <span class="text-muted">(£{{ item.subtotal|floatformat:2 }})</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="total-section">
+                        <strong>Delivery Fee:</strong> £3.00<br>
+                        <strong>Total Price:</strong> £{{ order.calculated_total|floatformat:2 }}
+                    </div>
+                </div>
             </div>
+        </div>
+        {% empty %}
+        <div class="panel-body">
+            <div class="alert alert-info">No orders found.</div>
         </div>
         {% endfor %}
     </div>

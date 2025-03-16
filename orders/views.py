@@ -1,5 +1,6 @@
 import json
 
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -44,13 +45,29 @@ def pay(request):
     if request.method == 'GET':
         return render(request, 'pay.html')
 
+#用户端订单列表
 def orders_list(request):
-    user_id = request.user.id
-    orders = Order.objects.filter(user_id=user_id)
+    # 获取当前用户的所有订单，并预取关联的订单项和商品
+    orders = Order.objects.filter(user=request.user).prefetch_related(
+        'orderitem_set__item'
+    ).select_related('restaurant')
 
-    if request.method == 'GET':
-        return render(request, 'orders.html', {'orders': orders})
+    # 为每个订单构造商品信息列表（不直接操作多对多字段）
+    for order in orders:
+        order.item_details = []  # 使用新字段名避免冲突
+        for order_item in order.orderitem_set.all():
+            order.item_details.append({
+                'name': order_item.item.name,
+                'price': order_item.item.price,
+                'quantity': order_item.quantity,
+                'subtotal': order_item.item.price * order_item.quantity
+            })
+        # 计算总价（假设配送费为3）
+        order.calculated_total = sum(item['subtotal'] for item in order.item_details) + 3
 
+    return render(request, 'orders.html', {'orders': orders})
+
+#创建订单
 @csrf_exempt
 def create_order(request):
     if request.method == "POST":
@@ -69,27 +86,28 @@ def create_order(request):
             restaurant = Restaurant.objects.get(id=restaurant_id)
             user = User.objects.get(id=user_id)
 
-            # 创建订单
-            order = Order.objects.create(
-                user=user,
-                restaurant=restaurant,
-                total=total,
-                status='P'
-            )
+            with transaction.atomic():
+                # 创建订单
+                order = Order.objects.create(
+                    user=user,
+                    restaurant=restaurant,
+                    total=total,
+                    status='P'
+                )
 
-            # 创建订单项
-            for item_data in items:
-                try:
-                    menu_item = MenuItem.objects.get(id=item_data["item_id"])
-                    OrderItem.objects.create(
-                        order=order,
-                        item=menu_item,
-                        quantity=item_data["quantity"]
-                    )
-                except MenuItem.DoesNotExist:
-                    print(f"MenuItem {item_data['item_id']} not found, skipping")
-                except KeyError:
-                    print("Invalid item data format, skipping")
+                # 批量创建订单项
+                order_items = []
+                for item_data in items:
+                    try:
+                        menu_item = MenuItem.objects.get(id=item_data["item_id"])
+                        order_items.append(OrderItem(
+                            order=order,
+                            item=menu_item,
+                            quantity=item_data["quantity"]
+                        ))
+                    except MenuItem.DoesNotExist:
+                        print(f"MenuItem {item_data['item_id']} not found, skipping")
+                OrderItem.objects.bulk_create(order_items)  # 批量插入
 
             return JsonResponse({"success": True, "order_id": order.id})
 
