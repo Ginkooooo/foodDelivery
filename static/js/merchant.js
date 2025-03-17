@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector(".pay-button").addEventListener("click", function(e) {
         e.preventDefault();
 
+        const restaurantId = document.querySelector('.panel-heading').dataset.restaurantId;
+        if (!restaurantId) {
+            alert('Invalid restaurant selection');
+            return;
+        }
+
         let selectedItems = [];
         quantitySelects.forEach(select => {
             let quantity = parseInt(select.value);
@@ -37,6 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // **构造 URL 参数**
         let params = new URLSearchParams();
+        params.append("restaurant_id", restaurantId);
+        console.log(restaurantId);
         selectedItems.forEach(item => {
             params.append("items", `${item.id}:${item.quantity}`);  // 以 "id:数量" 方式传递
         });

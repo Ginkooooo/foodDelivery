@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,9 +21,9 @@
     <div class="profile-header clearfix" style="background-color: rgb(175, 202, 227);">
         <div class="user-info col-xs-9">
             <strong>Order deliver to:</strong>
-            <p>2 Beith Street, Glasgow, G11 6EF</p>
-            <p>Shellie Liu</p>
-            <p><abbr title="Phone Number">P:</abbr> (44) 07421051834</p>
+            <p>{{ order_address.address }}</p>
+            <p>{{ order_address.name }}</p>
+            <p><abbr title="Phone Number">P:</abbr>{{ order_address.tel }}</p>
         </div>
     </div>
 
@@ -32,48 +33,26 @@
         </div>
         <div class="panel-body">
             <ul class="list-group">
-                <li class="list-group-item" data-product-id="001">
+                {% for item in menu_items %}
+                <li class="list-group-item" data-product-id="{{ item.id }}">
                     <div class="row vertical-center">
-                        <div class="col-xs-3 col-sm-2">                        
-                            <img src="/media/DASANI® Bottled Water.png" alt="" class="img-responsive product-img">
+                        <div class="col-xs-3 col-sm-2">
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}" class="img-responsive product-img">
                         </div>
                         <div>
-                            <h4 class="product-title">DASANI® Bottled Water</h4>
+                            <h4 class="product-title">{{ item.name }}</h4>
+                            {% with quantities|default_if_none:""|slice:forloop.counter0|last as quantity %}
                             <div class="quantity-display">
-                                quantity: 
-                                <input type="number" 
-                                       class="quantity-select" 
-                                       value="1" 
-                                       min="0" 
-                                       style="width: 60px; margin-left: 8px;">
+                                quantity: {{ quantities_dict|get_item:item.id|default:0 }}
                             </div>
+                            {% endwith %}
                         </div>
                         <div class="col-xs-3 col-sm-2 text-right" style="position: absolute;transform: translateY(-30%);">
-                            <p class="price">£1.69</p>
+                            <p class="price">£{{ item.price }}</p>
                         </div>
-                    </div>    
+                    </div>
                 </li>
-                <li class="list-group-item" data-product-id="002">
-                    <div class="row vertical-center">
-                        <div class="col-xs-3 col-sm-2">                        
-                            <img src="/media/Hot Fudge Sundae.png" alt="" class="img-responsive product-img">
-                        </div>
-                        <div>
-                            <h4 class="product-title">Hot Fudge Sundae</h4>
-                            <div class="quantity-display">
-                                quantity: 
-                                <input type="number" 
-                                       class="quantity-select" 
-                                       value="1" 
-                                       min="0" 
-                                       style="width: 60px; margin-left: 8px;">
-                            </div>
-                        </div>
-                        <div class="col-xs-3 col-sm-2 text-right" style="position: absolute;transform: translateY(-30%);">
-                            <p class="price">£3.39</p>
-                        </div>
-                    </div>    
-                </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
@@ -82,11 +61,11 @@
         <div class="total-price">
           Total Price：<span id="totalAmount">0.00</span>￡
         </div>
-        <button class="back-button" onclick="window.location.href='merchant_orders.html'">Back</button>
+        <button class="back-button" data-order-id="{{ order.id }}" onclick="window.location.href='/merchant/orders/{{ restaurant_id }}'">Finish</button>
     </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="/static/js/confirm.js"></script>
+<script src="/static/js/merchant_confirm_preparing.js"></script>
 </body>
 </html>

@@ -5,7 +5,8 @@ from django.views.generic import TemplateView
 
 from restaurants.views import restaurant_list, restaurant_search, register_merchant, create_menu_item, merchant_edit_list, merchant_edit_change, merchant_edit_delete, item_list
 from users.views import register, login_view, address_list, add_address, delete_address, edit_address_confirm, edit_address
-from orders.views import confirm_order, pay, orders_list, create_order, merchant_orders_list, merchant_confirm_await, merchant_confirm_finish, merchant_confirm_preparing
+from orders.views import confirm_order, pay, orders_list, create_order, merchant_orders_list, merchant_confirm_await, \
+    merchant_confirm_finish, merchant_confirm_preparing, update_order_status
 
 urlpatterns = [
     path('home/', restaurant_list, name='home'),  # 主页面
@@ -16,9 +17,9 @@ urlpatterns = [
     path('merchant/edit/change/<int:pk>/', merchant_edit_change, name='merchant_edit_change'),
     path('merchant/edit/delete/<int:pk>/', merchant_edit_delete, name='merchant_edit_delete'),
     path('merchant/orders/<int:pk>/', merchant_orders_list, name='merchant_orders_list'),
-    path('merchant/confirm/await/', merchant_confirm_await, name='merchant_confirm_await'),
-    path('merchant/confirm/preparing/', merchant_confirm_preparing, name='merchant_confirm_preparing'),
-    path('merchant/confirm/finish/', merchant_confirm_finish, name='merchant_confirm_finish'),
+    path('merchant/confirm/await/<int:oid>', merchant_confirm_await, name='merchant_confirm_await'),
+    path('merchant/confirm/preparing/<int:oid>', merchant_confirm_preparing, name='merchant_confirm_preparing'),
+    path('merchant/confirm/finish/<int:oid>', merchant_confirm_finish, name='merchant_confirm_finish'),
     path('register/', register, name='register'),
     path('register/merchant/', register_merchant, name='register_merchant'),
     path('info/', TemplateView.as_view(template_name='info.html'), name='info'),
@@ -32,6 +33,7 @@ urlpatterns = [
     path('address/editcon/<int:pk>/', edit_address_confirm, name='edit_address_confirm'),
     path('address/edit/<int:pk>/', edit_address, name='edit_address'),
     path('pay/<str:amount>/', pay, name='pay'),
+    path('update-order-status/', update_order_status, name='update_order_status'),
 ]
 
 if settings.DEBUG:

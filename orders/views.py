@@ -12,7 +12,7 @@ from users.models import Address, User
 
 #确认订单
 def confirm_order(request):
-    restaurant_id = request.session.get('restaurant_id')
+    restaurant_id = request.GET.get('restaurant_id')
     restaurant = Restaurant.objects.get(id=restaurant_id)
     address_id = request.GET.get('address_id')
     if address_id:
@@ -94,7 +94,7 @@ def create_order(request):
                     user=user,
                     restaurant=restaurant,
                     total=total,
-                    status='P'
+                    status='X'
                 )
 
                 # 批量创建订单项
@@ -167,19 +167,69 @@ def merchant_orders_list(request, pk):
     })
 
 
-def merchant_confirm_await(request):
+def merchant_confirm_await(request,oid):
     restaurant_id = request.session.get('restaurant_id')
+    order = Order.objects.get(id=oid)
+    order_address = Address.objects.filter(user=order.user).first()
+    order_items = OrderItem.objects.filter(order=order)
+    items_ids = order_items.values_list('item_id', flat=True)
+    menu_items = MenuItem.objects.filter(id__in=items_ids)
+    quantities = list(order_items.values_list('quantity', flat=True))
+    quantities_dict = dict(zip(items_ids, quantities))
     if request.method == "GET":
-        return render(request, 'merchant_confirm_await.html', {'restaurant_id': restaurant_id})
+        return render(request, 'merchant_confirm_await.html', {'restaurant_id': restaurant_id, 'order': order, 'order_address': order_address, 'order_items': order_items, 'menu_items': menu_items, 'quantities': quantities, 'quantities_dict': quantities_dict})
 
 
-def merchant_confirm_finish(request):
+def merchant_confirm_finish(request,oid):
     restaurant_id = request.session.get('restaurant_id')
+    order = Order.objects.get(id=oid)
+    order_address = Address.objects.filter(user=order.user).first()
+    order_items = OrderItem.objects.filter(order=order)
+    items_ids = order_items.values_list('item_id', flat=True)
+    menu_items = MenuItem.objects.filter(id__in=items_ids)
+    quantities = order_items.values_list('quantity', flat=True)
+    quantities_dict = dict(zip(items_ids, quantities))
     if request.method == "GET":
-        return render(request, 'merchant_confirm_finish.html', {'restaurant_id': restaurant_id})
+        return render(request, 'merchant_confirm_finish.html', {'restaurant_id': restaurant_id, 'order': order, 'order_address': order_address, 'order_items': order_items, 'menu_items': menu_items, 'quantities': quantities, 'quantities_dict': quantities_dict})
 
 
-def merchant_confirm_preparing(request):
+def merchant_confirm_preparing(request,oid):
     restaurant_id = request.session.get('restaurant_id')
+    order = Order.objects.get(id=oid)
+    order_address = Address.objects.filter(user=order.user).first()
+    order_items = OrderItem.objects.filter(order=order)
+    items_ids = order_items.values_list('item_id', flat=True)
+    menu_items = MenuItem.objects.filter(id__in=items_ids)
+    quantities = order_items.values_list('quantity', flat=True)
+    quantities_dict = dict(zip(items_ids, quantities))
     if request.method == "GET":
-        return render(request, 'merchant_confirm_preparing.html', {'restaurant_id': restaurant_id})
+        return render(request, 'merchant_confirm_preparing.html', {'restaurant_id': restaurant_id, 'order': order, 'order_address': order_address, 'order_items': order_items, 'menu_items': menu_items, 'quantities': quantities, 'quantities_dict': quantities_dict})
+
+
+
+
+@csrf_exempt
+def update_order_status(request):
+    if request.method == "POST":
+        try:
+            order_id = request.POST.get('order_id')
+            new_status = request.POST.get('status')
+            print("order_id", order_id)
+
+            if not order_id:
+                return JsonResponse({"success": False, "error": "Order ID is required"}, status=400)
+
+            # 获取订单并更新状态
+            try:
+                order = Order.objects.get(id=order_id)
+                order.status = new_status
+                order.save()
+
+                return JsonResponse({"success": True, "message": "Order status updated!"})
+            except Order.DoesNotExist:
+                return JsonResponse({"success": False, "error": "Order not found"}, status=404)
+
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)}, status=500)
+
+    return JsonResponse({"success": False, "error": "Invalid request"}, status=400)

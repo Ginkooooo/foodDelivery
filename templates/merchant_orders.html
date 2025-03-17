@@ -16,42 +16,6 @@
     </div>
     <br><br><br>
 
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title">Preparing</h3>
-        </div>
-        <div class="panel-body">
-            {% for order in preparing_orders %}
-            <div class="list-group">
-                <div class="list-group-item active">
-                    <a href="/merchant/confirm/preparing">
-                        <h4 class="list-group-item-heading">
-                            {{ order.user.username }}
-                            <small class="pull-right">Order #{{ order.id }}</small>
-                        </h4>
-                    </a>
-                    <p class="list-group-item-text">
-                        {% if order.user_address %}
-                        Address: {{ order.user_address.address }}<br>
-                        {% endif %}
-                        Total Price: £{{ order.total|floatformat:2 }}<br>
-                        Items Information:
-                        <ul>
-                            {% for item in order.item_details %}
-                            <li>{{ item.name }} x {{ item.quantity }} (£{{ item.subtotal|floatformat:2 }})</li>
-                            {% endfor %}
-                        </ul>
-                    </p>
-                </div>
-            </div>
-            {% empty %}
-            <div class="list-group-item">
-                <p class="text-muted">No Preparing orders</p>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-
     <div class="panel panel-danger">
         <div class="panel-heading">
             <h3 class="panel-title">Await</h3>
@@ -60,7 +24,7 @@
             {% for order in awaiting_orders %}
             <div class="list-group">
                 <div class="list-group-item active">
-                    <a href="/merchant/confirm/await">
+                    <a href="/merchant/confirm/await/{{ order.id }}">
                         <h4 class="list-group-item-heading">
                             {{ order.user.username }}
                             <small class="pull-right">Order #{{ order.id }}</small>
@@ -88,6 +52,42 @@
         </div>
     </div>
 
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Preparing</h3>
+        </div>
+        <div class="panel-body">
+            {% for order in preparing_orders %}
+            <div class="list-group">
+                <div class="list-group-item active">
+                    <a href="/merchant/confirm/preparing/{{ order.id }}">
+                        <h4 class="list-group-item-heading">
+                            {{ order.user.username }}
+                            <small class="pull-right">Order #{{ order.id }}</small>
+                        </h4>
+                    </a>
+                    <p class="list-group-item-text">
+                        {% if order.user_address %}
+                        Address: {{ order.user_address.address }}<br>
+                        {% endif %}
+                        Total Price: £{{ order.total|floatformat:2 }}<br>
+                        Items Information:
+                        <ul>
+                            {% for item in order.item_details %}
+                            <li>{{ item.name }} x {{ item.quantity }} (£{{ item.subtotal|floatformat:2 }})</li>
+                            {% endfor %}
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="list-group-item">
+                <p class="text-muted">No Preparing orders</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <div class="panel panel-success">
         <div class="panel-heading">
             <h3 class="panel-title">Finished</h3>
@@ -96,7 +96,7 @@
             {% for order in finished_orders %}
             <div class="list-group">
                 <div class="list-group-item active">
-                    <a href="/merchant/confirm/finish/">
+                    <a href="/merchant/confirm/finish/{{ order.id }}">
                         <h4 class="list-group-item-heading">
                             {{ order.user.username }}
                             <small class="pull-right">Order #{{ order.id }}</small>

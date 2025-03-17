@@ -227,9 +227,9 @@ def merchant_edit_delete(request, pk):
 def item_list(request,pk):
     restaurant = Restaurant.objects.get(id=pk)
     items = MenuItem.objects.filter(restaurant_id=restaurant.id)
-
     if request.method == 'GET':
         return render(request, 'merchant.html', {
             'restaurant_name': restaurant.name,
-            'items': items
+            'items': items,
+            'restaurant': restaurant,
         })
