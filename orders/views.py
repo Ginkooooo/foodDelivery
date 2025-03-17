@@ -150,7 +150,7 @@ def merchant_orders_list(request, pk):
         order.calculated_total = sum(item['subtotal'] for item in order.item_details) + 3
 
         # 获取用户地址
-        order.user_address = Address.objects.filter(user=order.user).first()
+        order.user_address = Address.objects.filter(user=request.user).first()
 
         # 按新状态分类
         if order.status == 'P':
