@@ -112,3 +112,12 @@
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(126, 187, 213, 0.3);
 }
+.Back{
+    left: 5%;
+    font-size: 20px;
+    padding: 0;
+    width:100%;
+}
+.back-link{
+    white-space: nowrap;
+}
