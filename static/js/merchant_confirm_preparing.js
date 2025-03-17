@@ -12,7 +12,6 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     alert("Order status updated!");
-                    window.location.href = "/merchant/orders/{{ restaurant_id }}";  // 返回订单页面
                 } else {
                     alert("Failed to update order status.");
                 }
