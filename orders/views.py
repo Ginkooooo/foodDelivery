@@ -168,15 +168,18 @@ def merchant_orders_list(request, pk):
 
 
 def merchant_confirm_await(request):
+    restaurant_id = request.session.get('restaurant_id')
     if request.method == "GET":
-        return render(request, 'merchant_confirm_await.html')
+        return render(request, 'merchant_confirm_await.html', {'restaurant_id': restaurant_id})
 
 
 def merchant_confirm_finish(request):
+    restaurant_id = request.session.get('restaurant_id')
     if request.method == "GET":
-        return render(request, 'merchant_confirm_finish.html')
+        return render(request, 'merchant_confirm_finish.html', {'restaurant_id': restaurant_id})
 
 
 def merchant_confirm_preparing(request):
+    restaurant_id = request.session.get('restaurant_id')
     if request.method == "GET":
-        return render(request, 'merchant_confirm_preparing.html')
+        return render(request, 'merchant_confirm_preparing.html', {'restaurant_id': restaurant_id})
