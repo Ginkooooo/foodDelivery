@@ -54,3 +54,34 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Get all list items
+  const listItems = document.querySelectorAll('.list-group-item');
+
+  // Hide all items initially
+  listItems.forEach(item => {
+    item.style.opacity = '0';
+    item.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+  });
+
+  // Function to animate items sequentially
+  function animateItems(index) {
+    if (index >= listItems.length) return;
+
+    const item = listItems[index];
+
+    // Trigger animation
+    setTimeout(() => {
+      item.style.opacity = '1';
+
+      // Animate next item
+      animateItems(index + 1);
+    }, 100); // 200ms delay between each item
+  }
+
+  // Start animation after a small delay
+  setTimeout(() => {
+    animateItems(0);
+  }, 200);
+});

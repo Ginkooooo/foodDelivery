@@ -11,11 +11,8 @@
 <body>
 
     <div class="top-space"></div>
-    <div class="col-xs-4">
-        <a href="/merchant/orders/{{ restaurant_id }}" class="btn btn-info btn-sm">View My Orders</a>
-    </div>
-    <div class="col-xs-4">
-        <a href="/login" class="btn btn-info btn-sm">Log Out</a>
+    <div class="col-xs-4 logout-right logout-container">
+        <a href="/login" class="logout-link"><img src="/static/bootstrap-icons-1.11.3/box-arrow-in-left.svg" alt="">Log Out</a>
     </div>
     <br>
     <br>
@@ -23,13 +20,17 @@
       <div class="panel-heading">
         <div class="row">
             <div class="col-xs-8">
-                <h3 class="panel-title">{{ restaurant_name }}</h3>
+                <h2 class="panel-title">{{ restaurant_name }}</h2>
             </div>
         </div>
       </div>
 
       <div class="panel-body">
           <ul class="list-group">
+              <li class="list-group-item" id="ViewOrders">
+                  <a href="/merchant/orders/{{ restaurant_id }}">View My Orders</a>
+              </li>
+              <br>
               {% for item in items %}
               <li class="list-group-item" data-item-id="{{ item.id }}">
                   <div class="row vertical-center">

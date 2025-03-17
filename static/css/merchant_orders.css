@@ -107,3 +107,12 @@ img {
     color: #666;
     font-size: 0.9em;
 }
+.Back{
+    left: 5%;
+    font-size: 20px;
+    padding: 0;
+    width:100%;
+}
+.back-link{
+    white-space: nowrap;
+}
