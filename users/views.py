@@ -1,5 +1,6 @@
 import json
 import re
+import traceback
 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -23,10 +24,13 @@ def register(request):
 
     if request.method == 'POST':
         try:
+            print("Processing POST request...")
             # 解析JSON数据
             try:
                 data = json.loads(request.body)
-            except json.JSONDecodeError:
+                print("Received JSON data:", data)
+            except json.JSONDecodeError as e:
+                print("JSON Decode Error:", str(e))
                 return JsonResponse({
                     'success': False,
                     'error': 'Invalid JSON format'
@@ -39,53 +43,60 @@ def register(request):
             for field in required_fields:
                 if not data.get(field):
                     errors[field] = 'This field is required'
+            print("Field validation errors:", errors)
 
             # 邮箱格式验证
             if data.get('email'):
                 try:
                     validate_email(data['email'])
-                except ValidationError:
+                except ValidationError as e:
                     errors['email'] = 'Invalid email format'
+                    print("Email validation error:", str(e))
 
             # 手机号格式验证（11位数字）
             if data.get('phone') and not re.match(r'^\d{11}$', data['phone']):
                 errors['phone'] = 'Phone number must be 11 digits'
+                print("Phone validation failed:", data['phone'])
 
             if errors:
+                print("Returning validation errors:", errors)
                 return JsonResponse({  # 返回JSON
                     'success': False,
                     'errors': errors
                 }, status=400)
 
              # 创建用户对象
-            user = User.objects.create(
-                username=data['username'],
-                gender=data.get('gender', ''),
-                phone=data['phone'],
-                email=data['email'],
-                password=make_password(data['password'])
-            )
-
-            return JsonResponse({
-                'success': True,
-                'message': 'Registration successful!'
-            }, status=201)
-
-
-        except IntegrityError as e:
-            return JsonResponse({
-                'success': False,
-                'errors': {
-                    'database': str(e)
-                }
-            }, status=400)
+            try:
+                print("Creating user with data:", data)
+                user = User.objects.create(
+                    username=data['username'],
+                    gender=data.get('gender', ''),
+                    phone=data['phone'],
+                    email=data['email'],
+                    password=make_password(data['password'])
+                )
+                print("User created successfully:", user)
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Registration successful!'
+                }, status=201)
+            except Exception as e:
+                print("Database error:", str(e))
+                traceback.print_exc()
+                return JsonResponse({
+                    'success': False,
+                    'error': f'Database error: {str(e)}'
+                }, status=500)
 
         except Exception as e:
+            print("Unexpected error:", str(e))
+            traceback.print_exc()
             return JsonResponse({
                 'success': False,
-                'error': str(e)
+                'error': f'Unexpected error: {str(e)}'
             }, status=500)
 
+    print("Invalid request method:", request.method)
     return JsonResponse({  # 非POST请求返回JSON
         'error': 'Method not allowed'
     }, status=405)
