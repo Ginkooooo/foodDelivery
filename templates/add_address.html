@@ -82,7 +82,8 @@
                     <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary extended-btn">Save Address</button>
-                <a href="/address/" class="btn btn-danger extended-btn">Cancel</a>
+                <a href="{% url 'address_list' %}?{{ preserve_params }}" class="btn btn-danger extended-btn">Cancel</a>
+                <input type="hidden" id="preserveParams" value="{{ preserve_params }}">
             </form>
         </div>
     </div>

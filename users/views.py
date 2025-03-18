@@ -2,6 +2,7 @@ import json
 import re
 import traceback
 
+from urllib.parse import urlencode
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
@@ -10,6 +11,7 @@ from django.core.validators import validate_email
 from django.db import IntegrityError, transaction
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from restaurants.models import Restaurant
@@ -158,12 +160,13 @@ def login_view(request):
 @login_required
 def address_list(request):
     addresses = request.user.addresses.all().order_by('-created_at')
-    restaurant_id = request.GET.get('restaurant_id')
-    items = request.GET.getlist('items')  # 获取多个items参数
+    params = {
+        'restaurant_id': request.GET.get('restaurant_id'),
+        'items': request.GET.getlist('items')
+    }
     return render(request, 'address.html', {
         'addresses': addresses,
-        'restaurant_id': restaurant_id,
-        'items': items,
+        'preserve_params': urlencode(params, doseq=True)
     })
 
 #删除地址
@@ -176,8 +179,11 @@ def delete_address(request, pk):
 #增加地址
 @login_required
 def add_address(request):
+    preserve_params = request.GET.urlencode()
+
     if request.method == 'POST':
         try:
+
             data = json.loads(request.body)
             Address.objects.create(
                 user=request.user,
@@ -185,10 +191,15 @@ def add_address(request):
                 tel=data['tel'],
                 address=data['address']
             )
-            return JsonResponse({'success': True, 'redirect': '/address/'})
+
+            return JsonResponse({'success': True, 'redirect': f"{reverse('address_list')}?{preserve_params}"})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)})
-    return render(request, 'add_address.html')
+
+    preserve_params = request.GET.urlencode()
+    return render(request, 'add_address.html', {
+        'preserve_params': preserve_params
+    })
 
 #编辑地址
 @login_required

@@ -84,13 +84,13 @@
                         type="radio"
                         name="addressRadio"
                         value="{{ address.id }}"
-                        onchange="window.location.href='{% url 'confirm_order' %}?address_id={{ address.id }}{% if restaurant_id %}&restaurant_id={{ restaurant_id|urlencode }}{% endif %}{% for item in items %}&items={{ item|urlencode }}{% endfor %}'"
+                        onchange="window.location.href='{% url 'confirm_order' %}?address_id={{ address.id }}&{{ preserve_params }}'"
                         style="margin-right: 85px;"
                     >
                 </li>
                 {% endfor %}
                 <li class="list-group-item text-center">
-                    <a href="{% url 'add_address' %}">
+                    <a href="{% url 'add_address' %}?{{ preserve_params }}">
                         <img src="/static/bootstrap-icons-1.11.3/house-add-fill.svg" alt="">
                     <h5>Add a new address</h5>
                     </a>

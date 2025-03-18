@@ -1,29 +1,36 @@
-document.getElementById('addressForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('addressForm');
+    const preserveParams = document.getElementById('preserveParams').value;
 
-    const formData = {
-        name: document.getElementById('name').value,
-        tel: document.getElementById('tel').value,
-        address: document.getElementById('address').value
-    };
-
-    try {
-        const response = await fetch('/address/add/', {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        fetch(`${window.location.pathname}?${preserveParams}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                'X-CSRFToken': getCSRFToken()
             },
-            body: JSON.stringify(formData)
-        });
+            body: JSON.stringify({
+                name: document.getElementById('name').value,
+                tel: document.getElementById('tel').value,
+                address: document.getElementById('address').value
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = data.redirect;
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
 
-        const result = await response.json();
-        if (result.success) {
-            window.location.href = result.redirect;
-        } else {
-            alert('Error: ' + result.error);
-        }
-    } catch (error) {
-        alert('Network error: ' + error.message);
+    function getCSRFToken() {
+        return document.cookie
+            .split('; ')
+            .find(row => row.startsWith('csrftoken='))
+            ?.split('=')[1] || '';
     }
 });
