@@ -31,7 +31,7 @@ function debounceSubmit(fn, delay) {
 
         // 添加视觉反馈
         form.querySelector('button[type="submit"]').disabled = true;
-        form.querySelector('button[type="submit"]').textContent = '提交中...';
+        form.querySelector('button[type="submit"]').textContent = 'Submitting...';
 
         timer = setTimeout(() => {
             timer = null;
@@ -44,7 +44,7 @@ function debounceSubmit(fn, delay) {
         if (result && result.finally) {
             result.finally(() => {
                 form.querySelector('button[type="submit"]').disabled = false;
-                form.querySelector('button[type="submit"]').textContent = '立即注册';
+                form.querySelector('button[type="submit"]').textContent = 'Register now';
             });
         }
 
@@ -92,19 +92,19 @@ async function handleSubmit(e) {
 
         if (!response.ok) throw result; // 统一错误处理
 
-        alert('注册成功！');
+        alert('Register Success');
         window.location.href = '/login';
 
     } catch (error) {
         // 增强错误处理
         const errorMessage = error.errors
             ? Object.entries(error.errors).map(([k,v]) => `${k}: ${v}`).join('\n')
-            : (error.message || '未知错误');
+            : (error.message || 'Unknown error');
 
         alert(`注册失败：\n${errorMessage}`);
     } finally {
         // 确保恢复按钮状态
         submitButton.disabled = false;
-        submitButton.textContent = '立即注册';
+        submitButton.textContent = 'Register now';
     }
 }

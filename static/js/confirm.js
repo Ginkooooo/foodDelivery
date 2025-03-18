@@ -63,7 +63,13 @@ document.addEventListener("DOMContentLoaded", function () {
        .then(response => response.json())
        .then(data => {
            if (data.success) {
-               window.location.href = "/pay/" + totalAmount.toFixed(2);
+               const itemsParam = Array.from(document.querySelectorAll('.list-group-item[data-product-id]'))
+               .map(item => {
+                 const id = item.dataset.productId;
+                 const quantity = item.querySelector('.quantity-display').textContent.split(': ')[1];
+                 return `${encodeURIComponent(id)}:${encodeURIComponent(quantity)}`;
+               }).join(',');
+               window.location.href = `/pay/${totalAmount.toFixed(2)}?restaurant_id=${restaurantId}&items=${itemsParam}`;
            } else {
                alert("Order creation failed: " + data.error);
            }

@@ -36,17 +36,30 @@ function showModal(type) {
 function closeModal() {
     const modal = document.querySelector('.modal-overlay');
     modal.classList.add('closing');
-    
-    // 等待动画完成
+
+    // 从URL获取参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const restaurantId = urlParams.get('restaurant_id');
+    const items = urlParams.get('items');
+
+    // 构建返回URL
+    let backUrl = '/confirm?';
+    if (restaurantId) backUrl += `restaurant_id=${restaurantId}&`;
+    if (items) {
+        items.split(',').forEach(pair => {
+            backUrl += `items=${decodeURIComponent(pair)}&`;
+        });
+    }
+    backUrl = backUrl.slice(0, -1); // 移除最后一个&
+
     setTimeout(() => {
         modal.classList.remove('show', 'closing');
         modal.classList.add('hidden');
-        
-        // todolist
+
         if(currentModalType === 'success') {
             window.location.href = '/orders';
         } else {
-            window.location.href = '/confirm';
+            window.location.href = backUrl; // 使用带参数的URL
         }
     }, 600);
 }
