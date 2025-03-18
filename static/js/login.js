@@ -52,7 +52,6 @@ async function handleLogin(event, userType) {
         }
     } catch (error) {
         alert(`Error: ${error.message}`);
-        console.error('Login error:', error);  // 调试输出
     }
 }
 

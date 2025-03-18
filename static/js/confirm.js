@@ -38,60 +38,18 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // 收集商品项数据
-        const items = [];
-        document.querySelectorAll('.list-group-item[data-product-id]').forEach(item => {
-            const itemId = item.getAttribute('data-product-id');
-            const quantity = parseInt(item.querySelector('.quantity-display').textContent.split(': ')[1]);
-            items.push({ item_id: itemId, quantity: quantity });
-        });
+        // 收集参数
+        const restaurantId = document.querySelector(".checkout-bar").dataset.restaurantId;
+        const itemsParams = Array.from(document.querySelectorAll('.list-group-item[data-product-id]'))
+            .map(item => {
+                const id = item.dataset.productId;
+                const quantity = item.querySelector('.quantity-display').textContent.split(': ')[1];
+                return `items=${encodeURIComponent(id)}%3A${encodeURIComponent(quantity)}`;
+            }).join('&');
 
-        // **发送 AJAX 请求到后端创建订单**
-        fetch("/orders/create/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": getCSRFToken()  // 获取 CSRF Token
-                },
-            body: JSON.stringify({
-                total: totalAmount,
-                restaurant_id: restaurantId,
-                user_id: userId,
-                items: items
-            })
-        })
-       .then(response => response.json())
-       .then(data => {
-           if (data.success) {
-               const itemsParam = Array.from(document.querySelectorAll('.list-group-item[data-product-id]'))
-               .map(item => {
-                 const id = item.dataset.productId;
-                 const quantity = item.querySelector('.quantity-display').textContent.split(': ')[1];
-                 return `${encodeURIComponent(id)}:${encodeURIComponent(quantity)}`;
-               }).join(',');
-               window.location.href = `/pay/${totalAmount.toFixed(2)}?restaurant_id=${restaurantId}&items=${itemsParam}`;
-           } else {
-               alert("Order creation failed: " + data.error);
-           }
-       })
-       .catch(error => {
-           console.error("Error:", error);
-           alert("An error occurred while creating the order.");
-       });
+        // 跳转到支付页（携带所有参数）
+        window.location.href = `/pay/${totalAmount.toFixed(2)}/?restaurant_id=${restaurantId}&${itemsParams}`;
     });
-
-    function getCSRFToken() {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            document.cookie.split(';').forEach(function(cookie) {
-                let trimmedCookie = cookie.trim();
-                if (trimmedCookie.startsWith("csrftoken=")) {
-                    cookieValue = trimmedCookie.split('=')[1];
-                }
-            });
-        }
-        return cookieValue;
-    }
 
     calculateTotal(); // 页面加载时计算一次
 });

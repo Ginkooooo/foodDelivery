@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             this.classList.toggle('active');
             const isActive = this.classList.contains('active');
-            console.log('收藏状态:', isActive ? '已收藏' : '未收藏');
         });
     });
 });

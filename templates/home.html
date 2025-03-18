@@ -6,7 +6,7 @@
     <title>Takeout System</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/homepage.css">
+    <link rel="stylesheet" href="/static/css/homepage.css">
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -20,7 +20,7 @@
               <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/home">
-                <img src="/static/bootstrap-icons-1.11.3/shop-window.svg" alt="" onclick="window.location.href='home.html'" style="height: 24px;">
+                <img src="/static/bootstrap-icons-1.11.3/shop-window.svg" alt="" onclick="window.location.href='/home'" style="height: 24px;">
             </a>
           </div>
       
@@ -41,17 +41,17 @@
                         {{ user.username }} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="/info"><img src="../static/bootstrap-icons-1.11.3/people.svg" alt=""> Info</a></li>
-                        <li><a href="/address"><img src="../static/bootstrap-icons-1.11.3/gear.svg" alt=""> Address</a></li>
+                        <li><a href="/info"><img src="/static/bootstrap-icons-1.11.3/people.svg" alt=""> Info</a></li>
+                        <li><a href="/address"><img src="/static/bootstrap-icons-1.11.3/gear.svg" alt=""> Address</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="/login"><img src="../static/bootstrap-icons-1.11.3/box-arrow-in-left.svg" alt=""> Log out</a></li>
+                        <li><a href="/login"><img src="/static/bootstrap-icons-1.11.3/box-arrow-in-left.svg" alt=""> Log out</a></li>
                     </ul>
                 </li>
                 {% else %}
                 <!-- 未登录状态下显示登录链接 -->
                 <li>
                     <a href="/login">
-                        <img src="../static/bootstrap-icons-1.11.3/box-arrow-in-right.svg" alt="登录图标"
+                        <img src="/static/bootstrap-icons-1.11.3/box-arrow-in-right.svg" alt="登录图标"
                              style="width: 20px; height: 20px; margin-right: 5px;">
                         Log In
                     </a>
@@ -67,7 +67,7 @@
             {% for value, label in Restaurant.CATEGORY_CHOICES %}
             <div class="col-xs-6 col-sm-4 col-md-3 food_item">
                 <a href="?category={{ value }}" class="food_link">  <!-- 添加分类参数 -->
-                    <img src="../media/{{ value }}.png" alt="{{ label }}" class="food_image">
+                    <img src="/media/{{ value }}.png" alt="{{ label }}" class="food_image">
                     <p>{{ label }}</p>
                 </a>
             </div>

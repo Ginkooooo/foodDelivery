@@ -25,7 +25,6 @@ function debounceSubmit(fn, delay) {
         const form = args[0].target;
 
         if (timer) {
-            console.log('快速点击被阻止');
             return;
         }
 

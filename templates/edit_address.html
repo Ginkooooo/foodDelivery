@@ -20,7 +20,7 @@
               <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/home">
-                <img src="/static/bootstrap-icons-1.11.3/shop-window.svg" alt="" onclick="window.location.href='home.html'" style="height: 24px;">
+                <img src="/static/bootstrap-icons-1.11.3/shop-window.svg" alt="" onclick="window.location.href='/home'" style="height: 24px;">
             </a>
           </div>
 
@@ -37,14 +37,14 @@
                 <!--登录状态下显示用户菜单 -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="../media/fastfood.png" alt="用户头像" class="img-circle" style="width: 30px; height: 30px; margin-right: 5px;">
+                        <img src="/media/fastfood.png" alt="用户头像" class="img-circle" style="width: 30px; height: 30px; margin-right: 5px;">
                         {{ user.username }} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="/info"><img src="../static/bootstrap-icons-1.11.3/people.svg" alt=""> Info</a></li>
-                        <li><a href="/address"><img src="../static/bootstrap-icons-1.11.3/gear.svg" alt=""> Address</a></li>
+                        <li><a href="/info"><img src="/static/bootstrap-icons-1.11.3/people.svg" alt=""> Info</a></li>
+                        <li><a href="/address"><img src="/static/bootstrap-icons-1.11.3/gear.svg" alt=""> Address</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="/login"><img src="../static/bootstrap-icons-1.11.3/box-arrow-in-left.svg" alt=""> Log out</a></li>
+                        <li><a href="/login"><img src="/static/bootstrap-icons-1.11.3/box-arrow-in-left.svg" alt=""> Log out</a></li>
                     </ul>
                 </li>
                 {% else %}

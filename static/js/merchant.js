@@ -39,18 +39,15 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        console.log("Selected Items Data:", selectedItems);
 
         // **构造 URL 参数**
         let params = new URLSearchParams();
         params.append("restaurant_id", restaurantId);
-        console.log(restaurantId);
         selectedItems.forEach(item => {
             params.append("items", `${item.id}:${item.quantity}`);  // 以 "id:数量" 方式传递
         });
 
         const targetUrl = `/confirm?${params.toString()}`;
-        console.log("Redirecting to:", targetUrl);
 
         // **跳转到确认页面，并附带选中的商品数据**
         window.location.href = `/confirm?${params.toString()}`;

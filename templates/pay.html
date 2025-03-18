@@ -14,8 +14,8 @@
         <h1 class="payments">Your total payment: £{{ amount }}</h1>
         <h1 class="payment-text">Please confirm your payment or cancel.</h1>
         <div class="button-group">
-            <button class="btn confirm-btn" onclick="confirmPayment()">Confirm</button>
-            <button class="btn cancel-btn" onclick="cancelPayment()">Cancel</button>
+            <button class="btn confirm-btn" id="confirmButton" data-user-id="{{ user.id }}">Confirm</button>
+            <button class="btn cancel-btn" id="cancelButton">Cancel</button>
         </div>
     </div>
     <div class="modal-overlay hidden">
@@ -23,7 +23,7 @@
             <div class="modal-content">
                 <div class="modal-icon success">✓</div>
                 <h2 class="modal-title">Payment Successful!</h2>
-                <button class="modal-confirm-btn" onclick="closeModal()">OK</button>
+                <button class="modal-confirm-btn">OK</button>
             </div>
         </div>
     </div>

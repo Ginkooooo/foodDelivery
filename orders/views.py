@@ -214,7 +214,6 @@ def update_order_status(request):
         try:
             order_id = request.POST.get('order_id')
             new_status = request.POST.get('status')
-            print("order_id", order_id)
 
             if not order_id:
                 return JsonResponse({"success": False, "error": "Order ID is required"}, status=400)
