@@ -21,17 +21,17 @@ h1{
     z-index: 1;
 }
 .pencil-icon {
-    width: 30px;          /* 控制图标大小 */
+    width: 30px;          /* Control Icon Magnitude */
     height: auto;
     transition: transform 0.3s;
-  }
-  
-  /* 悬停效果 */
-  .img-link:hover .pencil-icon {
-    transform: scale(1.05);
-    opacity: 0.9;
-  }
-  
+}
+
+/* hover effect */
+.img-link:hover .pencil-icon {
+transform: scale(1.05);
+opacity: 0.9;
+}
+
 .user-info{
     display: flex;
     flex-direction: column;
@@ -74,8 +74,8 @@ h1{
     margin: 0;
 }
 .text-right{
-    right: 15px;       /* 右侧间距 */
-    top: 50%;          /* 垂直居中起点 */
+    right: 15px;
+    top: 50%;
 }
 @media (max-width: 767px) {
     .product-title {
@@ -103,14 +103,14 @@ h1{
     border: 1px solid #eeeeee;
 }
   
-/* 价格显示 */
+/* Show Price */
 .total-price {
     font-size: 18px;
     font-weight: bold;
     color: #333;
 }
   
-/* 支付按钮 */
+/* Payment Button */
 .pay-button {
     background: skyblue;
     color: white;
@@ -128,7 +128,7 @@ h1{
     box-shadow: 0 3px 8px rgba(126, 187, 213, 0.3);
 }
 
-/* 返回按钮 */
+/* Return Button */
 .back-button {
     background: rgb(139, 151, 156);
     color: white;
@@ -139,19 +139,17 @@ h1{
     transition: all 0.3s;
     font-size: 16px;
 }
-  
 .back-button:hover {
     background: rgb(139, 151, 156);
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(126, 187, 213, 0.3);
 }
-
 .list-group-item {
   opacity: 0;
   transform: translateY(-20px);
 }
 
-/* 定义动画效果 */
+/* definite animation effect */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -162,8 +160,7 @@ h1{
     transform: translateY(0);
   }
 }
-
-/* 动画类，应用动画效果 */
+/* Animation class, applying animation effects */
 .slide-in {
   animation: slideIn 0.5s ease forwards;
 }

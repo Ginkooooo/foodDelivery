@@ -13,9 +13,9 @@
 }
 .pull-right{
     position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 15px;       /* Right-hand spacing */
+    top: 50%;          /* Vertical centering starting point */
+    transform: translateY(-50%); /* Precise centering */
 }
 a.pull-right:hover, 
 a.pull-right:focus, 
