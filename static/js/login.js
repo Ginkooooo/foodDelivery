@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const buttons = document.querySelectorAll('.btn-group-justified .btn');
-    let userType = "user"; // 默认登录类型
+    let userType = "user"; // default login type
 
     buttons.forEach(button => {
         button.addEventListener('click', () => {
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     document.getElementById('loginForm').addEventListener('submit', (event) => {
         event.preventDefault();
-        handleLogin(event, userType); // 传递登录类型
+        handleLogin(event, userType); // Pass the login type
     });
 })
 
@@ -30,7 +30,7 @@ async function handleLogin(event, userType) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': getCSRFToken()  // 携带 Token
+                'X-CSRFToken': getCSRFToken()  // take Token
             },
             credentials: 'include',
             body: JSON.stringify(formData)
@@ -45,7 +45,7 @@ async function handleLogin(event, userType) {
         const result = await response.json();
 
         if (response.ok && result.success) {
-            // 根据后端返回的 redirect 字段跳转
+            // Jump based on the redirect field returned by the backend
             window.location.href = result.redirect || '/home';
         } else {
             alert(result.error || "Login failed");
@@ -66,23 +66,23 @@ function getCSRFToken() {
 document.addEventListener("DOMContentLoaded", function () {
     const accountBox = document.querySelector(".account");
 
-    // 页面加载时触发翻转进入
+    // Trigger rollover entry on page load
     setTimeout(() => {
         accountBox.classList.add("show");
     }, 200);
 
-    // 监听 "Create an account" 按钮点击事件
+    // Listen to the “Create an account” button click event.
     const flipLink = document.querySelector(".flip-trigger");
 
     if (flipLink) {
         flipLink.addEventListener("click", function (event) {
-            event.preventDefault(); // 阻止立即跳转
-            const targetUrl = this.href; // 获取目标地址
+            event.preventDefault(); // Block Immediate Jump
+            const targetUrl = this.href; // Get destination address
 
-            // 添加翻转离开动画
+            // Add flip away animation
             accountBox.classList.add("flip");
 
-            // 动画执行 0.8s 后跳转
+            // Jump after 0.8s of animation execution
             setTimeout(() => {
                 window.location.href = targetUrl;
             }, 500);
