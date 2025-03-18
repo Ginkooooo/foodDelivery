@@ -1,7 +1,7 @@
 document.getElementById('addressForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // 获取地址ID
+    // Get address ID
     const form = e.target;
     const addressId = form.dataset.addressId;
 
@@ -12,7 +12,7 @@ document.getElementById('addressForm').addEventListener('submit', async (e) => {
     };
 
     try {
-        // 使用动态地址ID
+        // Using Dynamic Addresses ID
         const response = await fetch(`/address/editcon/${addressId}/`, {
             method: 'POST',
             headers: {
@@ -24,7 +24,7 @@ document.getElementById('addressForm').addEventListener('submit', async (e) => {
 
         const result = await response.json();
         if (result.success) {
-            window.location.href = '/address/';  // 直接跳转
+            window.location.href = '/address/';  // Directly jump
         } else {
             alert('Error: ' + (result.error || 'Failed to update address'));
         }
