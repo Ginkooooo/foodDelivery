@@ -72,3 +72,32 @@ img{
     color: #666;
     font-size: 0.9em;
 }
+.list-group {
+    perspective: 1000px;
+}
+
+.list-group-item {
+    opacity: 0;
+    transform-origin: center;
+    transform-style: preserve-3d;
+    animation: enterAnimation 0.5s ease-out forwards;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+@keyframes enterAnimation {
+    from {
+        opacity: 0;
+        transform: rotateX(-90deg);
+    }
+    to {
+        opacity: 1;
+        transform: rotateX(0);
+    }
+}
+
+.list-group-item:hover {
+    transform: rotateX(0) translateY(-5px);
+    box-shadow: 0 15px 20px rgba(0,0,0,0.2);
+    z-index: 2;
+}
