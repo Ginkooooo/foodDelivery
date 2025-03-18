@@ -20,10 +20,14 @@
     
     <div class="profile-header clearfix" style="background-color: rgb(226, 201, 201);">
         <div class="user-info col-xs-9">
-            <strong>Order deliver to:</strong>
-            <p>{{ order_address.address }}</p>
-            <p>{{ order_address.name }}</p>
-            <p><abbr title="Phone Number">P:</abbr>{{ order_address.tel }}</p>
+            <div class="left">
+                <strong>Order deliver to:</strong>
+                <p>Name: {{ order_address.name }}</p>
+            </div>
+            <div class="right">
+                <p>Address: {{ order_address.address }}</p>
+                <p><abbr title="Phone Number">Phone number:</abbr>{{ order_address.tel }}</p>
+            </div>
         </div>
     </div>
 

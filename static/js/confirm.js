@@ -89,3 +89,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     calculateTotal(); // 页面加载时计算一次
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.list-group-item');
+  items.forEach((item, index) => {
+    // 例如，每个列表项延迟 100ms * index 后触发动画
+    setTimeout(function() {
+      item.classList.add('slide-in');
+    }, index * 100);
+  });
+});

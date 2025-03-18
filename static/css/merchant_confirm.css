@@ -3,24 +3,55 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .profile-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 60%;
-    max-width: 1200px;
-    padding: 20px;
-    /* background-color: rgba(145, 201, 172, 0.6); */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    margin-left: 20%;
+    /*background: linear-gradient(135deg, #8CAFEB 0%, #B3D4FC 100%);*/
+    border-radius: 16px;
+    padding: 4rem;
+    margin: 0 5% 20px;
+    width:90%;
+    box-shadow:
+        0 8px 32px rgba(31, 38, 135, 0.15),
+        0 4px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: grid;
+    position: relative;
+    overflow: hidden;
     z-index: 1;
+    grid-template-columns: 3fr 7fr; /* 修改此处 */
+    gap: 2rem; /* 保持间隔 */
+}
+.profile-header:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 12px 40px rgba(31, 38, 135, 0.25),
+        0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.profile-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+        transparent 45%,
+        rgba(255, 255, 255, 0.35) 50%,
+        transparent 55%);
+    animation: shimmer 5s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-50%) rotate(45deg); }
+    100% { transform: translateX(50%) rotate(45deg); }
 }
   
 .user-info{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /*flex-direction: column;*/
+    justify-content: space-between;
+    text-align: right;
 }
 .user-info h1{
     font-size: 24px;
@@ -120,4 +151,94 @@
 }
 .back-link{
     white-space: nowrap;
+}
+.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 2px solid rgba(255, 255, 255, 0.3);
+    padding-right: 2rem;
+    min-width: 30vw;
+    gap: 1rem;
+}
+
+.left strong {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.8rem;
+    color: #2A4E77;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.left p {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2.3rem;
+    color: #1A365D;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.right {
+    display: grid;
+    gap: 1rem;
+    align-content: center;
+    min-width: 60vw;
+    padding-left: 1rem;
+}
+
+.right p {
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #2A4E77;
+    font-size: 1.7rem;
+    position: relative;
+    padding-left: 2.5rem;
+}
+
+.right p::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    opacity: 0.8;
+}
+
+.right p:first-child::before {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232A4E77"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5z"/></svg>');
+}
+
+.right p:last-child::before {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232A4E77"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>');
+}
+
+abbr[title] {
+    text-decoration: none;
+    border-bottom: 1px dotted rgba(42, 78, 119, 0.5);
+    cursor: help;
+}
+.list-group-item {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+/* 定义动画效果 */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 动画类，应用动画效果 */
+.slide-in {
+  animation: slideIn 0.5s ease forwards;
 }

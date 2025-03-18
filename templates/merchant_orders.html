@@ -22,14 +22,15 @@
         </div>
         <div class="panel-body">
             {% for order in awaiting_orders %}
+                <a href="/merchant/confirm/await/{{ order.id }}">
             <div class="list-group">
                 <div class="list-group-item active">
-                    <a href="/merchant/confirm/await/{{ order.id }}">
+                    
                         <h4 class="list-group-item-heading">
                             {{ order.user.username }}
                             <small class="pull-right">Order #{{ order.id }}</small>
                         </h4>
-                    </a>
+                    
                     <p class="list-group-item-text">
                         {% if order.user_address %}
                         Address: {{ order.user_address.address }}<br>
@@ -44,6 +45,7 @@
                     </p>
                 </div>
             </div>
+                </a>
             {% empty %}
             <div class="list-group-item">
                 <p class="text-muted">No Await orders</p>
@@ -58,14 +60,15 @@
         </div>
         <div class="panel-body">
             {% for order in preparing_orders %}
+                <a href="/merchant/confirm/preparing/{{ order.id }}">
             <div class="list-group">
                 <div class="list-group-item active">
-                    <a href="/merchant/confirm/preparing/{{ order.id }}">
+                    
                         <h4 class="list-group-item-heading">
                             {{ order.user.username }}
                             <small class="pull-right">Order #{{ order.id }}</small>
                         </h4>
-                    </a>
+                    
                     <p class="list-group-item-text">
                         {% if order.user_address %}
                         Address: {{ order.user_address.address }}<br>
@@ -80,6 +83,7 @@
                     </p>
                 </div>
             </div>
+                </a>
             {% empty %}
             <div class="list-group-item">
                 <p class="text-muted">No Preparing orders</p>
@@ -94,14 +98,15 @@
         </div>
         <div class="panel-body">
             {% for order in finished_orders %}
+                <a href="/merchant/confirm/finish/{{ order.id }}">
             <div class="list-group">
                 <div class="list-group-item active">
-                    <a href="/merchant/confirm/finish/{{ order.id }}">
+                    
                         <h4 class="list-group-item-heading">
                             {{ order.user.username }}
                             <small class="pull-right">Order #{{ order.id }}</small>
                         </h4>
-                    </a>
+                    
                     <p class="list-group-item-text">
                         {% if order.user_address %}
                         Address: {{ order.user_address.address }}<br>
@@ -116,6 +121,7 @@
                     </p>
                 </div>
             </div>
+                </a>
             {% empty %}
             <div class="list-group-item">
                 <p class="text-muted">No finished orders</p>
