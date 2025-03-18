@@ -2,13 +2,11 @@
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 .logout-container {
     display: flex;
     justify-content: flex-end;
     width: 100%;
 }
-
 .logout-link {
     white-space: nowrap;
     display: inline-flex;
@@ -46,8 +44,8 @@
     margin: 0;
 }
 .text-right{
-    right: 15px;       /* 右侧间距 */
-    top: 50%;          /* 垂直居中起点 */
+    right: 15px;
+    top: 50%;
     position: absolute;
     transform: translateY(-30%);
 }
@@ -62,61 +60,57 @@
         font-size: 12px;
     }
 }
-
 .editable-image {
     position: relative;
     cursor: pointer;
     display: block;
 }
 .edit-overlay {
-position: absolute;
-bottom: 5px;
-right: 5px;
-background: rgba(0,0,0,0.5);
-color: white;
-padding: 3px 8px;
-border-radius: 3px;
-opacity: 0;
-transition: opacity 0.3s;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 .editable-image:hover .edit-overlay {
-opacity: 1;
+    opacity: 1;
 }
 .hidden {
-display: none;
+    display: none;
 }
 
-/* 文本编辑样式 */
+/* Text editing style */
 .editable-title {
-font-size: 18px;
-font-weight: bold;
-margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 .editable-info {
-resize: vertical;
-min-height: 80px;
+    resize: vertical;
+    min-height: 80px;
 }
-
-/* 价格编辑器 */
+/* price editor */
 .price-editor {
-margin-top: 20px;
+    margin-top: 20px;
 }
 .price-editor .form-control {
-text-align: right;
+    text-align: right;
 }
-
-/* 操作按钮 */
+/* operate button */
 .edit-controls {
-margin-top: 15px;
-padding-top: 15px;
-border-top: 1px solid #eee;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
 }
-
 .pull-right{
     position: absolute;
-    right: 15px;       /* 右侧间距 */
-    top: 50%;          /* 垂直居中起点 */
-    transform: translateY(-50%); /* 精确居中 */
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
     opacity: 0.7;
     transition: opacity 0.3s ease;
 }
@@ -130,9 +124,8 @@ a.pull-right:active {
 img{
     height: 24px;
 }
-
 .top-space {
-    margin-top: 50px; /* 让页面上方留出一两行空白 */
+    margin-top: 50px; /* Leave one or two lines of blank space at the top of the page */
 }
 .col-xs-8 {
     width: 100%;
@@ -164,35 +157,32 @@ img{
     transition: opacity 0.3s ease;
     pointer-events: none;
 
-    /* 居中设置 */
+    /* set control */
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
     z-index: 2;
 }
-
-/* 悬停效果 */
+/* hover effects */
 #ViewOrders:hover::after {
     opacity: 1;
 }
 /* Basic styling for list items with animation preparation */
 .list-group-item {
-  perspective: 1000px;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transform-origin: center top;
-  margin-bottom: 10px;
-  overflow: hidden;
-  will-change: transform, opacity;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    transform-origin: center top;
+    margin-bottom: 10px;
+    overflow: hidden;
+    will-change: transform, opacity;
 }
-
 .pull-right:hover {
-  opacity: 1;
+    opacity: 1;
 }
-
 /* Optional: Add a subtle hover effect to list items */
 .list-group-item:hover {
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-  transition: box-shadow 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
 }

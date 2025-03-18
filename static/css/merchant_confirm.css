@@ -3,7 +3,6 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .profile-header{
-    /*background: linear-gradient(135deg, #8CAFEB 0%, #B3D4FC 100%);*/
     border-radius: 16px;
     padding: 4rem;
     margin: 0 5% 20px;
@@ -18,8 +17,8 @@
     position: relative;
     overflow: hidden;
     z-index: 1;
-    grid-template-columns: 3fr 7fr; /* 修改此处 */
-    gap: 2rem; /* 保持间隔 */
+    grid-template-columns: 3fr 7fr;
+    gap: 2rem; /* keep intervals */
 }
 .profile-header:hover {
     transform: translateY(-4px);
@@ -41,15 +40,12 @@
     animation: shimmer 5s infinite linear;
     pointer-events: none;
 }
-
 @keyframes shimmer {
     0% { transform: translateX(-50%) rotate(45deg); }
     100% { transform: translateX(50%) rotate(45deg); }
 }
-  
 .user-info{
     display: flex;
-    /*flex-direction: column;*/
     justify-content: space-between;
     text-align: right;
 }
@@ -90,8 +86,8 @@
     margin: 0;
 }
 .text-right{
-    right: 15px;       /* 右侧间距 */
-    top: 50%;          /* 垂直居中起点 */
+    right: 15px;
+    top: 50%;
 }
 @media (max-width: 767px) {
     .product-title {
@@ -118,15 +114,13 @@
     z-index: 1000;
     border: 1px solid #eeeeee;
 }
-  
-/* 价格显示 */
+/* show price */
 .total-price {
     font-size: 18px;
     font-weight: bold;
     color: #333;
 }
-
-/* 返回按钮 */
+/* return button */
 .back-button {
     background: rgb(139, 151, 156);
     color: white;
@@ -137,7 +131,6 @@
     transition: all 0.3s;
     font-size: 16px;
 }
-  
 .back-button:hover {
     background: rgb(139, 151, 156);
     transform: translateY(-1px);
@@ -161,7 +154,6 @@
     min-width: 30vw;
     gap: 1rem;
 }
-
 .left strong {
     font-family: 'Segoe UI', sans-serif;
     font-size: 1.8rem;
@@ -170,7 +162,6 @@
     margin-bottom: 0.5rem;
     display: block;
 }
-
 .left p {
     font-family: 'Segoe UI', sans-serif;
     font-size: 2.3rem;
@@ -178,7 +169,6 @@
     font-weight: 700;
     line-height: 1.2;
 }
-
 .right {
     display: grid;
     gap: 1rem;
@@ -186,7 +176,6 @@
     min-width: 60vw;
     padding-left: 1rem;
 }
-
 .right p {
     font-family: 'Segoe UI', sans-serif;
     display: flex;
@@ -197,7 +186,6 @@
     position: relative;
     padding-left: 2.5rem;
 }
-
 .right p::before {
     content: '';
     position: absolute;
@@ -207,15 +195,12 @@
     background-size: contain;
     opacity: 0.8;
 }
-
 .right p:first-child::before {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232A4E77"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5z"/></svg>');
 }
-
 .right p:last-child::before {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232A4E77"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>');
 }
-
 abbr[title] {
     text-decoration: none;
     border-bottom: 1px dotted rgba(42, 78, 119, 0.5);
@@ -225,8 +210,7 @@ abbr[title] {
   opacity: 0;
   transform: translateY(-20px);
 }
-
-/* 定义动画效果 */
+/* definite animation effects */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -237,8 +221,7 @@ abbr[title] {
     transform: translateY(0);
   }
 }
-
-/* 动画类，应用动画效果 */
+/* Animation class, applying animation effects */
 .slide-in {
   animation: slideIn 0.5s ease forwards;
 }

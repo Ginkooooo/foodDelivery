@@ -27,44 +27,36 @@ label{
         transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
         opacity: 0;
     }
-
     40% {
         transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
     }
-
     60% {
         transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
         opacity: 1;
     }
-
     80% {
         transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
     }
-
     to {
         transform: perspective(400px);
         opacity: 1;
     }
 }
-
 .thumbnail-animation {
     animation: flipInY 1.2s ease-out forwards;
     backface-visibility: visible !important;
     opacity: 0;
 }
-
 .panel .row .thumbnail.equal-height img {
     width: 100%;
     height: 250px;
     object-fit: cover;
 }
-  
 .caption {
     flex: 1;
     display: flex;
     flex-direction: column;
 }
-
 .checkout-bar {
     position: fixed;
     bottom: 20px;
@@ -79,15 +71,13 @@ label{
     z-index: 1000;
     border: 1px solid #eeeeee;
 }
-  
-/* 价格显示 */
+/* show price */
 .total-price {
     font-size: 18px;
     font-weight: bold;
     color: #333;
 }
-  
-/* 支付按钮 */
+/* payment button */
 .pay-button {
     background: skyblue;
     color: white;
@@ -98,14 +88,12 @@ label{
     transition: all 0.3s;
     font-size: 16px;
 }
-  
 .pay-button:hover {
     background: rgb(138, 196, 219);
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(126, 187, 213, 0.3);
 }
-
-/* 返回按钮 */
+/* return button */
 .back-button {
     background: rgb(139, 151, 156);
     color: white;
@@ -116,7 +104,6 @@ label{
     transition: all 0.3s;
     font-size: 16px;
 }
-  
 .back-button:hover {
     background: rgb(139, 151, 156);
     transform: translateY(-1px);

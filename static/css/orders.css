@@ -25,7 +25,7 @@
 }
 .pull-right {
     float: right;
-    margin-left: 15px;  /* 添加间距 */
+    margin-left: 15px;
 }
 
 a.pull-right:hover, 
@@ -43,31 +43,26 @@ a.pull-right:active {
 img{
     height: 24px;
 }
-
 .order-item {
     display: flex;
-    justify-content: space-between;  /* 左右对齐 */
+    justify-content: space-between;
     align-items: center;
     padding: 8px 0;
     border-bottom: 1px solid #eee;
 }
-
 .order-item .item-name {
-    flex-grow: 1;  /* 让 item-name 占据所有可用空间 */
+    flex-grow: 1;
     text-align: left;
 }
-
 .order-item .item-price {
-    min-width: 120px;  /* 设定固定宽度，避免换行 */
+    min-width: 120px;
     text-align: right;
 }
-
 .total-section {
     margin-top: 15px;
     padding-top: 10px;
     border-top: 2px solid #ddd;
 }
-
 .text-muted {
     color: #666;
     font-size: 0.9em;
@@ -75,7 +70,6 @@ img{
 .list-group {
     perspective: 1000px;
 }
-
 .list-group-item {
     opacity: 0;
     transform-origin: center;
@@ -84,7 +78,6 @@ img{
     transition: all 0.3s ease;
     position: relative;
 }
-
 @keyframes enterAnimation {
     from {
         opacity: 0;
@@ -95,7 +88,6 @@ img{
         transform: rotateX(0);
     }
 }
-
 .list-group-item:hover {
     transform: rotateX(0) translateY(-5px);
     box-shadow: 0 15px 20px rgba(0,0,0,0.2);
