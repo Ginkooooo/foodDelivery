@@ -223,7 +223,6 @@ def merchant_edit_delete(request, pk):
     return redirect('/merchant/edit/')
 
 
-#商品列表（用户端）
 def item_list(request,pk):
     restaurant = Restaurant.objects.get(id=pk)
     items = MenuItem.objects.filter(restaurant_id=restaurant.id)
