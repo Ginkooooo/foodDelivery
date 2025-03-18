@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         select.addEventListener('change', calculateTotal);
     });
 
-    // **订单确认按钮，收集 item ID 和 数量**
+    // Order Acknowledgement button to collect item ID and quantity
     document.querySelector(".pay-button").addEventListener("click", function(e) {
         e.preventDefault();
 
@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let selectedItems = [];
         quantitySelects.forEach(select => {
             let quantity = parseInt(select.value);
-            if (quantity > 0) {  // 只提交数量 > 0 的商品
-                let itemId = select.closest('.thumbnail').dataset.itemId; // 获取 item ID
+            if (quantity > 0) {  // Submit only items with quantity > 0
+                let itemId = select.closest('.thumbnail').dataset.itemId; // Get item ID
                 selectedItems.push({ id: itemId, quantity: quantity });
             }
         });
@@ -40,20 +40,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
 
-        // **构造 URL 参数**
+        // Constructed URL parameters
         let params = new URLSearchParams();
         params.append("restaurant_id", restaurantId);
         selectedItems.forEach(item => {
-            params.append("items", `${item.id}:${item.quantity}`);  // 以 "id:数量" 方式传递
+            params.append("items", `${item.id}:${item.quantity}`);  // Passed as “id:number”
         });
 
         const targetUrl = `/confirm?${params.toString()}`;
 
-        // **跳转到确认页面，并附带选中的商品数据**
+        // Jumps to a confirmation page with data on the selected product
         window.location.href = `/confirm?${params.toString()}`;
     });
 
-    // **初始化计算**
+    // Initialization calculations
     calculateTotal();
 });
 
