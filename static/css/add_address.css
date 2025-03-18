@@ -9,7 +9,7 @@
 .extended-btn {
     min-width: 120px;
     display: inline-block !important;
-    margin-left: 22%;
+    margin-left: 25%;
 }
   
 @media (max-width: 768px) {

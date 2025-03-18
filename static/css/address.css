@@ -13,9 +13,9 @@
 }
 .pull-right{
     position: absolute;
-    right: 15px;       /* 右侧间距 */
-    top: 50%;          /* 垂直居中起点 */
-    transform: translateY(-50%); /* 精确居中 */
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 a.pull-right:hover, 
 a.pull-right:focus, 
@@ -36,4 +36,29 @@ img{
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+        filter: blur(2px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
 
+.list-group-item {
+    opacity: 0;
+    animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    margin: 8px 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.list-group-item {
+    animation-delay: calc(0.1s * var(--index));
+}
