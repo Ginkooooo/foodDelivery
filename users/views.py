@@ -172,7 +172,13 @@ def login_view(request):
 @login_required
 def address_list(request):
     addresses = request.user.addresses.all().order_by('-created_at')
-    return render(request, 'address.html', {'addresses': addresses})
+    restaurant_id = request.GET.get('restaurant_id')
+    items = request.GET.getlist('items')  # 获取多个items参数
+    return render(request, 'address.html', {
+        'addresses': addresses,
+        'restaurant_id': restaurant_id,
+        'items': items,
+    })
 
 #删除地址
 @login_required

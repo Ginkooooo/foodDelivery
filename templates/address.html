@@ -84,7 +84,7 @@
                         type="radio"
                         name="addressRadio"
                         value="{{ address.id }}"
-                        onchange="window.location.href='{% url 'confirm_order' %}?address_id={{ address.id }}'"
+                        onchange="window.location.href='{% url 'confirm_order' %}?address_id={{ address.id }}{% if restaurant_id %}&restaurant_id={{ restaurant_id|urlencode }}{% endif %}{% for item in items %}&items={{ item|urlencode }}{% endfor %}'"
                         style="margin-right: 85px;"
                     >
                 </li>

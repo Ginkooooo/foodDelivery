@@ -72,7 +72,7 @@
             <p><abbr title="Phone Number">P: </abbr>{{ address.tel }}</p>
         </div>
         <div class="col-xs-3 text-right">
-            <a href="/address" class="img-link">
+            <a href="{% url 'address_list' %}?restaurant_id={{ restaurant.id }}{% for item_info in items_data %}&items={{ item_info.item.id|urlencode }}:{{ item_info.quantity|urlencode }}{% endfor %}" class="img-link">
                 <img src="/static/bootstrap-icons-1.11.3/pencil-square.svg" alt="" style="position: relative;" class="pencil-icon">
             </a>
         </div>
