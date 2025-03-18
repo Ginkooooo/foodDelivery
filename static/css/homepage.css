@@ -184,3 +184,77 @@
     animation: heartbeat 0.6s ease-in-out;
   }
 
+  .pagination {
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    padding: 12px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    gap: 8px;
+}
+
+.step-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pagination a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 30px;
+    background: #f8f9fa;
+    color: #2d3748;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.pagination a:hover {
+    background: #4a90e2;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(74,144,226,0.2);
+}
+
+.current {
+    padding: 8px 16px;
+    background: #4a90e2;
+    color: white;
+    border-radius: 30px;
+    font-weight: 500;
+}
+
+/* 箭头样式优化 */
+.pagination a:first-child::after {
+    content: '«';
+    margin-left: 6px;
+}
+
+.pagination a:last-child::before {
+    content: '»';
+    margin-right: 6px;
+}
+
+/* 移动端适配 */
+@media (max-width: 576px) {
+    .pagination {
+        padding: 8px 12px;
+        border-radius: 30px;
+    }
+
+    .pagination a {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .current {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
