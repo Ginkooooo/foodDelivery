@@ -1,4 +1,4 @@
-from django.urls import path, include
+
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -9,7 +9,7 @@ from orders.views import confirm_order, pay, orders_list, create_order, merchant
     merchant_confirm_finish, merchant_confirm_preparing, update_order_status
 
 urlpatterns = [
-    path('home/', restaurant_list, name='home'),  # 主页面
+    path('home/', restaurant_list, name='home'),
     path('login/', login_view, name='login'),
     path('merchant/<int:pk>/', item_list, name='merchant'),
     path('merchant/edit/', merchant_edit_list, name='merchant_edit'),

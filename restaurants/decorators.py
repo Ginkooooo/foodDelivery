@@ -4,18 +4,18 @@ from .models import Restaurant
 
 
 def owner_required(view_func):
-#验证当前用户是否为餐厅所有者的装饰器
+# Decorator to verify that the current user is the restaurant owner
 
     def wrapper(request, *args, **kwargs):
-        # 通过URL参数获取餐厅ID
+        # Get the restaurant ID through the URL parameter
         restaurant = get_object_or_404(
             Restaurant,
-            pk=kwargs.get('restaurant_id')  # 或根据实际参数名调整
+            pk=kwargs.get('restaurant_id')  # Or change the value based on the actual parameter name
         )
 
-        # 权限验证核心逻辑
+        # Permission verification core logic
         if request.user != restaurant.owner:
-            raise PermissionDenied("您无权操作其他商家的数据")
+            raise PermissionDenied("You have no right to manipulate other merchants' data")
 
         return view_func(request, *args, **kwargs)
 

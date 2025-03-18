@@ -34,8 +34,8 @@ class MenuItem(models.Model):
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(
-        upload_to='menu_images/',  # 上传目录
-        null=True,  # 允许数据库存储NULL
-        blank=True,  # 允许表单留空
-        default='defaults/default.png'  # 默认图片路径
+        upload_to='menu_images/',
+        null=True,
+        blank=True,
+        default='defaults/default.png'
     )

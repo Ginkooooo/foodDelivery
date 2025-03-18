@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.db import IntegrityError, transaction
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
@@ -18,7 +17,7 @@ from restaurants.models import Restaurant
 from users.models import User, Address
 
 
-#注册
+#register
 @csrf_exempt
 def register(request):
     if request.method == 'GET':
@@ -26,7 +25,7 @@ def register(request):
 
     if request.method == 'POST':
         try:
-            # 解析JSON数据
+            # Parsing JSON data
             try:
                 data = json.loads(request.body)
             except json.JSONDecodeError as e:
@@ -37,30 +36,30 @@ def register(request):
 
             errors = {}
 
-            # 验证必填字段
+            # Verify required fields
             required_fields = ['username', 'phone', 'email', 'password']
             for field in required_fields:
                 if not data.get(field):
                     errors[field] = 'This field is required'
 
-            # 邮箱格式验证
+            # Mailbox format verification
             if data.get('email'):
                 try:
                     validate_email(data['email'])
                 except ValidationError as e:
                     errors['email'] = 'Invalid email format'
 
-            # 手机号格式验证（11位数字）
+            # Mobile number format verification (11 digits)
             if data.get('phone') and not re.match(r'^\d{11}$', data['phone']):
                 errors['phone'] = 'Phone number must be 11 digits'
 
             if errors:
-                return JsonResponse({  # 返回JSON
+                return JsonResponse({
                     'success': False,
                     'errors': errors
                 }, status=400)
 
-             # 创建用户对象
+             # Create user objects
             try:
                 user = User.objects.create(
                     username=data['username'],
@@ -87,11 +86,11 @@ def register(request):
                 'error': f'Unexpected error: {str(e)}'
             }, status=500)
 
-    return JsonResponse({  # 非POST请求返回JSON
+    return JsonResponse({  # Non-post requests return JSON
         'error': 'Method not allowed'
     }, status=405)
 
-#登陆
+#log in
 @csrf_exempt
 def login_view(request):
     if request.method == 'GET':
@@ -102,11 +101,11 @@ def login_view(request):
             data = json.loads(request.body)
             username = data.get('username')
             password = data.get('password')
-            user_type = data.get('user_type', 'user')  # 获取登录类型
+            user_type = data.get('user_type', 'user')
 
             response_data = {}
 
-            # 商家登录逻辑
+            # Merchant logon logic
             if user_type == 'merchant':
                 try:
                     merchant = Restaurant.objects.get(username=username)
@@ -115,7 +114,7 @@ def login_view(request):
                         request.session['restaurant_username'] = merchant.username
                         request.session['is_merchant'] = True
                         request.session.modified = True
-                        request.session.save()  # 确保立即保存session
+                        request.session.save()  # Make sure to save the session immediately
 
                         return JsonResponse({
                             'success': True,
@@ -133,7 +132,7 @@ def login_view(request):
                         'error': 'Merchant not found'
                     }, status=404)
 
-            # 普通用户登录逻辑
+            # Common user login logic
             else:
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
@@ -156,7 +155,8 @@ def login_view(request):
 
     return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
 
-#地址列表
+#address list
+
 @login_required
 def address_list(request):
     addresses = request.user.addresses.all().order_by('-created_at')
@@ -169,14 +169,14 @@ def address_list(request):
         'preserve_params': urlencode(params, doseq=True)
     })
 
-#删除地址
+#delete address
 @login_required
 def delete_address(request, pk):
     address = get_object_or_404(Address, pk=pk, user=request.user)
     address.delete()
     return redirect('address_list')
 
-#增加地址
+#add address
 @login_required
 def add_address(request):
     preserve_params = request.GET.urlencode()
@@ -201,14 +201,14 @@ def add_address(request):
         'preserve_params': preserve_params
     })
 
-#编辑地址
+#edit address
 @login_required
 def edit_address(request, pk):
     address = get_object_or_404(Address, pk=pk, user=request.user)
     return render(request, 'edit_address.html', {'address': address})
 
 
-# 确认编辑地址
+# confirm edit address
 @login_required
 def edit_address_confirm(request, pk):
     address = get_object_or_404(Address, pk=pk, user=request.user)
@@ -219,7 +219,7 @@ def edit_address_confirm(request, pk):
             if not all(field in data for field in required_fields):
                 return JsonResponse({'success': False, 'error': 'Missing required fields'}, status=400)
 
-            # 更新字段
+            # update
             address.name = data['name']
             address.tel = data['tel']
             address.address = data['address']

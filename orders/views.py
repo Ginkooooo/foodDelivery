@@ -10,7 +10,7 @@ from restaurants.models import MenuItem, Restaurant
 from users.models import Address, User
 
 
-#确认订单
+#confirm an order
 def confirm_order(request):
     restaurant_id = request.GET.get('restaurant_id')
     restaurant = Restaurant.objects.get(id=restaurant_id)
@@ -19,20 +19,20 @@ def confirm_order(request):
         try:
             address = Address.objects.get(id=address_id, user=request.user)
         except Address.DoesNotExist:
-            # 处理无效地址ID
+            # Processing invalid address ID
             address = Address.objects.filter(user=request.user).first()
     else:
-        # 没有提供address_id时，获取用户第一个地址
+        # If no address id is provided, the first address of the user is obtained
         address = Address.objects.filter(user=request.user).first()
     item_params = request.GET.getlist('items')
     items_data = []
     for item_param in item_params:
         try:
             item_id, quantity = item_param.split(":")
-            item = MenuItem.objects.get(id=int(item_id))  # 获取 Item 实例
+            item = MenuItem.objects.get(id=int(item_id))  # Get Item instance
             items_data.append({"item": item, "quantity": int(quantity)})
         except (ValueError, MenuItem.DoesNotExist):
-            continue  # 跳过无效数据
+            continue  # Skip invalid data
 
     if request.method == 'GET':
         return render(request, 'confirm.html', {
@@ -47,16 +47,16 @@ def pay(request, amount):
     if request.method == 'GET':
         return render(request, 'pay.html', {'amount':amount} )
 
-#用户端订单列表
+#Client order list
 def orders_list(request):
-    # 获取当前用户的所有订单，并预取关联的订单项和商品
+    # Gets all orders for the current user and prefetches associated order items and items
     orders = Order.objects.filter(user=request.user).prefetch_related(
         'orderitem_set__item'
     ).select_related('restaurant')
 
-    # 为每个订单构造商品信息列表（不直接操作多对多字段）
+    # Construct a list of product information for each order (without directly manipulating many-to-many fields)
     for order in orders:
-        order.item_details = []  # 使用新字段名避免冲突
+        order.item_details = []  # Use new field names to avoid collisions
         for order_item in order.orderitem_set.all():
             order.item_details.append({
                 'name': order_item.item.name,
@@ -64,12 +64,12 @@ def orders_list(request):
                 'quantity': order_item.quantity,
                 'subtotal': order_item.item.price * order_item.quantity
             })
-        # 计算总价（假设配送费为3）
+        # Calculate total price (assuming delivery cost is 3)
         order.calculated_total = sum(item['subtotal'] for item in order.item_details) + 3
 
     return render(request, 'orders.html', {'orders': orders})
 
-#创建订单
+#create order
 @csrf_exempt
 def create_order(request):
     if request.method == "POST":
@@ -80,16 +80,16 @@ def create_order(request):
             user_id = data.get("user_id")
             items = data.get("items", [])
 
-            # 验证必要参数
+            # Verify necessary parameters
             if not all([total, restaurant_id, user_id]):
                 return JsonResponse({"success": False, "error": "Missing required parameters"}, status=400)
 
-            # 确保 restaurant 和 user 存在
+            # Make sure the restaurant and user exist
             restaurant = Restaurant.objects.get(id=restaurant_id)
             user = User.objects.get(id=user_id)
 
             with transaction.atomic():
-                # 创建订单
+                # create order
                 order = Order.objects.create(
                     user=user,
                     restaurant=restaurant,
@@ -97,7 +97,7 @@ def create_order(request):
                     status='X'
                 )
 
-                # 批量创建订单项
+                # Create order items in bulk
                 order_items = []
                 for item_data in items:
                     try:
@@ -109,7 +109,7 @@ def create_order(request):
                         ))
                     except MenuItem.DoesNotExist:
                         print(f"MenuItem {item_data['item_id']} not found, skipping")
-                OrderItem.objects.bulk_create(order_items)  # 批量插入
+                OrderItem.objects.bulk_create(order_items)  # Batch insertion
 
             return JsonResponse({"success": True, "order_id": order.id})
 
@@ -123,20 +123,20 @@ def create_order(request):
         return JsonResponse({"success": False, "error": "Method not allowed"}, status=405)
 
 
-#商家端订单列表
+#Merchant side order list
 def merchant_orders_list(request, pk):
-    # 获取当前餐厅的所有订单
+    # Get all orders for the current restaurant
     orders = Order.objects.filter(restaurant_id=pk).prefetch_related(
         'orderitem_set__item'
     ).select_related('user', 'restaurant')
 
-    # 按新状态分类
+    # Sort by new status
     preparing_orders = []
     finished_orders = []
     awaiting_orders = []
 
     for order in orders:
-        # 处理订单项详情
+        # Process order item details
         order.item_details = []
         for order_item in order.orderitem_set.all():
             order.item_details.append({
@@ -146,13 +146,13 @@ def merchant_orders_list(request, pk):
                 'subtotal': order_item.item.price * order_item.quantity
             })
 
-        # 计算总价
+        # calculate the total price
         order.calculated_total = sum(item['subtotal'] for item in order.item_details) + 3
 
-        # 获取用户地址
+        # Get user address
         order.user_address = Address.objects.filter(user=order.user).first()
 
-        # 按新状态分类
+        # Sort by new status
         if order.status == 'P':
             preparing_orders.append(order)
         elif order.status == 'C':
@@ -218,7 +218,7 @@ def update_order_status(request):
             if not order_id:
                 return JsonResponse({"success": False, "error": "Order ID is required"}, status=400)
 
-            # 获取订单并更新状态
+            # Get orders and update status
             try:
                 order = Order.objects.get(id=order_id)
                 order.status = new_status

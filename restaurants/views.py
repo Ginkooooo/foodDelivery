@@ -10,21 +10,21 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Restaurant, MenuItem
 
 
-#餐厅列表视图
+#Restaurant list view
 def restaurant_list(request):
     category = request.GET.get('category')
 
-    # 获取基础查询集
+    # Gets the base query set
     restaurants = Restaurant.objects.all().order_by('name')
 
-    # 应用分类过滤
+    # Application classification filtering
     if category and category in dict(Restaurant.CATEGORY_CHOICES):
         restaurants = restaurants.filter(category=category)
         category_name = dict(Restaurant.CATEGORY_CHOICES)[category]
     else:
         category_name = "Recommended Merchants"
 
-    # 分页
+    # paging
     paginator = Paginator(restaurants, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -36,19 +36,19 @@ def restaurant_list(request):
     })
 
 
-#主页面搜索
+#Home page search
 def restaurant_search(request):
         search_key = request.GET.get('q', '').strip()
 
         if not search_key:
             return render(request, 'search.html', {'restaurants': []})  # 如果没有输入关键词，返回空列表
 
-        # 过滤餐厅
+        # Filter restaurant
         restaurants = Restaurant.objects.filter(name__icontains=search_key)
         return render(request, 'search.html', {'restaurants': restaurants})
 
 
-#注册
+#register
 @csrf_exempt
 def register_merchant(request):
     if request.method == 'GET':
@@ -63,7 +63,7 @@ def register_merchant(request):
                 if not data.get(field):
                     errors[field] = 'This field cannot be empty'
 
-            # 数值类型验证
+            # Numeric type verification
             if 'latitude' in data:
                 try:
                     float(data['latitude'])
@@ -80,7 +80,7 @@ def register_merchant(request):
                 except ValueError:
                     errors['minimum_order'] = 'The minimum order amount must be a number'
 
-            # 分类选项验证
+            # Category option validation
             valid_categories = ['fastFood', 'chineseFood', 'sushi', 'drinkAndCoffee', 'groceries']
             if data.get('category') not in valid_categories:
                 errors['category'] = '无效的分类'
@@ -88,7 +88,7 @@ def register_merchant(request):
             if errors:
                 return JsonResponse({'success': False, 'errors': errors}, status=400)
 
-            # 创建商家对象
+            # Create a business object
             restaurant = Restaurant.objects.create(
                 name=data['name'],
                 latitude=data['latitude'],
@@ -96,7 +96,7 @@ def register_merchant(request):
                 minimum_order=data['minimum_order'],
                 category=data['category'],
                 username=data['username'],
-                password=make_password(data['password'])  # 加密密码
+                password=make_password(data['password'])  # encrypted password
             )
 
             return JsonResponse({
@@ -117,20 +117,20 @@ def register_merchant(request):
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-#增加商品
+#Add goods
 def create_menu_item(request):
     try:
         restaurant_id = request.session.get('restaurant_id')
         restaurant = Restaurant.objects.get(id=restaurant_id)
 
-        # 创建菜单项
+        # Create menu item
         menu_item = MenuItem(
             restaurant=restaurant,
             name=request.POST.get('name'),
             price=request.POST.get('price'),
         )
 
-        # 处理图片上传
+        # Handle image upload
         if 'image' in request.FILES:
             menu_item.image = request.FILES['image']
 
@@ -150,13 +150,13 @@ def create_menu_item(request):
         }, status=400)
 
 
-#编辑商品列表
+#Edit product list
 def merchant_edit_list(request):
 
     restaurant_id = request.session.get('restaurant_id')
     restaurant_name = request.session.get('restaurant_username')
 
-    # 获取基础查询集
+    # Gets the base query set
     items = MenuItem.objects.filter(restaurant_id=restaurant_id)
 
     return render(request, 'merchant_editlist.html', {
@@ -166,14 +166,14 @@ def merchant_edit_list(request):
     })
 
 
-#更改商品
+#Alteration of goods
 def merchant_edit_change(request, pk):
     try:
-        # 获取餐厅信息
+        # Get restaurant information
         restaurant_id = request.session['restaurant_id']
         restaurant_name = request.session['restaurant_username']
 
-        # 获取菜单项
+        # Get menu item
         item = get_object_or_404(MenuItem, pk=pk, restaurant_id=restaurant_id)
 
         if request.method == 'GET':
@@ -184,7 +184,7 @@ def merchant_edit_change(request, pk):
 
         elif request.method == 'POST':
             try:
-                # 处理文本字段
+                # Process text field
                 item.name = request.POST.get('name', item.name)
                 item.price = request.POST.get('price', item.price)
 
@@ -207,7 +207,7 @@ def merchant_edit_change(request, pk):
                 return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
         else:
-            # 处理其他HTTP方法
+            # Handle other HTTP methods
             return HttpResponseNotAllowed(['GET', 'POST'])
 
     except KeyError:
@@ -216,7 +216,7 @@ def merchant_edit_change(request, pk):
         return JsonResponse({'success': False, 'error': 'Menu item not found'}, status=404)
 
 
-#删除商品
+# Delete products
 def merchant_edit_delete(request, pk):
     item = get_object_or_404(MenuItem, pk=pk)
     item.delete()
