@@ -9,11 +9,11 @@
 }
 .food_item{
     width: 20%;
-    position: relative; /* 为伪元素定位准备 */
-    overflow: hidden;    /* 隐藏溢出内容 */
-    transition: all 0.3s ease; /* 整体过渡效果 */
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
-/* 鼠标悬停时的遮罩层 */
+/*Mouseover mask*/
 .food_item::after {
     content: '';
     position: absolute;
@@ -21,14 +21,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3); /* 半透明黑色遮罩 */
-    opacity: 0;                     /* 默认透明 */
-    transition: opacity 0.3s ease;  /* 透明度过渡动画 */
-    z-index: 2;                     /* 确保覆盖内容 */
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
     pointer-events: none;
 }
-
-/* 悬停时显示遮罩 */
 .food_item:hover::after {
   opacity: 1;
 }
@@ -36,8 +34,8 @@
     margin: 15%;
 }
 .food_link{
-    position: relative; /* 建立新层叠上下文 */
-    z-index: 1;         /* 确保内容显示在遮罩上方 */
+    position: relative;
+    z-index: 1;
     display: block;
     text-decoration: none;
     color: inherit;
@@ -45,46 +43,42 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%; /* 确保垂直填充整个列高度 */
+    height: 100%;
 }
 .food_image{
-    max-width: 100px; /* 控制图片最大宽度 */
-    width: 80%; /* 响应式宽度 */
+    max-width: 100px;
+    width: 80%;
     height: auto;
-    margin: 0 auto; /* 水平居中（备用） */
+    margin: 0 auto;
     transition: transform 0.3s ease;
 }
 .food_item:hover .food_image {
-  transform: scale(1.1); /* 悬停时略微放大图片 */
+  transform: scale(1.1);
 }
-
-/* 文字悬停颜色变化 */
 .food_item:hover p {
-  color: cadetblue;            /* 悬停时文字变白 */
+  color: cadetblue;
 }
 .panel{
     margin-left: 5%;
     margin-right: 5%;
 }
 .thumbnail.equal-height {
-    height: 400px; /* 总高度固定 */
-    display: flex; /* 启用弹性布局 */
-    flex-direction: column; /* 垂直排列 */
+    height: 400px;
+    display: flex;
+    flex-direction: column;
     position: relative;
 }
 .panel .row .thumbnail.equal-height img {
     width: 100%;
-    height: 200px; /* 固定图片高度 */
-    object-fit: cover; /* 保持图片比例 */
+    height: 200px;
+    object-fit: cover;
   }
-
 .thumbnail {
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
 }
-
-/* 遮罩层 */
+/* Mask layer */
 .thumbnail::after {
     content: 'Enter →';
     position: absolute;
@@ -97,48 +91,40 @@
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
-
-    /* 居中设置 */
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
     z-index: 2;
 }
-
-/* 悬停效果 */
 .thumbnail:hover::after {
     opacity: 1;
 }
-  .caption {
-    flex: 1; /* 内容区域自动填充剩余高度 */
+.caption {
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
-  
-  .text-ellipsis {
+}
+.text-ellipsis {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  
-  .fixed-content {
+}
+.fixed-content {
     margin: 5px 0;
-  }
-  
-  .panel .caption .btn {
-    margin-top: auto; /* 按钮固定在底部 */
-  }
-  
-  .glyphicon-heart {
+}
+.panel .caption .btn {
+    margin-top: auto;
+}
+.glyphicon-heart {
     color: #ff4444;
-  }
-  .heart-btn {
+}
+.heart-btn {
     position: absolute;
     bottom: 25px;
     right: 25px;
-    width: 32px;      /* 固定尺寸 */
+    width: 32px;
     height: 32px;
     padding-top: 3%;
     padding-bottom: 3%;
@@ -148,43 +134,35 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .heart-icon {
+}
+.heart-icon {
     width: 100%;
     height: 100%;
-    fill: transparent;  /* 初始透明填充 */
-    stroke: #666;       /* 边框颜色 */
+    fill: transparent;
+    stroke: #666;
     stroke-width: 2px;
     transition: all 0.3s ease;
-  }
-  
-  /* 激活状态 */
-  .heart-btn.active .heart-icon {
-    fill: #ff3860;      /* 实心颜色 */
+}
+.heart-btn.active .heart-icon {
+    fill: #ff3860;
     stroke: #ff3860;
     transform: scale(1.1);
-  }
-  
-  /* 悬停效果 */
-  .heart-btn:hover .heart-icon {
+}
+.heart-btn:hover .heart-icon {
     stroke: #ff3860;
-  }
-  
-  /* 点击动画 */
-  @keyframes heartbeat {
+}
+/*Click Animation*/
+@keyframes heartbeat {
     0% { transform: scale(1); }
     15% { transform: scale(1.3); }
     30% { transform: scale(1); }
     45% { transform: scale(1.15); }
     60% { transform: scale(1); }
-  }
-  
-  .heart-btn.active .heart-icon {
+}
+.heart-btn.active .heart-icon {
     animation: heartbeat 0.6s ease-in-out;
-  }
-
-  .pagination {
+}
+.pagination {
     display: inline-flex;
     align-items: center;
     background: #fff;
@@ -193,7 +171,6 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     gap: 8px;
 }
-
 .step-links {
     display: flex;
     align-items: center;
@@ -201,7 +178,6 @@
     flex-wrap: wrap;
     justify-content: center;
 }
-
 .pagination a {
     display: inline-flex;
     align-items: center;
@@ -214,14 +190,12 @@
     transition: all 0.3s ease;
     border: 1px solid transparent;
 }
-
 .pagination a:hover {
     background: #4a90e2;
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(74,144,226,0.2);
 }
-
 .current {
     padding: 8px 16px;
     background: #4a90e2;
@@ -229,30 +203,23 @@
     border-radius: 30px;
     font-weight: 500;
 }
-
-/* 箭头样式优化 */
 .pagination a:first-child::after {
     content: '«';
     margin-left: 6px;
 }
-
 .pagination a:last-child::before {
     content: '»';
     margin-right: 6px;
 }
-
-/* 移动端适配 */
 @media (max-width: 576px) {
     .pagination {
         padding: 8px 12px;
         border-radius: 30px;
     }
-
     .pagination a {
         padding: 6px 12px;
         font-size: 14px;
     }
-
     .current {
         padding: 6px 12px;
         font-size: 14px;
