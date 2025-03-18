@@ -1,23 +1,23 @@
-// 初始化表单提交事件 (修复重复提交版本)
+// Initialize form submission events
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registerForm');
     const accountBox = document.querySelector(".account");
 
-    // 页面加载动画保持不变
+    // Page load animations remain unchanged
     setTimeout(() => {
         accountBox.classList.add("show");
     }, 500);
 
     if (form) {
-        // 先移除旧监听器避免重复绑定
+        // Remove old listeners to avoid duplicate bindings
         form.removeEventListener('submit', handleSubmit);
 
-        // 使用防抖函数包装处理器
+        // Wrapping the processor with an anti-shake function
         form.addEventListener('submit', debounceSubmit(handleSubmit, 2000));
     }
 });
 
-// 防抖函数：2秒内只允许提交一次
+// Anti-flicker function: only one submission allowed within 2 seconds
 function debounceSubmit(fn, delay) {
     let timer = null;
     return function(...args) {
@@ -28,7 +28,7 @@ function debounceSubmit(fn, delay) {
             return;
         }
 
-        // 添加视觉反馈
+        // Adding Visual Feedback
         form.querySelector('button[type="submit"]').disabled = true;
         form.querySelector('button[type="submit"]').textContent = 'Submitting...';
 
@@ -36,10 +36,10 @@ function debounceSubmit(fn, delay) {
             timer = null;
         }, delay);
 
-        // 执行原始提交
+        // Execute the original submission
         const result = fn.apply(context, args);
 
-        // 恢复按钮状态
+        // Restore button status
         if (result && result.finally) {
             result.finally(() => {
                 form.querySelector('button[type="submit"]').disabled = false;
@@ -51,17 +51,17 @@ function debounceSubmit(fn, delay) {
     };
 }
 
-// CSRF Token 获取函数（保持不变）
-function getCSRFToken() { /* 原内容不变 */ }
+// CSRF Token Get function (keep it the same)
+function getCSRFToken() { /* Original content unchanged */ }
 
-// 提交处理函数（优化版本）
+// Commit handler (optimized version)
 async function handleSubmit(e) {
     e.preventDefault();
     const form = e.target;
     const submitButton = form.querySelector('button[type="submit"]');
 
     try {
-        // 获取表单数据（优化版）
+        // Get form data (optimized version)
         const formData = {
             username: form.querySelector('#InputName').value,
             gender: form.querySelector('#InputGender').value,
@@ -70,9 +70,9 @@ async function handleSubmit(e) {
             password: form.querySelector('#exampleInputPassword1').value
         };
 
-        // 添加请求中止控制器
+        // Adding a Request Abort Controller
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000); // 8秒超时
+        const timeoutId = setTimeout(() => controller.abort(), 8000); // 8-second timeout
 
         const response = await fetch('/register/', {
             method: 'POST',
@@ -86,23 +86,23 @@ async function handleSubmit(e) {
 
         clearTimeout(timeoutId);
 
-        // 处理响应（优化错误提示）
+        // Handling responses (optimizing error alerts)
         const result = await response.json();
 
-        if (!response.ok) throw result; // 统一错误处理
+        if (!response.ok) throw result; // Uniform error handling
 
         alert('Register Success');
         window.location.href = '/login';
 
     } catch (error) {
-        // 增强错误处理
+        // Enhanced error handling
         const errorMessage = error.errors
             ? Object.entries(error.errors).map(([k,v]) => `${k}: ${v}`).join('\n')
             : (error.message || 'Unknown error');
 
-        alert(`注册失败：\n${errorMessage}`);
+        alert(`Failed to register：\n${errorMessage}`);
     } finally {
-        // 确保恢复按钮状态
+        // Ensure recovery button status
         submitButton.disabled = false;
         submitButton.textContent = 'Register now';
     }
