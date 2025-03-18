@@ -5,28 +5,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// CSRF Token 获取函数
+// CSRF Token get function
 function getCSRFToken() {
     const cookie = document.cookie.split(';').find(c => c.trim().startsWith('csrftoken='));
     return cookie ? cookie.split('=')[1] : null;
 }
 
-// 提交处理函数
+// Submit Handler Functions
 async function handleSubmit(e) {
     e.preventDefault();
 
-    // 获取表单字段
+    // Get form fields
     const formData = {
         name: document.getElementById('InputName').value,
-        latitude: parseFloat(document.getElementById('InputLoc1').value),  // 转换为浮点数
+        latitude: parseFloat(document.getElementById('InputLoc1').value),  // convert to floating point
         longitude: parseFloat(document.getElementById('InputLoc2').value),
         minimum_order: parseFloat(document.getElementById('Minimum').value),
-        category: document.getElementById('category').value, // 获取分类选择值
+        category: document.getElementById('category').value, // Getting Categorical Selection Values
         username: document.getElementById('InputUser').value,
         password: document.getElementById('exampleInputPassword1').value
     };
 
-    // 分类值映射
+    // categorical value mapping
     const categoryMapping = {
         'Fast Food': 'fastFood',
         'Chinese Food': 'chineseFood',
@@ -34,10 +34,10 @@ async function handleSubmit(e) {
         'Drink And Coffee': 'drinkAndCoffee',
         'Groceries': 'groceries'
     };
-    formData.category = categoryMapping[formData.category];  // 转换分类值
+    formData.category = categoryMapping[formData.category];  // transform categorical value
 
     try {
-        const response = await fetch('/register/merchant/', {  // 注意接口地址
+        const response = await fetch('/register/merchant/', {  // Note the interface address
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ async function handleSubmit(e) {
 
         if (response.ok) {
             alert('Merchant registration successful!');
-            window.location.href = '/login';  // 跳转到登录页
+            window.location.href = '/login';  // Jump to login page
         } else {
             if (result.errors) {
                 let errorMessages = Object.entries(result.errors)
@@ -68,7 +68,7 @@ async function handleSubmit(e) {
 document.addEventListener("DOMContentLoaded", function () {
     const accountBox = document.querySelector(".account");
 
-    // 页面加载时翻转进入
+    // Flip to on page load
     setTimeout(() => {
         accountBox.classList.add("show");
     }, 300);

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const imageInput = document.getElementById('imageInput');
     const imagePreview = document.getElementById('imagePreview');
 
-    // 图片预览功能
+    // Image preview function
     imageInput.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const formData = new FormData(form);  // 使用FormData处理文件上传
+        const formData = new FormData(form);  // Handling File Uploads with FormData
         const itemId = form.dataset.itemId;
 
         fetch(`/merchant/edit/change/${itemId}/`, {
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value,
             },
-            body: formData  // 直接发送FormData
+            body: formData  // direct send FormData
         })
         .then(response => {
             if (!response.ok) throw new Error('Network response was not ok');
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 if (data.new_image_url) {
-                    imagePreview.src = data.new_image_url;  // 更新图片预览
+                    imagePreview.src = data.new_image_url;  // Updated image preview
                 }
                 alert('Item updated successfully!');
                 window.location.href = '/merchant/edit';

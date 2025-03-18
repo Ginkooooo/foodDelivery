@@ -5,10 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const href = this.href;
             const item = this.closest('.list-group-item');
 
-            // 添加退出动画
-            // item.classList.add('exit-animation');
-
-            // 动画结束后跳转
+            // Jump after animation
             item.addEventListener('animationend', function handler() {
                 window.location.href = href;
                 item.removeEventListener('animationend', handler);

@@ -1,18 +1,18 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-    // 初始化绑定
+    // Initializing Bindings
     function init() {
-        // 绑定确认按钮
+        // bind confirm button
         document.getElementById('confirmButton').addEventListener('click', handleConfirm);
 
-        // 绑定取消按钮
+        // bind cancel button
         document.getElementById('cancelButton').addEventListener('click', handleCancel);
 
-        // 绑定模态框确认按钮
+        // bind modal box confirmation button
         document.querySelector('.modal-confirm-btn').addEventListener('click', closeModal);
     }
 
-    // 支付确认处理
+    // Payment confirmation processing
     function handleConfirm() {
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -23,9 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
 const   userId = confirmButton.dataset.userId;
 
 
-        // 转换items参数格式
+        // Converting the format of the items parameter
         const orderItems = items.map(item => {
-            const decoded = decodeURIComponent(item).replace(/\s+/g, ''); // 清除所有空格
+            const decoded = decodeURIComponent(item).replace(/\s+/g, '');
             const [id, quantity] = decoded.split(':');
             return {
                 item_id: parseInt(id, 10),
@@ -33,7 +33,7 @@ const   userId = confirmButton.dataset.userId;
             };
         });
 
-        // 发送创建订单请求
+        // Send a request to create an order
         fetch("/orders/create/", {
             method: "POST",
             headers: {
@@ -51,12 +51,12 @@ const   userId = confirmButton.dataset.userId;
         .catch(handleError)
     }
 
-    // 取消支付处理
+    // Cancellation of payment processing
     function handleCancel() {
         showModal('failure');
     }
 
-    // 响应处理
+    // response processing
     function handleResponse(response) {
         return response.json().then(data => {
             if (response.ok && data.success) {
@@ -67,13 +67,12 @@ const   userId = confirmButton.dataset.userId;
         });
     }
 
-    // 错误处理
+    // error handling
     function handleError(error) {
         showModal('failure');
-        alert(`操作失败: ${error.message}`);
+        alert(`failure of an operation: ${error.message}`);
     }
 
-    // 模态框逻辑
     let currentModalType = 'success';
 
     function showModal(type) {
@@ -117,7 +116,7 @@ const   userId = confirmButton.dataset.userId;
         }, 300);
     }
 
-    // 返回确认页逻辑
+    // Return to Confirmation Page Logic
     function navigateBackToConfirm() {
         const urlParams = new URLSearchParams(window.location.search);
         const restaurantId = urlParams.get('restaurant_id');
@@ -133,7 +132,7 @@ const   userId = confirmButton.dataset.userId;
     }
 
 
-    // CSRF Token获取
+    // Get CSRF Token
     function getCSRFToken() {
         return document.cookie
             .split('; ')

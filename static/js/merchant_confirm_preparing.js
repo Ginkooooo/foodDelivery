@@ -1,8 +1,8 @@
 $(document).ready(function () {
     $(".back-button").click(function () {
-        let orderId = $(this).data("order-id");  // 获取订单ID
+        let orderId = $(this).data("order-id");  // Get order ID
         $.ajax({
-            url: "/update-order-status/",  // 你的后端API接口
+            url: "/update-order-status/",
             type: "POST",
             data: {
                 order_id: orderId,
@@ -26,7 +26,7 @@ $(document).ready(function () {
 document.addEventListener('DOMContentLoaded', function() {
   const items = document.querySelectorAll('.list-group-item');
   items.forEach((item, index) => {
-    // 例如，每个列表项延迟 100ms * index 后触发动画
+    // For example, the animation is triggered after a delay of 100ms * index for each list item.
     setTimeout(function() {
       item.classList.add('slide-in');
     }, index * 100);
