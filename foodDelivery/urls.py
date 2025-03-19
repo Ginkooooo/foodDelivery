@@ -13,6 +13,7 @@ urlpatterns = [
     path('home/', restaurant_list, name='home'),
     path('login/', login_view, name='login'),
     path('merchant/<int:pk>/', item_list, name='merchant'),
+    path('merchant/', restaurant_list, name='merchant_list'),
     path('merchant/edit/', merchant_edit_list, name='merchant_edit'),
     path('merchant/edit/create/', create_menu_item, name='create_menu_item'),
     path('merchant/edit/change/<int:pk>/', merchant_edit_change, name='merchant_edit_change'),
