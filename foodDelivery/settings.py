@@ -14,13 +14,11 @@ SECRET_KEY = "django-insecure-ukh!w5u25%$oihj#%%e$66jlize8u*lw++8-x(7ib4!v!yv3i6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
 ALLOWED_HOSTS = [
-    'localhost',
+    'fooddelivery-w663.onrender.com',  # 添加 Render 的域名
+    'localhost',                       # 本地开发环境
     '127.0.0.1',
 ]
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Application definition
 
