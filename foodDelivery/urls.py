@@ -1,7 +1,7 @@
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 
 from restaurants.views import restaurant_list, restaurant_search, register_merchant, create_menu_item, merchant_edit_list, merchant_edit_change, merchant_edit_delete, item_list
 from users.views import register, login_view, address_list, add_address, delete_address, edit_address_confirm, edit_address
@@ -9,6 +9,7 @@ from orders.views import confirm_order, pay, orders_list, create_order, merchant
     merchant_confirm_finish, merchant_confirm_preparing, update_order_status
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='login/')),
     path('home/', restaurant_list, name='home'),
     path('login/', login_view, name='login'),
     path('merchant/<int:pk>/', item_list, name='merchant'),
