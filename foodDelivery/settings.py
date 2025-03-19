@@ -14,7 +14,7 @@ SECRET_KEY = "django-insecure-ukh!w5u25%$oihj#%%e$66jlize8u*lw++8-x(7ib4!v!yv3i6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-RENDER_EXTERNAL_HOSTNAME = os.getenv('food-delivery-app.onrender.com')
+RENDER_EXTERNAL_HOSTNAME = os.getenv('fooddelivery-w663.onrender.com')
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
