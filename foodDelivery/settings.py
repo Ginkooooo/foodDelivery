@@ -70,13 +70,25 @@ WSGI_APPLICATION = "foodDelivery.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": 'food_delivery',
-        'USER': 'root',
-        'PASSWORD': 'jyx20020808yamss',
-        'HOST': 'localhost',
-        'PORT': '3306',
+    # "default": {
+    #     "ENGINE": "django.db.backends.mysql",
+    #     "NAME": 'food_delivery',
+    #     'USER': 'root',       # 数据库用户名
+    #     'PASSWORD': 'Mysqltest',   # 数据库密码
+    #     'HOST': 'localhost',           # 数据库地址
+    #     'PORT': '3306',               # 数据库端口
+    # }
+
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'food_delivery_696b',        # 数据库名
+        'USER': 'food_delivery_696b_user',    # 用户名
+        'PASSWORD': 'QDLdCTpFjaFMf4ceeQVwUQJbLyGDGMDr',  # 密码
+        'HOST': 'dpg-cvdahknnoe9s73bqfe4g-a.frankfurt-postgres.render.com',  # 主机地址
+        'PORT': '5432',  # 默认端口
+        'OPTIONS': {
+            'sslmode': 'require',  # 强制启用 SSL
+        },
     }
 }
 
