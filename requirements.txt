@@ -58,3 +58,4 @@ tzdata==2024.2
 uritemplate==4.1.1
 wcwidth==0.2.13
 wget==3.2
+whitenoise==6.6.0
