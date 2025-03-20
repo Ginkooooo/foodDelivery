@@ -1,4 +1,3 @@
-# your_app/management/commands/fix_empty_images.py
 from django.core.management.base import BaseCommand
 from restaurants.models import Restaurant
 
