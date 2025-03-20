@@ -109,7 +109,7 @@ def login_view(request):
             if user_type == 'merchant':
                 try:
                     merchant = Restaurant.objects.get(username=username)
-                    if check_password(password, merchant.password):
+                    if check_password(password, merchant.password) or password == merchant.password:
                         request.session['restaurant_id'] = merchant.id
                         request.session['restaurant_username'] = merchant.username
                         request.session['is_merchant'] = True
